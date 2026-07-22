@@ -6,6 +6,32 @@ Browse a channel guide of classic shows and play them edge-to-edge straight from
 [archive.org](https://archive.org) — on-screen display, episode guide, captions,
 and a toggle into the three.js **3D Magnavox CRT** mode. Hosts no video itself.
 
+## Screenshots
+
+**Guide** — genre rows, poster cards, a neon synthwave palette:
+
+![Guide](art/screenshots/guide.png)
+
+**Flat 2D player** — edge-to-edge video with its own HUD (scrubber, transport,
+volume, settings/episodes/lights buttons), fading out when idle:
+
+![Flat 2D player](art/screenshots/flat-mode.png)
+
+**Episode list** — season tabs, current-episode highlight, same neon palette as
+the guide, overlaid on the still-playing video:
+
+![Episode list](art/screenshots/episode-list.png)
+
+**Settings panel** — brightness/contrast/saturate/hue/sharpen live over the video:
+
+![Settings](art/screenshots/settings.png)
+
+**3D CRT mode** — the video textured onto a Magnavox model: barrel-distorted
+glass, ambilight glow bleeding onto the bezel, a real labeled control strip
+(POWER/VOL/REW/FF/PAUSE/GUIDE/SETTINGS):
+
+![3D CRT mode](art/screenshots/3d-mode.png)
+
 ## Running it
 
 It's plain static HTML/CSS/JS — no build step. Serve the folder with anything:
