@@ -1,0 +1,121 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>RetroTube</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; background: #000; color: #39ff14;
+    font-family: VCR, monospace; padding: 48px 24px 80px; }
+  @font-face { font-family: VCR;
+    src: url('https://fonts.cdnfonts.com/s/14798/VCR_OSD_MONO_1.001[1].woff') format('woff'); }
+  h1 { text-align: center; font-size: 2.6em; margin: 0 0 8px; letter-spacing: 4px;
+    text-shadow: 0 0 12px #39ff1499; }
+  .sub { text-align: center; opacity: .6; margin: 0 0 56px; font-size: .95em; }
+  h2 { max-width: 1100px; margin: 0 auto 20px; padding-left: 4px;
+    font-size: 1.3em; letter-spacing: 2px; opacity: .85;
+    border-bottom: 1px solid #39ff1440; padding-bottom: 8px; }
+  .row { max-width: 1100px; margin: 0 auto 56px; display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+  a.card { display: block; padding: 18px 16px; border: 1px solid #39ff1455;
+    border-radius: 6px; color: #39ff14; text-decoration: none;
+    background: linear-gradient(180deg, #001a0688, #000 80%);
+    transition: border-color .15s, background .15s, transform .1s; }
+  a.card:hover { border-color: #39ff14; background: linear-gradient(180deg, #003309aa, #001004);
+    transform: translateY(-2px); }
+  /* TV remote focus (D-pad) — a strong ring so it reads from across the room */
+  a.card.tv-focus { border-color: #39ff14; background: linear-gradient(180deg, #003309aa, #001004);
+    transform: translateY(-2px); outline: 3px solid #39ff14; outline-offset: 3px;
+    box-shadow: 0 0 22px #39ff1466; }
+  a.card:focus { outline: none; }
+  a.card .art { height: 110px; margin: -18px -16px 12px; display: flex;
+    align-items: center; justify-content: center; overflow: hidden;
+    background: #eee; border-bottom: 1px solid #39ff1440; border-radius: 6px 6px 0 0; }
+  a.card .art img { max-width: 100%; max-height: 100%; object-fit: contain; }
+  a.card .name { display: block; font-size: 1.08em; line-height: 1.3; }
+  a.card .count { display: block; margin-top: 8px; font-size: .8em; opacity: .55; }
+  /* faint scanlines, matching the players */
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, #0000 0 2px, rgba(0,0,0,.08) 2px 3px);
+    z-index: 1; }
+</style>
+<h1>RetroTube</h1>
+<p class="sub">pick something to watch — every title streams straight from archive.org</p>
+
+<h2>Broadcasts <span style="opacity:.5; font-weight:normal;">— full blocks with commercials, multiple shows per recording</span></h2>
+<div class="row">
+  <a class="card" href="engine/viewer.html?show=FoxKids"><span class="art"><img src="art/FoxKids.png" alt=""></span><span class="name">Fox Kids Saturday Morning</span><span class="count">8 recordings</span></a>
+  <a class="card" href="engine/viewer.html?show=MonsterVision"><span class="art"><img src="art/MonsterVision.jpg" alt=""></span><span class="name">MonsterVision</span><span class="count">76 recordings</span></a>
+  <a class="card" href="engine/viewer.html?show=NickAtNite"><span class="art"><img src="art/NickAtNite.png" alt=""></span><span class="name">Nick at Nite</span><span class="count">5 recordings</span></a>
+  <a class="card" href="engine/viewer.html?show=SatMorning"><span class="art"><img src="art/SatMorning.jpg" alt=""></span><span class="name">Saturday Morning (ABC/NBC/CBS)</span><span class="count">6 recordings</span></a>
+  <a class="card" href="engine/viewer.html?show=SciFiAnime"><span class="art"><img src="art/SciFiAnime.png" alt=""></span><span class="name">Sci-Fi Saturday Anime</span><span class="count">12 recordings</span></a>
+  <a class="card" href="engine/viewer.html?show=SNICK"><span class="art"><img src="art/SNICK.png" alt=""></span><span class="name">SNICK</span><span class="count">72 recordings</span></a>
+  <a class="card" href="engine/viewer.html?show=TGIF"><span class="art"><img src="art/TGIF.png" alt=""></span><span class="name">TGIF</span><span class="count">16 recordings</span></a>
+</div>
+
+<h2>Shows <span style="opacity:.5; font-weight:normal;">— complete series, one episode per stop</span></h2>
+<div class="row">
+  <a class="card" href="engine/viewer.html?show=BriscoCountyJr"><span class="art"><img src="art/BriscoCountyJr.jpg" alt=""></span><span class="name">The Adventures of Brisco County Jr.</span><span class="count">27 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=AdventuresOfSonic"><span class="art"><img src="art/AdventuresOfSonic.png" alt=""></span><span class="name">Adventures of Sonic the Hedgehog</span><span class="count">65 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=AlfredHitchcockPresents"><span class="art"><img src="art/AlfredHitchcockPresents.jpg" alt=""></span><span class="name">Alfred Hitchcock Presents</span><span class="count">261 episodes · 7 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=AmazingStories"><span class="art"><img src="art/AmazingStories.jpg" alt=""></span><span class="name">Amazing Stories</span><span class="count">45 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=BatmanTAS"><span class="art"><img src="art/BatmanTAS.png" alt=""></span><span class="name">Batman: The Animated Series</span><span class="count">109 episodes · 6 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=BeavisButthead"><span class="art"><img src="art/BeavisButthead.png" alt=""></span><span class="name">Beavis and Butt-Head</span><span class="count">211 episodes · 9 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=Beetlejuice"><span class="art"><img src="art/Beetlejuice.svg" alt=""></span><span class="name">Beetlejuice</span><span class="count">94 episodes · 4 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=BenStillerShow"><span class="art"><img src="art/BenStillerShow.png" alt=""></span><span class="name">The Ben Stiller Show</span><span class="count">13 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=BikerMiceFromMars"><span class="art"><img src="art/BikerMiceFromMars.jpg" alt=""></span><span class="name">Biker Mice from Mars</span><span class="count">65 episodes · 3 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=BillNye"><span class="art"><img src="art/BillNye.jpg" alt=""></span><span class="name">Bill Nye the Science Guy</span><span class="count">100 episodes · 5 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=BobbysWorld"><span class="art"><img src="art/BobbysWorld.png" alt=""></span><span class="name">Bobby's World</span><span class="count">81 episodes · 7 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=CampCandy"><span class="art"><img src="art/CampCandy.jpg" alt=""></span><span class="name">Camp Candy</span><span class="count">34 episodes · 3 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=CelebrityDeathmatch"><span class="art"><img src="art/CelebrityDeathmatch.png" alt=""></span><span class="name">Celebrity Deathmatch</span><span class="count">93 episodes · 6 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=EverybodyLovesRaymond"><span class="art"><img src="art/EverybodyLovesRaymond.png" alt=""></span><span class="name">Everybody Loves Raymond</span><span class="count">209 episodes · 9 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=FreddysNightmares"><span class="art"><img src="art/FreddysNightmares.png" alt=""></span><span class="name">Freddy's Nightmares</span><span class="count">44 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=GetSmart"><span class="art"><img src="art/GetSmart.gif" alt=""></span><span class="name">Get Smart</span><span class="count">138 episodes · 5 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=Ghostwriter"><span class="art"><img src="art/Ghostwriter.png" alt=""></span><span class="name">Ghostwriter</span><span class="count">75 parts · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=HeyDude"><span class="art"><img src="art/HeyDude.webp" alt=""></span><span class="name">Hey Dude</span><span class="count">66 episodes · 5 seasons + special</span></a>
+  <a class="card" href="engine/viewer.html?show=InLivingColor"><span class="art"><img src="art/InLivingColor.png" alt=""></span><span class="name">In Living Color</span><span class="count">126 episodes · 5 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=ItsYourMove"><span class="art"><img src="art/ItsYourMove.jpg" alt=""></span><span class="name">It's Your Move</span><span class="count">18 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=Jackass"><span class="art"><img src="art/Jackass.png" alt=""></span><span class="name">Jackass</span><span class="count">25 episodes · 3 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=JeffFoxworthyShow"><span class="art"><img src="art/JeffFoxworthyShow.jpg" alt=""></span><span class="name">The Jeff Foxworthy Show</span><span class="count">41 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=Joey"><span class="art"><img src="art/Joey.png" alt=""></span><span class="name">Joey</span><span class="count">46 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=LandOfTheLost1991"><span class="art"><img src="art/LandOfTheLost1991.jpg" alt=""></span><span class="name">Land of the Lost (1991)</span><span class="count">26 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=ConanOBrien"><span class="art"><img src="art/ConanOBrien.png" alt=""></span><span class="name">Late Night with Conan O'Brien</span><span class="count">165 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=LifeGoesOn"><span class="art"><img src="art/LifeGoesOn.png" alt=""></span><span class="name">Life Goes On</span><span class="count">83 episodes · 4 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=MASH"><span class="art"><img src="art/MASH.jpg" alt=""></span><span class="name">M*A*S*H</span><span class="count">251 episodes · 11 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=MADtv"><span class="art"><img src="art/MADtv.png" alt=""></span><span class="name">MADtv</span><span class="count">321 episodes · 14 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=MalcolmInTheMiddle"><span class="art"><img src="art/MalcolmInTheMiddle.jpg" alt=""></span><span class="name">Malcolm in the Middle</span><span class="count">151 episodes · 7 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=MuppetBabies"><span class="art"><img src="art/MuppetBabies.png" alt=""></span><span class="name">Muppet Babies</span><span class="count">107 episodes · 8 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=NedAndStacey"><span class="art"><img src="art/NedAndStacey.jpg" alt=""></span><span class="name">Ned and Stacey</span><span class="count">46 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=NewAlfredHitchcockPresents"><span class="art"><img src="art/NewAlfredHitchcockPresents.jpg" alt=""></span><span class="name">The New Alfred Hitchcock Presents</span><span class="count">80 episodes · 4 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=NewsRadio"><span class="art"><img src="art/NewsRadio.jpg" alt=""></span><span class="name">NewsRadio</span><span class="count">97 episodes · 5 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=NickArcade"><span class="art"><img src="art/NickArcade.jpg" alt=""></span><span class="name">Nick Arcade</span><span class="count">11 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=NYPDBlue"><span class="art"><img src="art/NYPDBlue.svg" alt=""></span><span class="name">NYPD Blue</span><span class="count">260 episodes · 12 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=TheOC"><span class="art"><img src="art/TheOC.jpg" alt=""></span><span class="name">The O.C.</span><span class="count">92 episodes · 4 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=ParkerLewis"><span class="art"><img src="art/ParkerLewis.jpg" alt=""></span><span class="name">Parker Lewis Can't Lose</span><span class="count">73 episodes · 3 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=Popular"><span class="art"><img src="art/Popular.svg" alt=""></span><span class="name">Popular</span><span class="count">43 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=SaluteYourShorts"><span class="art"><img src="art/SaluteYourShorts.png" alt=""></span><span class="name">Salute Your Shorts</span><span class="count">26 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=SavedByTheBell"><span class="art"><img src="art/SavedByTheBell.png" alt=""></span><span class="name">Saved by the Bell</span><span class="count">120 episodes · 7 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=AlexMack"><span class="art"><img src="art/AlexMack.jpg" alt=""></span><span class="name">The Secret World of Alex Mack</span><span class="count">78 episodes · 4 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=SpiderManTAS"><span class="art"><img src="art/SpiderManTAS.png" alt=""></span><span class="name">Spider-Man: The Animated Series</span><span class="count">65 episodes · 5 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=TMNTNextMutation"><span class="art"><img src="art/TMNTNextMutation.png" alt=""></span><span class="name">Teenage Mutant Ninja Turtles: The Next Mutation</span><span class="count">26 episodes</span></a>
+  <a class="card" href="engine/viewer.html?show=TheTick"><span class="art"><img src="art/TheTick.png" alt=""></span><span class="name">The Tick</span><span class="count">36 episodes · 3 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=TwinPeaks"><span class="art"><img src="art/TwinPeaks.svg" alt=""></span><span class="name">Twin Peaks</span><span class="count">30 episodes · 2 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=WhitestKidsUKnow"><span class="art"><img src="art/WhitestKidsUKnow.jpg" alt=""></span><span class="name">The Whitest Kids U'Know</span><span class="count">60 episodes · 5 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=Wishbone"><span class="art"><img src="art/Wishbone.png" alt=""></span><span class="name">Wishbone</span><span class="count">50 episodes · 3 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=WonderYears"><span class="art"><img src="art/WonderYears.png" alt=""></span><span class="name">The Wonder Years</span><span class="count">115 episodes · 6 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=RenAndStimpy"><span class="art"><img src="art/RenAndStimpy.png" alt=""></span><span class="name">The Ren & Stimpy Show</span><span class="count">47 episodes · 4 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=XMen"><span class="art"><img src="art/XMen.jpg" alt=""></span><span class="name">X-Men: The Animated Series</span><span class="count">76 episodes · 5 seasons</span></a>
+  <a class="card" href="engine/viewer.html?show=Xena"><span class="art"><img src="art/Xena.jpg" alt=""></span><span class="name">Xena: Warrior Princess</span><span class="count">90 episodes · 4 seasons</span></a>
+</div>
+<script>
+  // Cache-buster. GitHub Pages serves viewer.html with Cache-Control:
+  // max-age=600, and you reach it by clicking a card (a link-navigation, not a
+  // reload) — so the browser is free to serve a stale copy from disk for up to
+  // 10 minutes after a deploy, and a hard-refresh on THIS page doesn't touch
+  // it. Appending a token the browser has never seen forces a fresh fetch of
+  // viewer.html. The token is fixed per page load, so clicking around within a
+  // single visit still reuses one cached copy; reloading the guide (or a new
+  // visit) mints a new token and pulls the latest viewer.html.
+  const bust = Date.now();
+  for (const a of document.querySelectorAll('a.card[href*="viewer.html"]'))
+    a.href += '&v=' + bust;
+</script>
+<script src="tv.js"></script>

@@ -1,0 +1,1522 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>RetroTube</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; height: 100vh; overflow: hidden; background: #000;
+    transition: background .5s; }
+  /* lights on: bright 3D room. Scoped off in flat mode — there the same
+     button/icon means something else (ambient on/off), see #corner below. */
+  body.lit:not(.flat) { background: #fff; }
+  body.lit:not(.flat) #amb { display: none; }
+  body.lit:not(.flat) #label { color: #222; }
+  /* flat mode: the lights button instead disables the ambient fill, its own
+     setting entirely separate from 3D's room-lit toggle above */
+  body.flat.ambientOff #amb { display: none; }
+  #back { position: fixed; top: 13px; left: 16px; color: #777; cursor: pointer;
+    z-index: 2; user-select: none; text-decoration: none; }
+  #back:hover { color: #aaa; }
+  body.lit:not(.flat) #back { color: #222; }
+  /* corner controls: a flex row anchored top-right so a hidden icon (cc/cast,
+     only shown when actually available) closes up instead of leaving a gap */
+  #corner { position: fixed; top: 13px; right: 16px; z-index: 2;
+    display: flex; flex-direction: row-reverse; gap: 18px; }
+  #corner > div { color: #777; cursor: pointer; user-select: none; position: relative; }
+  #corner > div svg { width: 26px; height: 26px; display: block; }
+  #cc, #cast { display: none; }
+  #corner > div:hover { color: #aaa; }
+  body.lit:not(.flat) #lights { color: #39ff14; }
+  #mode3d.on, #mode3d.on:hover { color: #39ff14; } /* on = currently in 3D mode */
+  #cc.on, #cc.on:hover { color: #39ff14; }
+  #cast.on, #cast.on:hover { color: #39ff14; }
+  /* flat mode, ambient disabled: cross out the lights icon */
+  #lights .off-slash { display: none; position: absolute; inset: 0; }
+  #lights.off .off-slash { display: block; }
+  video::cue { color: #39ff14; background: rgba(0, 0, 0, .6);
+    font-family: VCR, monospace; }
+  #stage { position: absolute; inset: 0; }
+  #stage > div { pointer-events: none; } /* css3d layer: canvas gets all input */
+  /* the screen: a real <video> glued into the 3D scene by CSS3DRenderer.
+     the browser only DISPLAYS it (no pixel access), so no CORS, no proxy. */
+  #screen { width: 800px; height: 600px; background: #000; position: relative;
+    backface-visibility: hidden; border-radius: 26px; overflow: hidden; }
+  #screen video, #screen canvas { position: absolute; inset: 0;
+    width: 100%; height: 100%; }
+  #screen video { object-fit: fill; }
+  #screen { filter: url(#bulge); } /* CRT barrel bulge; delete to go flat */
+  #screen canvas { z-index: 1; }
+  /* flat mode: default view, edge-to-edge video at its real aspect ratio.
+     #screen gets pulled out of the CSS3D scene and centered here instead. */
+  #flatScreen { position: fixed; inset: 0; z-index: 0; display: flex;
+    align-items: center; justify-content: center;
+    pointer-events: none; } /* canvas above still gets all input, same as 3D mode */
+    /* no background here: body's own black shows through the letterbox
+       bars so the ambient glow (behind, z-index -1) isn't blocked */
+  body:not(.flat) #flatScreen { display: none; }
+  body.flat #screen { border-radius: 0; }
+  /* ambilight: a blurred twin of the video washing the room behind the TV.
+     centered with margins rather than a transform, so the transform slot is
+     free for the picture crop (applyCrop), which needs transform-origin 0 0 */
+  #amb { position: fixed; left: 50%; top: 45%; width: 190vmin; height: 140vmin;
+    margin-left: -95vmin; margin-top: -70vmin; transform-origin: 0 0;
+    object-fit: fill; opacity: .85;
+    filter: blur(100px) saturate(1.4) brightness(1.1); z-index: -1;
+    -webkit-mask-image: radial-gradient(ellipse 50% 50% at center, #000 55%, #0000 100%);
+    mask-image: radial-gradient(ellipse 50% 50% at center, #000 55%, #0000 100%); }
+  /* flat mode: full-bleed ambient fill behind the letterboxed video */
+  body.flat #amb { left: 0; top: 0; margin: 0; width: 100vw; height: 100vh;
+    object-fit: cover; opacity: 1;
+    -webkit-mask-image: none; mask-image: none; }
+  #label { position: fixed; left: 16px; bottom: 12px; max-width: calc(100vw - 32px);
+    overflow: hidden; white-space: nowrap; font: 14px VCR, monospace;
+    color: #39ff14; opacity: .7; transition: opacity .4s; }
+  #label.idle { opacity: 0; } /* faded out after 5s with no mouse movement */
+  #labelText { display: inline-block; }
+  /* only added when the text is wider than #label's clamped max-width;
+     the JS duplicates the text first so translateX(-50%) loops seamlessly */
+  #label.marquee #labelText { animation-name: marquee; animation-timing-function: linear;
+    animation-iteration-count: infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  #start { position: fixed; inset: 0; display: grid; place-items: center;
+    font: 2em sans-serif; color: #ccc; cursor: pointer; background: #111c; z-index: 1; }
+  /* glass effects: faint scanlines + corner vignette — display-only */
+  #fx { position: absolute; inset: 0; z-index: 2; pointer-events: none;
+    background:
+      repeating-linear-gradient(0deg, #0000 0 2px, rgba(0,0,0,.08) 2px 3px),
+      radial-gradient(ellipse at center, #0000 60%, rgba(0,0,0,.4) 100%); }
+</style>
+<video id="amb" muted playsinline></video>
+<div id="stage"></div>
+<div id="flatScreen"></div>
+<div id="screen"><video id="v" playsinline></video><div id="fx"></div></div>
+<svg width="0" height="0" style="position:absolute">
+  <!-- sRGB: without it the map's neutral 128 reads as 0.216 in linearRGB and
+       the whole image shifts up-left, showing the page behind the screen hole -->
+  <filter id="bulge" x="0" y="0" width="100%" height="100%"
+          color-interpolation-filters="sRGB">
+    <feImage id="bulgemap" x="0" y="0" width="800" height="600"
+             preserveAspectRatio="none" result="map"/>
+    <feDisplacementMap in="SourceGraphic" in2="map" scale="26"
+                       xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+  <!-- unsharp-mask style convolution kernel; strength is a lerp between the
+       identity matrix (center 1, rest 0 = no-op) and the classic sharpen
+       kernel (center 5, edges -1), set at runtime from settings.sharpen -->
+  <filter id="sharpen" x="0" y="0" width="100%" height="100%"
+          color-interpolation-filters="sRGB">
+    <feConvolveMatrix id="sharpenMatrix" order="3" kernelMatrix="0 0 0 0 1 0 0 0 0"
+                       divisor="1" preserveAlpha="true" edgeMode="duplicate"/>
+  </filter>
+</svg>
+<a id="back" href="../index.html" title="All Shows"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
+<div id="label"><span id="labelText"></span></div>
+<div id="corner">
+<div id="lights" title="Lights">
+  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>
+  <svg class="off-slash" viewBox="0 0 24 24"><line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="2"/></svg>
+</div>
+<div id="mode3d" title="3D TV mode"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg></div>
+<div id="cc" title="Closed captions"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H5V6h14v12zM7 15h3c.55 0 1-.45 1-1v-1H9.5v.5h-2v-3h2v.5H11v-1c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm7 0h3c.55 0 1-.45 1-1v-1h-1.5v.5h-2v-3h2v.5H18v-1c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg></div>
+<div id="cast" title="Cast to a TV"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11z"/></svg></div>
+<div id="settingsBtn" title="Settings"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></div>
+</div>
+
+<div id="start">&#9654; click to turn on</div>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<script src="magnavox.glb.js"></script>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
+import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
+
+// ---- load this show's data (?show=<ShowFolderName>, matching shows/<id>/) ----
+// on-page fatal-error display: body's own background is black, so an unstyled
+// textContent write is invisible on it — style it like the rest of the OSD
+const fatal = msg => {
+  document.body.style.cssText = 'color:#39ff14;font:20px/1.5 monospace;padding:40px;background:#000;white-space:pre-wrap;';
+  document.body.textContent = msg;
+};
+const showId = new URLSearchParams(location.search).get('show');
+if (!showId) {
+  fatal('No show specified. Use viewer.html?show=<ShowId>');
+  throw new Error('missing ?show=');
+}
+let SHOW;
+try {
+  // a classic script tag, not import() — unlike ES modules, this loads fine
+  // straight off disk (file://), same as captions.js always has
+  await new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = `../shows/${showId}/data.js`;
+    s.onload = resolve;
+    s.onerror = () => reject(new Error(`no such show "${showId}" (shows/${showId}/data.js not found)`));
+    document.head.append(s);
+  });
+  if (!window.SHOW) throw new Error('data.js loaded but did not set window.SHOW');
+  SHOW = window.SHOW;
+} catch (e) {
+  fatal(`Couldn't load show "${showId}": ${e.message}`);
+  throw e;
+}
+document.title = SHOW.title + ' 3D lite';
+labelText.textContent = SHOW.title.toUpperCase();
+const DURATIONS = SHOW.durations;
+const GROUPING = SHOW.grouping;   // 'season' | 'flat'
+const SEGKIND = SHOW.segments;    // 'none' | 'static' | 'film' | 'lineup'
+// mergeParts: fold split entries whose episode code matches except a trailing
+// letter (S03E01a + S03E01b -> one logical S03E01) into a single episode that
+// carries an EPPARTS[] list of its pieces. Playback chains the parts and the
+// runtime/scrub treat the whole run as one virtual timeline (see vDur/vCur/
+// seekVirtual). Off by default => EPISODES is the raw list, every episode a
+// lone part, and the virtual-time helpers all collapse to plain v.* values.
+const durKey = (id, file) => file ? id + '::' + file : id;
+const partDur = (id, file) => SHOW.durations?.[durKey(id, file)] || 0;
+let EPISODES, EPPARTS;
+if (SHOW.mergeParts) {
+  EPISODES = []; EPPARTS = [];
+  for (const [id, title, file] of SHOW.episodes) {
+    const bits = title.split(' - ');
+    const code = bits[1] || '';
+    const m = code.match(/^(.*\d)([a-z])$/i);   // "S03E01a" -> base "S03E01" + part "a"
+    const name = bits.slice(2).join(' - ');
+    const prev = EPISODES[EPISODES.length - 1];
+    if (m && prev && prev._base === m[1]) {      // another part of the current episode
+      EPPARTS[EPISODES.length - 1].push({ id, file, dur: partDur(id, file) });
+      prev[1] += ' / ' + name;                   // extend the merged title with this part's name
+    } else {                                     // start a new logical episode
+      const entry = [id, m ? title.replace(code, m[1]) : title, file];
+      entry._base = m ? m[1] : '\0' + EPISODES.length; // non-parts get a base nothing can merge into
+      EPISODES.push(entry);
+      EPPARTS.push([{ id, file, dur: partDur(id, file) }]);
+    }
+  }
+} else {
+  EPISODES = SHOW.episodes;
+  EPPARTS = SHOW.episodes.map(([id, , file]) => [{ id, file, dur: partDur(id, file) }]);
+}
+
+// captions.js is per-show now, so it's loaded dynamically instead of a static <script src>
+await new Promise(res => {
+  const s = document.createElement('script');
+  s.src = `../shows/${showId}/captions.js`;
+  s.onload = s.onerror = res;
+  document.head.append(s);
+});
+
+// identity key for bookkeeping (DURATIONS/watched/segments) — id+filename when
+// a filename is given (item bundles multiple recordings), else just the id
+const epKey = ([id, , file]) => file ? id + '::' + file : id;
+
+// build the barrel-distortion displacement map: R pushes x, G pushes y,
+// strength grows with radius^2 so corners curve hardest, like real glass
+{
+  const mapCanvas = Object.assign(document.createElement('canvas'), { width: 256, height: 256 });
+  const mapCtx = mapCanvas.getContext('2d'), img = mapCtx.createImageData(256, 256);
+  for (let y = 0; y < 256; y++) for (let x = 0; x < 256; x++) {
+    const nx = x / 127.5 - 1, ny = y / 127.5 - 1, r2 = nx * nx + ny * ny;
+    const p = (y * 256 + x) * 4;
+    // minus: edges sample inward, so the picture always reaches the bezel
+    img.data[p] = 128 - nx * r2 * 55;
+    img.data[p + 1] = 128 - ny * r2 * 55;
+    img.data[p + 2] = 128;
+    img.data[p + 3] = 255;
+  }
+  mapCtx.putImageData(img, 0, 0);
+  document.getElementById('bulgemap').setAttribute('href', mapCanvas.toDataURL());
+}
+
+// note: DOM elements are referenced through their id globals throughout —
+// v = the screen <video>, amb = ambilight twin, cc/cast/lights = corner
+// buttons, label = episode title, stage = 3D container, start = click-to-play
+let epIndex = 0, partIndex = 0, fails = 0, loadRetry = 0, bufferingSince = 0, thumbs = [];
+
+// watch progress: best-effort localStorage (losing it just means starting fresh)
+let watched = new Set(), resumeT = 0;
+try {
+  const s = JSON.parse(localStorage[SHOW.storageProgressKey]);
+  if (EPISODES[s.i]) { epIndex = s.i; resumeT = s.t || 0; }
+  watched = new Set(s.w || []);
+} catch {}
+setInterval(() => {
+  if (!v.duration || v.paused) return;
+  if (vCur() > vDur() * 0.9) watched.add(epKey(EPISODES[epIndex]));
+  try {
+    localStorage[SHOW.storageProgressKey] =
+      JSON.stringify({ i: epIndex, t: vCur(), w: [...watched] }); // t is virtual (spans all parts)
+  } catch {}
+}, 5000);
+// archive.org filenames can include a folder path (nested "directories"
+// inside one item) — encode each path segment on its own so a literal '/'
+// survives instead of turning into %2F. Degrades to plain encodeURIComponent
+// when there's no '/', so this is safe to use unconditionally for every show.
+const encodePath = p => p.split('/').map(encodeURIComponent).join('/');
+
+// ---- virtual timeline over EPPARTS[epIndex] --------------------------------
+// A merged episode's parts play back-to-back but present as one runtime. These
+// collapse to plain v.* for any single-part episode, so nothing else has to
+// know whether an episode was merged. Part offsets come from the data-file
+// durations (accurate to 0.01s); the current part's own playhead is real time.
+const curParts = () => EPPARTS[epIndex];
+const partDurs = () => curParts().map(p => p.dur || 0);
+const partOffset = i => partDurs().slice(0, i).reduce((a, b) => a + b, 0);
+function durOf(n) { return EPPARTS[n].reduce((s, p) => s + (p.dur || 0), 0); } // list runtime (summed for merged)
+function vDur() {
+  if (curParts().length <= 1) return v.duration || partDurs()[0] || 0; // single: unchanged
+  return partDurs().reduce((a, b) => a + b, 0) || v.duration || 0;
+}
+function vCur() {
+  if (curParts().length <= 1) return v.currentTime || 0;               // single: unchanged
+  return partOffset(partIndex) + (v.currentTime || 0);
+}
+// map a virtual time to its part: seek within the current part, or reload
+// across a seam (load() re-maps resumeT to the right part + local offset)
+function seekVirtual(T) {
+  const d = partDurs(); let acc = 0, i = 0;
+  while (i < d.length - 1 && acc + d[i] <= T) { acc += d[i]; i++; }
+  if (i === partIndex) v.currentTime = Math.max(0, T - acc);
+  else { resumeT = T; load(); }
+}
+
+async function load() {
+  // resume: a stored virtual time selects which part it lands in + local offset
+  let seekLocal = 0;
+  if (resumeT > 5) {
+    const d = partDurs(); let acc = 0, i = 0;
+    while (i < d.length - 1 && acc + d[i] <= resumeT) { acc += d[i]; i++; }
+    partIndex = i; seekLocal = resumeT - acc; resumeT = 0;
+  }
+  const part = EPPARTS[epIndex][partIndex];
+  const id = part.id, fileHint = part.file;
+  const partKey = durKey(id, fileHint); // captions/thumbs are per-part; watched/progress stay logical
+  setLabel(EPISODES[epIndex][1]);
+  applyCrop(); // per-episode: seasons may crop differently (or not at all)
+  try {
+    const meta = await (await fetch('https://archive.org/metadata/' + id)).json();
+    const file = fileHint
+      ? meta.files.find(f => f.name === fileHint)
+      : meta.files.find(f => /\.mp4$/i.test(f.name)) ??
+        meta.files.find(f => /\.(ogv|webm)$/i.test(f.name));
+    if (!file) throw new Error('no playable file');
+    // archive.org's per-minute thumbnail frames, CORS-readable via /cors/:
+    // the only pixels a proxyless page may legally read - they drive the shell light.
+    // bundled items hold thumbs for every episode inside, named after their
+    // source file, so scope to the chosen file (when we have one to scope to)
+    // or the glow would sample frames from a different episode entirely
+    const stem = file.name.replace(/\.[^.]+$/, '').split('/').pop();
+    thumbs = meta.files
+      .map(f => [f.name.match(/thumbs\/.*_(\d+)\.jpg$/), f.name])
+      .filter(([m, n]) => m && (!fileHint || n.includes(stem)))
+      .map(([m, n]) => [+m[1], 'https://archive.org/cors/' + id + '/' + encodeURI(n)])
+      .sort((a, b) => a[0] - b[0]);
+    // direct: display-only video needs no CORS, and /download/ supports seeking
+    v.src = 'https://archive.org/download/' + id + '/' + encodePath(file.name);
+    amb.src = v.src; // ambilight twin follows along
+    bufferingSince = performance.now(); // fresh episode: assume buffering until 'playing' fires
+    // captions: inline captions.js if present, else captions/<key>.vtt
+    // (the folder needs an http server; file:// blocks track loads).
+    // the CC badge only appears once a track actually loads
+    [...v.querySelectorAll('track')].forEach(t => t.remove());
+    cc.style.display = 'none';
+    const tr = document.createElement('track');
+    tr.kind = 'captions';
+    tr.label = 'English';
+    // size:82 wraps cue lines inside the visible glass (at the default 100%
+    // they wrap at the video edge, which the bulge pushes past the bezel);
+    // line:-2 sits them one line height above the bottom edge
+    const layoutCues = vtt => vtt.replace(/-->[^\r\n]*/g,
+      line => line.includes('size:') ? line : line + ' size:82% line:-2');
+    tr.src = window.CAPTIONS?.[partKey]
+      ? URL.createObjectURL(new Blob([layoutCues(CAPTIONS[partKey])], { type: 'text/vtt' }))
+      : `../shows/${showId}/captions/` + encodeURIComponent(partKey) + '.vtt';
+    // packed captions are known-good, show the badge right away — Chromium
+    // doesn't reliably fire onload for blob tracks. a loose .vtt file only
+    // counts once it actually loads
+    if (window.CAPTIONS?.[partKey]) cc.style.display = 'block';
+    else tr.onload = () => cc.style.display = 'block';
+    v.append(tr);
+    tr.track.mode = ccOn ? 'showing' : 'hidden';
+    await v.play();
+    if (seekLocal > 0) v.currentTime = seekLocal; // resume, within the mapped part
+    else if (partIndex === 0 && SHOW.introSkipSeconds) v.currentTime = SHOW.introSkipSeconds; // intro skip: first part only
+    fails = 0;
+    loadRetry = 0;
+  } catch (e) {
+    console.warn(id, e);
+    retryOrAdvance();
+  }
+}
+// archive.org sometimes times out or 5xxs the first request to a rarely
+// -accessed item's video file, then serves it fine moments later (confirmed:
+// opening the item's own archive.org page and pressing play there "wakes" it
+// up, and then our direct link works too) — retry the same episode a few
+// times with backoff before giving up and skipping ahead
+const RETRY_DELAYS = [1500, 3000, 5000];
+function retryOrAdvance() {
+  if (loadRetry < RETRY_DELAYS.length) { setTimeout(load, RETRY_DELAYS[loadRetry]); loadRetry++; return; }
+  loadRetry = 0;
+  bufferingSince = 0;
+  if (++fails < EPISODES.length) step(1);
+  else setLabel('nothing playable');
+}
+const step = d => { epIndex = (epIndex + d + EPISODES.length) % EPISODES.length; partIndex = 0; load(); };
+// long titles get a scrolling marquee instead of running off the edge of
+// the screen; MARQUEE_SPEED is px/sec, tuned to be readable without
+// dragging. Duplicating the text and animating translateX(-50%) makes the
+// loop seamless — every place that used to set label.textContent directly
+// goes through here instead so this stays the one spot that decides.
+const MARQUEE_SPEED = 60;
+function setLabel(text) {
+  labelText.textContent = text;
+  label.classList.remove('marquee');
+  labelText.style.animationDuration = '';
+  labelText.style.animationDelay = '';
+  requestAnimationFrame(() => {
+    if (labelText.scrollWidth <= label.clientWidth) return;
+    labelText.textContent = text + ' '.repeat(10) + text;
+    labelText.style.animationDuration = (labelText.scrollWidth / 2 / MARQUEE_SPEED) + 's';
+    labelText.style.animationDelay = '1s'; // hold still before the first scroll
+    label.classList.add('marquee');
+  });
+}
+
+// ---- episode/segment navigation, unified across all 4 data shapes ----
+// 'none': one full self-contained episode per EPISODES entry, REW/FF pages
+//   to the previous/next one (wraps), same destination as picking it from GUIDE.
+// 'static'/'film'/'lineup': one EPISODES entry is a multi-show broadcast block;
+//   REW/FF snaps within it to the previous/next show's start instead.
+function currentShows() {
+  const key = epKey(EPISODES[epIndex]);
+  if (SEGKIND === 'static') return SHOW.shows[key] || [SHOW.title];
+  if (SEGKIND === 'film') return SHOW.shows?.[key]; // undefined = single film, not a multi-show tape
+  if (SEGKIND === 'lineup') return lineup(EPISODES[epIndex]);
+  return undefined;
+}
+// hand-labeled real segment timestamps, when we have them (a minority of
+// broadcasts) — takes priority over the guessed/computed boundaries below
+function segTimestamps() { return SHOW.segmentTimestamps?.[epKey(EPISODES[epIndex])]; }
+function showStarts() {
+  const seg = segTimestamps();
+  if (seg) return seg.map(s => s[0]);
+  if (SEGKIND === 'film') {
+    const shows = currentShows();
+    if (!shows) return [0];
+    const c = v.duration / shows.length;
+    return Array.from({ length: shows.length }, (_, i) => i * c);
+  }
+  if (SEGKIND === 'lineup') { const c = v.duration / 4; return [0, c, 2 * c, 3 * c]; }
+  if (SEGKIND === 'static') {
+    const n = currentShows().length;
+    const c = v.duration / n;
+    return Array.from({ length: n }, (_, i) => i * c);
+  }
+  return [0];
+}
+const showIndex = () => SEGKIND === 'none' ? 0
+  : Math.max(0, showStarts().filter(t => t <= v.currentTime + 0.5).length - 1);
+function chunk(d) {
+  if (SEGKIND === 'none') { step(d); return; }
+  if (!v.duration) return;
+  if (SEGKIND === 'film' && !currentShows()) { v.currentTime = d > 0 ? v.duration : 0; return; }
+  const s = showStarts();
+  if (d > 0) v.currentTime = s.find(t => t > v.currentTime + 0.5) ?? v.duration;
+  else v.currentTime = [...s].reverse().find(t => t < v.currentTime - 5) ?? 0; // -5: within 5s of a boundary, jump past it to the previous one
+}
+// the name shown in the 'ch' OSD popup
+function chName() {
+  if (SEGKIND === 'none') return EPISODES[epIndex][1];
+  const seg = segTimestamps();
+  const q = v.duration ? showIndex() : 0;
+  if (seg) return seg[Math.min(q, seg.length - 1)][2];
+  if (SEGKIND === 'film') {
+    const shows = currentShows();
+    return shows ? shows[Math.min(q, shows.length - 1)] : (SHOW.film?.[epKey(EPISODES[epIndex])] ?? '');
+  }
+  const shows = currentShows();
+  return shows[Math.min(q, shows.length - 1)];
+}
+// 'lineup' shows only: which 4-show slate was airing on this broadcast's date
+function lineup([id, title]) {
+  const m = title.match(/(\d\d)\/(\d\d)\/(\d{4})/);
+  const d = `${m[3]}-${m[1]}-${m[2]}`;
+  return SHOW.lineups.findLast(l => d >= l[0])[1];
+}
+const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const airdate = t => { const m = t.match(/(\d\d)\/(\d\d)\/(\d{4})/);
+                       return m ? `${MON[+m[1] - 1]} ${+m[2]}, ${m[3]}` : ''; };
+
+v.onended = () => {
+  if (partIndex < EPPARTS[epIndex].length - 1) { partIndex++; load(); return; } // chain to the next part
+  watched.add(epKey(EPISODES[epIndex])); step(1);
+};
+v.onerror = () => retryOrAdvance();
+// archive.org can take 15-20+ seconds to serve a rarely-accessed file's
+// first byte (a real backend cold-start, not a bug here) — surface that as
+// a visible cue instead of a silent black screen that looks broken
+v.addEventListener('waiting', () => { if (!bufferingSince) bufferingSince = performance.now(); });
+v.addEventListener('playing', () => { bufferingSince = 0; });
+// keep the ambilight twin in lockstep with the main video
+v.addEventListener('play', () => amb.play().catch(() => {}));
+v.addEventListener('pause', () => amb.pause());
+v.addEventListener('seeked', () => amb.currentTime = v.currentTime);
+setInterval(() => {
+  if (!v.paused && Math.abs(amb.currentTime - v.currentTime) > 0.75)
+    amb.currentTime = v.currentTime;
+}, 3000);
+start.onclick = () => { start.remove(); load(); };
+let ccOn = false;
+function setCC(on) { // shared by the corner CC badge and the SETTINGS menu
+  ccOn = on;
+  cc.classList.toggle('on', on);
+  const t = v.querySelector('track');
+  if (t) t.track.mode = on ? 'showing' : 'hidden';
+  window.onCCChange?.(on); // keep the persisted setting in sync
+}
+cc.onclick = () => setCC(!ccOn);
+// cast: browser-native Remote Playback picker; sends the raw video stream
+// to the device, so the 3D set stays local. Button shows green while casting.
+if ('remote' in v) {
+  cast.style.display = 'block'; // css default is display:none
+  let flashT;
+  const flash = msg => { // borrow the corner label to explain a failed cast
+    setLabel(msg);
+    clearTimeout(flashT);
+    flashT = setTimeout(() => setLabel(EPISODES[epIndex][1]), 2500);
+  };
+  cast.onclick = () => v.remote.prompt().catch(e => {
+    if (e.name === 'NotAllowedError') return; // user closed the picker themselves
+    flash(e.name === 'NotFoundError' ? 'NO CAST DEVICES FOUND'
+        : 'CASTING NOT SUPPORTED IN THIS BROWSER');
+  });
+  v.remote.onconnect = () => cast.classList.add('on');
+  v.remote.ondisconnect = () => cast.classList.remove('on');
+}
+
+// css3d layer (the video) first, transparent webgl canvas on top of it:
+// the punched-out screen hole lets the video show through, and the opaque
+// cabinet naturally covers it when the TV faces away
+const cssR = new CSS3DRenderer();
+stage.append(cssR.domElement);
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+renderer.setPixelRatio(devicePixelRatio);
+renderer.domElement.style.position = 'absolute';
+renderer.domElement.style.inset = '0';
+renderer.domElement.style.zIndex = '1'; // above #flatScreen, below corner buttons
+stage.append(renderer.domElement);
+
+const scene = new THREE.Scene();
+const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+const controls = new OrbitControls(cam, renderer.domElement);
+controls.enableDamping = true;
+controls.enablePan = false; // right mouse is the episode list, not pan
+
+const hemi = new THREE.HemisphereLight(0xffffff, 0x334, 4.5);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xffffff, 4);
+sun.position.set(-3, 5, -4);
+scene.add(sun);
+
+// the lights button means two different, independently-remembered things
+// depending on mode: in 3D, dark room + ambilight <-> white room, TV brightly
+// lit; in flat mode, ambient fill on <-> off (just black outside the video).
+// same physical button, same icon, but flatMode decides which setting it
+// reads/writes, so switching modes never touches the other one's state.
+let lit = false;
+function updateLightsIcon() {
+  lights.classList.toggle('off', flatMode && settings.ambientOff);
+}
+lights.onclick = () => {
+  if (flatMode) {
+    settings.ambientOff = !settings.ambientOff;
+    document.body.classList.toggle('ambientOff', settings.ambientOff);
+  } else {
+    lit = settings.lit = !settings.lit;
+    document.body.classList.toggle('lit', lit);
+    hemi.intensity = lit ? 9 : 4.5;
+    sun.intensity = lit ? 6 : 4;
+  }
+  updateLightsIcon();
+  saveSettings();
+};
+
+let tvRoot, screenMesh, stripMesh, cssObj;
+let cssNudge = 0.0002; // sub-pixel alternating offset that reinstates the CSS3D transform on 3D re-entry (see setFlatMode)
+
+// flat mode: default view, edge-to-edge 2D video instead of the 3D TV.
+// #screen (video + osd) gets moved out of the CSS3D scene into a plain
+// centered box sized to the video's real aspect ratio; pick() below fakes
+// a screenMesh hit from the mouse position so every existing overlay
+// control (guide, settings, rew/ff, volume) keeps working unchanged.
+const screenEl = document.getElementById('screen'); // NB: not `screen`, that's window.screen
+const flatScreenEl = document.getElementById('flatScreen');
+let flatMode = true;
+
+// ---- picture crop ----------------------------------------------------------
+// Some rips bake the video into a bigger frame — black bars plus an uploader
+// watermark panel (e.g. vertical text down one side). A crop rect trims the
+// frame to the true picture. Config on SHOW: `crop` ({ x, y, w, h } fractions
+// 0..1) applies to every episode; `cropBySeason` keys the same by season
+// number, for shows whose seasons are ripped differently. Nothing set => no
+// crop, behavior unchanged. Resolved per episode so it can vary as you page.
+function cropFor(n) {
+  return SHOW.cropBySeason?.[seasonOf(n)] ?? SHOW.crop ?? null;
+}
+// CSS transform (with transform-origin: 0 0) that maps the crop rect onto the
+// full element box — valid for any object-fit:fill layer showing the video,
+// which is both the on-glass <video> and the blurred ambilight twin.
+function cropCSS(c) {
+  return c ? `translate(${(-c.x / c.w * 100).toFixed(4)}%, ${(-c.y / c.h * 100).toFixed(4)}%) scale(${(1 / c.w).toFixed(5)}, ${(1 / c.h).toFixed(5)})` : '';
+}
+function applyCrop() {
+  const t = cropCSS(cropFor(epIndex));
+  v.style.transformOrigin = amb.style.transformOrigin = '0 0';
+  v.style.transform = amb.style.transform = t; // '' clears it for uncropped shows
+  layoutFlat(); // flat-mode aspect depends on the crop
+}
+
+function layoutFlat() {
+  if (!flatMode) return;
+  const c = cropFor(epIndex); // size the box to the cropped picture, not the raw frame
+  const vw = (v.videoWidth || 4) * (c ? c.w : 1), vh = (v.videoHeight || 3) * (c ? c.h : 1);
+  const viewportAR = innerWidth / innerHeight, videoAR = vw / vh;
+  const w = videoAR > viewportAR ? innerWidth : innerHeight * videoAR;
+  const h = videoAR > viewportAR ? innerWidth / videoAR : innerHeight;
+  screenEl.style.width = w + 'px';
+  screenEl.style.height = h + 'px';
+}
+v.addEventListener('loadedmetadata', layoutFlat);
+
+function setFlatMode(on) {
+  flatMode = on;
+  document.body.classList.toggle('flat', on);
+  mode3d.classList.toggle('on', !on);
+  controls.enabled = !on;
+  // stopping cssR/renderer.render() while flat leaves the canvas showing its
+  // last-drawn 3D frame; hide it (it still receives input, opacity doesn't
+  // affect that) instead of clearing, so the last frame is ready to show
+  // again instantly when switching back
+  renderer.domElement.style.opacity = on ? '0' : '1';
+  if (on) {
+    screenEl.style.transform = ''; // clear the stale CSS3DObject transform
+    flatScreenEl.append(screenEl); // cssR.render() re-adopts it automatically on mode-off
+    layoutFlat();
+  } else {
+    screenEl.style.width = ''; screenEl.style.height = ''; // restore the 800x600 CSS3DObject baseline
+    // CSS3DRenderer only rewrites element.style.transform when its computed
+    // value changes from the last one it wrote. Entering flat mode cleared
+    // that transform straight off the DOM node (above), so the renderer's
+    // cache is now stale: the TV hasn't moved, the computed transform matches
+    // the cache, and cssR.render() skips re-applying it — leaving #screen
+    // untransformed so the video never lands back in the tube. Nudge the
+    // object by a sub-pixel, sign-flipping amount so the next computed
+    // transform genuinely differs and gets written (non-accumulating: it just
+    // oscillates between two invisibly-close positions on each 3D re-entry).
+    if (cssObj) { cssNudge = -cssNudge; cssObj.position.z += cssNudge; }
+  }
+  updateScreenFilters(); // bulge is suppressed in flat mode
+  updateLightsIcon(); // the lights button's meaning (and on-icon state) is mode-specific
+  settings.mode3d = !on; saveSettings();
+}
+mode3d.onclick = () => setFlatMode(!flatMode);
+settingsBtn.onclick = toggleSettingsMenu;
+
+// on-screen display: DOM canvas stacked on the video inside the same 3D element
+const osd = Object.assign(document.createElement('canvas'), { width: 800, height: 600 });
+document.getElementById('screen').append(osd);
+const octx = osd.getContext('2d');
+new FontFace('VCR', "url('https://fonts.cdnfonts.com/s/14798/VCR_OSD_MONO_1.001[1].woff')")
+  .load().then(f => document.fonts.add(f)).catch(() => {});
+
+new GLTFLoader().load(GLB, g => {
+  tvRoot = g.scene;
+  g.scene.rotation.y = Math.PI / 2; // Magnavox fronts +x; the player wants -z
+  g.scene.traverse(o => {
+    if (!o.isMesh) return;
+    if (o.name === 'Object_6') { // flat display plane behind the glass
+      screenMesh = o;
+      // punch a hole: write depth only, so the css video shows through the
+      // glass while the cabinet interior stays hidden behind it
+      o.material = new THREE.MeshBasicMaterial({ colorWrite: false });
+      o.renderOrder = -1;
+    }
+    if (o.name === 'Object_4') o.visible = false; // curved glass shell: would fog the video
+    if (o.name === 'Object_19') stripMesh = o; // the 8-button control strip
+  });
+  // silkscreen-style labels printed on the control-strip buttons, drawn from
+  // the same zone table as the click targets so they can't drift out of bounds
+  const labelCanvas = Object.assign(document.createElement('canvas'), { width: 2048, height: 72 });
+  const lctx = labelCanvas.getContext('2d');
+  const LABELS = ['POWER', 'VOL −', 'VOL +', 'REW', 'FF', 'PAUSE', 'GUIDE', 'SETTINGS'];
+  lctx.fillStyle = '#ded9cf'; lctx.textAlign = 'center'; lctx.textBaseline = 'middle';
+  BUTTONS.forEach((b, n) => {
+    const w = (b[1] - b[0]) / 0.343 * 2048 - 30; // zone width in px, padded
+    let size = 34;
+    lctx.font = `600 ${size}px Arial`;
+    while (lctx.measureText(LABELS[n]).width > w && size > 14)
+      lctx.font = `600 ${size -= 2}px Arial`;
+    lctx.fillText(LABELS[n], (0.166 - (b[0] + b[1]) / 2) / 0.343 * 2048, 38);
+  });
+  const ltex = new THREE.CanvasTexture(labelCanvas);
+  ltex.colorSpace = THREE.SRGBColorSpace;
+  scene.add(g.scene);
+  g.scene.updateMatrixWorld(true);
+  // decal: projects the label canvas onto the actual button surfaces so the
+  // text hugs their curvature instead of floating on a flat plane
+  const decal = new THREE.Mesh(
+    new DecalGeometry(stripMesh, new THREE.Vector3(-0.0055, -0.2485, -1.362),
+      new THREE.Euler(0, Math.PI, 0), new THREE.Vector3(0.343, 0.014, 0.04)),
+    new THREE.MeshStandardMaterial({ map: ltex, transparent: true, roughness: 1,
+      depthWrite: false, polygonOffset: true, polygonOffsetFactor: -4 }));
+  decal.renderOrder = 1;
+  scene.add(decal);
+  const tvBox = new THREE.Box3().setFromObject(g.scene);
+  const tvSize = tvBox.getSize(new THREE.Vector3());
+  const tvDiag = tvSize.length(); // scale reference for camera near/far
+  // orbit/zoom around the center of the screen, not the whole cabinet
+  const sBox = new THREE.Box3().setFromObject(screenMesh);
+  const c = sBox.getCenter(new THREE.Vector3());
+  // target is above the TV's center, so fitting the TV needs extra height
+  tvSize.y += 2 * Math.abs(c.y - tvBox.getCenter(new THREE.Vector3()).y);
+  const sSize = sBox.getSize(new THREE.Vector3());
+  // glue the DOM screen element into the scene where the glass is
+  cssObj = new CSS3DObject(document.getElementById('screen'));
+  cssObj.position.copy(c);
+  cssObj.rotation.y = Math.PI; // face the model's front (-z)
+  cssObj.scale.set(sSize.x / 800, sSize.y / 600, 1);
+  scene.add(cssObj);
+  controls.target.copy(c);
+  // zoom range: screen almost filling the view <-> whole TV edge to edge
+  setZoomLimits = () => {
+    const fit = (w, h) => Math.max(h, w / cam.aspect) / (2 * Math.tan(cam.fov * Math.PI / 360));
+    controls.minDistance = fit(sSize.x * 0.92, sSize.y * 0.92);
+    controls.maxDistance = fit(tvSize.x * 1.04, tvSize.y * 1.04);
+  };
+  setZoomLimits();
+  glow.position.set(c.x, c.y, c.z - 0.15); // just in front of the glass
+  scene.add(glow);
+  cam.position.set(c.x, c.y, c.z - controls.maxDistance); // model front faces -z
+  cam.near = tvDiag / 100; cam.far = tvDiag * 10;
+  cam.updateProjectionMatrix();
+});
+
+// physical front-panel buttons: raycast clicks, pick by x-zone
+// (positions calibrated from an orthographic render of the model's lower panel)
+let tvOn = true;
+function power() {
+  tvOn = !tvOn;
+  v.style.visibility = tvOn ? '' : 'hidden'; // wrapper stays: black dead screen
+  amb.style.visibility = tvOn ? '' : 'hidden'; // dead TVs don't light the room
+  tvOn ? v.play() : v.pause();
+}
+
+const NEON = '#39ff14', LH = 44; // osd color, credits line height
+// per-row tap target that opens the archive.org page: a hand-drawn neon globe
+// (the 90s WWW icon), vector-stroked like the rest of the OSD so it stays crisp
+// on the curved glass and matches the monochrome look — no colour emoji
+const GLYPH_W = 26;
+function drawGlobe(cx, cy, r) {
+  octx.strokeStyle = NEON; octx.lineWidth = 2.2;
+  octx.beginPath(); octx.arc(cx, cy, r, 0, Math.PI * 2); octx.stroke();                  // the globe
+  octx.beginPath(); octx.moveTo(cx - r, cy); octx.lineTo(cx + r, cy); octx.stroke();     // equator
+  octx.beginPath(); octx.ellipse(cx, cy, r * 0.42, r, 0, 0, Math.PI * 2); octx.stroke(); // one meridian
+}
+
+const hhmm = s => { s = Math.round(s);
+  return Math.floor(s / 3600) + ':' + String(Math.floor(s / 60) % 60).padStart(2, '0'); };
+// episodes are stored as "<SHOW> - <CODE> - <optional title>"; CODE is the
+// bit the season-grouped list view shows (S01E01, Ep 01, ...)
+function episodeCode(n) { return EPISODES[n][1].split(' - ')[1] || ''; }
+function seasonOf(n) { const m = episodeCode(n).match(/S(\d+)/i); return m ? +m[1] : 1; }
+// group episode indices by season (only for grouping:'season' shows) so the
+// guide can page one season at a time instead of one long scroll through everything
+const SEASONS = [];
+if (GROUPING === 'season') {
+  EPISODES.forEach((_, n) => {
+    const s = seasonOf(n);
+    let grp = SEASONS.find(g => g.season === s);
+    if (!grp) { grp = { season: s, indices: [] }; SEASONS.push(grp); }
+    grp.indices.push(n);
+  });
+}
+let curSeason = 0; // index into SEASONS currently shown in the list (grouping:'season' only)
+
+const LIST_AVAIL_WIDTH = 500; // segments:'film' only: name column width before it clips+marquees
+// list-row label text: season code (grouping:'season'), plain title
+// (grouping:'flat'), or the FILM/SHOWS-substituted title (segments:'film')
+const listLabel = n => {
+  const key = epKey(EPISODES[n]);
+  const d = durOf(n); // summed across parts for merged episodes
+  const marker = n === epIndex ? '> ' : '';
+  if (SEGKIND === 'film') {
+    const [, title] = EPISODES[n];
+    const shows = SHOW.shows?.[key];
+    const show = shows ? shows.join(' / ') : (SHOW.film[key] ?? SHOW.title);
+    const prefix = title.split(' - ')[0]; // the show's own uppercase name, leading every title
+    return marker + title.replace(prefix, show).replace(/\s*\(.*\)/, '');
+  }
+  if (GROUPING === 'season') {
+    return marker + episodeCode(n) + (d ? '  ' + hhmm(d) : '') + (watched.has(key) ? ' *' : '');
+  }
+  const [, title] = EPISODES[n];
+  return marker + title.replace(/\s*\(.*\)/, '') + (d ? '  ' + hhmm(d) : '') + (watched.has(key) ? ' *' : '');
+};
+// segments:'film' only: runtime + watched marker, kept separate from the name
+// so it stays put at a fixed spot instead of scrolling off with a marqueed name
+const listMeta = n => {
+  const key = epKey(EPISODES[n]);
+  const d = DURATIONS[key];
+  return (d ? hhmm(d) : '') + (watched.has(key) ? ' *' : '');
+};
+// name (+ runtime as one centred block for non-film shows, or name/meta laid
+// out separately for film shows) with the link glyph a fixed gap to the right;
+// the draw and the click hit-test both read this so the tap target and the
+// drawn glyph land in exactly the same place
+function listRow(n) {
+  octx.font = (GROUPING === 'season' ? 26 : 30) + 'px VCR, monospace';
+  const text = listLabel(n);
+  const gw = GLYPH_W, gap = 16;
+  if (SEGKIND === 'film') {
+    const fullW = octx.measureText(text).width;
+    const meta = listMeta(n);
+    const metaW = octx.measureText(meta).width;
+    const metaGap = 20;
+    const tw = Math.min(fullW, LIST_AVAIL_WIDTH);
+    const blockW = tw + metaGap + metaW + gap + gw;
+    const left = fullW > LIST_AVAIL_WIDTH ? 60 : 400 - blockW / 2;
+    const metaLeft = left + tw + metaGap;
+    return { text, left, tw, fullW, meta, metaLeft, metaW, gw, glyphLeft: metaLeft + metaW + gap };
+  }
+  const tw = octx.measureText(text).width;
+  const left = 400 - (tw + gap + gw) / 2;
+  return { text, left, tw, fullW: tw, gw, glyphLeft: left + tw + gap };
+}
+
+let settings = {
+  fxEnabled: true, overlayEnabled: true, captionsEnabled: false, pixelated: false,
+  brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, sharpen: 0, mode3d: false,
+  lit: false, ambientOff: false
+};
+const SETTINGS_DEFAULTS = { ...settings };
+
+function saveSettings() {
+  try { localStorage[SHOW.storageSettingsKey] = JSON.stringify(settings); } catch {}
+}
+
+function loadSettings() {
+  try {
+    const s = JSON.parse(localStorage[SHOW.storageSettingsKey]);
+    if (s) settings = { ...SETTINGS_DEFAULTS, ...s };
+  } catch {}
+}
+
+// corner CC badge clicked: mirror into the persisted setting
+window.onCCChange = on => { settings.captionsEnabled = on; saveSettings(); };
+
+function updateScreenFilters() {
+  const colorStr = `brightness(${settings.brightness}%) contrast(${settings.contrast}%) saturate(${settings.saturate}%) hue-rotate(${settings.hueRotate}deg)`;
+  // unsharp-mask kernel: lerp from identity (center 1, rest 0 = no-op) to the
+  // classic sharpen kernel (center 5, edges -1) by settings.sharpen (0-100%);
+  // capped a bit past "classic" strength before it starts looking noisy
+  const amt = settings.sharpen / 100 * 1.5;
+  document.getElementById('sharpenMatrix').setAttribute('kernelMatrix',
+    `0 ${-amt} 0 ${-amt} ${1 + 4 * amt} ${-amt} 0 ${-amt} 0`);
+  const sharpStr = settings.sharpen > 0 ? ' url(#sharpen)' : ''; // skip the filter pass entirely when off
+  // bulge is always on in 3D (that's the point of the CRT look) and always
+  // off in flat mode (nothing to apply it to) — not a user setting anymore.
+  // sharpen applies in both modes — it's a picture-quality fix, not a look.
+  document.getElementById('screen').style.filter =
+    colorStr + sharpStr + (!flatMode ? ' url(#bulge)' : '');
+  document.getElementById('fx').style.display = settings.fxEnabled ? 'block' : 'none';
+  // no sharpen here: #amb is already blurred 100px, any edge contrast the
+  // kernel adds would be immediately washed back out
+  document.getElementById('amb').style.filter = `blur(100px) ${colorStr}`;
+  v.style.imageRendering = settings.pixelated ? 'pixelated' : 'auto';
+  setCC(settings.captionsEnabled);
+  // lit/ambientOff: independent per-mode memory for the same lights button
+  lit = settings.lit;
+  document.body.classList.toggle('lit', settings.lit);
+  document.body.classList.toggle('ambientOff', settings.ambientOff);
+  hemi.intensity = settings.lit ? 9 : 4.5;
+  sun.intensity = settings.lit ? 6 : 4;
+  updateLightsIcon();
+  saveSettings();
+}
+
+let osdMode = null, osdUntil = 0, osdStart = 0, listScroll = 0;
+// D-pad selection into the open overlay (episode guide row / settings row). The
+// settings table mirrors the drawRow() calls + the RESET/CLOSE buttons below.
+let listSel = 0, setSel = 0;
+const SETTINGS_ROWS = [
+  { k: 'overlayEnabled',  y: 140, type: 'check' },
+  { k: 'fxEnabled',       y: 190, type: 'check' },
+  { k: 'pixelated',       y: 240, type: 'check' },
+  { k: 'captionsEnabled', y: 290, type: 'check' },
+  { k: 'brightness', y: 340, min: 50, max: 150, step: 5 },
+  { k: 'contrast',   y: 380, min: 50, max: 150, step: 5 },
+  { k: 'saturate',   y: 420, min: 0,  max: 200, step: 5 },
+  { k: 'hueRotate',  y: 460, min: 0,  max: 360, step: 10 },
+  { k: 'sharpen',    y: 500, min: 0,  max: 100, step: 5 },
+  { k: 'reset', y: 570, type: 'action', bx: 250 },
+  { k: 'close', y: 570, type: 'action', bx: 410 },
+];
+// canvas is 800 wide; 60px left margin to match where text starts, 40px
+// right margin — same width budget the "ch" popup and the corner label
+// marquee both measure against
+const CH_AVAIL_WIDTH = 700;
+const popup = m => {
+  if (osdMode === 'list' || osdMode === 'set') return;
+  osdMode = m; osdStart = performance.now();
+  osdUntil = osdStart + 1500; // 'ch' extends this itself in drawOSD if the name is long
+};
+let listClosedAt = 0;
+function toggleList() {
+  if (osdMode === 'list') { osdMode = null; listClosedAt = performance.now(); hoveredRow = null; }
+  else {
+    if (GROUPING === 'season') {
+      curSeason = SEASONS.findIndex(g => g.indices.includes(epIndex));
+      if (curSeason < 0) curSeason = 0;
+      centerOnCurrent();
+    } else {
+      listScroll = epIndex * LH;
+    }
+    osdMode = 'list';
+  }
+  controls.enableZoom = osdMode !== 'list';
+}
+// scroll so the current season's list shows epIndex centred (top if this
+// season doesn't contain it, e.g. right after paging to a new one)
+function centerOnCurrent() {
+  const localIdx = SEASONS[curSeason].indices.indexOf(epIndex);
+  listScroll = localIdx >= 0 ? localIdx * LH : 0;
+}
+// far-edge arrows page between seasons, wrapping last->first and first->last
+function gotoSeason(d) {
+  curSeason = (curSeason + d + SEASONS.length) % SEASONS.length;
+  centerOnCurrent();
+}
+function toggleSettingsMenu() {
+  osdMode = osdMode === 'set' ? null : 'set';
+  controls.enableZoom = osdMode !== 'set';
+}
+
+function resetSettings() {
+  Object.assign(settings, SETTINGS_DEFAULTS);
+  updateScreenFilters();
+}
+
+// the Magnavox control strip (mesh Object_19): 8 buttons — wider ones at both
+// ends, six narrow between; boundaries read off a calibrated close-up render.
+// each entry: [zone start, zone end, action], zones in model-local z, viewer-left first
+const BUTTONS = [
+  [0.1008, 0.1649, power],                                                 // POWER (wide)
+  [0.0634, 0.1008, () => { v.volume = Math.max(0, v.volume - 0.1); popup('vol'); }],
+  [0.0294, 0.0634, () => { v.volume = Math.min(1, v.volume + 0.1); popup('vol'); }],
+  [-0.0059, 0.0294, () => { chunk(-1); if (SEGKIND !== 'none') popup('ch'); }],   // REW: prev episode/show
+  [-0.0410, -0.0059, () => { chunk(1); if (SEGKIND !== 'none') popup('ch'); }],   // FF: next episode/show
+  [-0.0756, -0.0410, () => v.paused ? v.play() : v.pause()],               // PAUSE
+  [-0.1098, -0.0756, toggleList],                                          // GUIDE
+  [-0.1743, -0.1098, toggleSettingsMenu],                                   // SETTINGS (wide)
+];
+
+function drawOSD() {
+  octx.clearRect(0, 0, 800, 600);
+  if (osdMode && osdMode !== 'list' && osdMode !== 'set' && performance.now() > osdUntil) osdMode = null;
+  let drew = false;
+  octx.fillStyle = NEON;
+  if (osdMode === 'vol') {
+    octx.font = '48px VCR, monospace'; octx.textAlign = 'left';
+    octx.fillText('VOL', 60, 110);
+    octx.fillText(Array(Math.round(v.volume * 10)).fill('|').join(' '), 60, 170);
+    drew = true;
+  } else if (osdMode === 'ch') {
+    octx.font = '30px VCR, monospace'; octx.textAlign = 'left';
+    const chText = chName();
+    const chOverflow = octx.measureText(chText).width - CH_AVAIL_WIDTH;
+    if (chOverflow <= 0) {
+      octx.fillText(chText, 60, 110);
+    } else {
+      // same idea as the corner-label marquee: scroll left until the end is
+      // revealed, then hold there (the Math.min clamp does the holding).
+      // extend the popup's own lifetime so the scroll has time to finish.
+      osdUntil = Math.max(osdUntil, osdStart + 1000 + (chOverflow / MARQUEE_SPEED) * 1000 + 800);
+      const chElapsed = Math.max(0, performance.now() - osdStart - 1000); // 1s hold before it moves
+      const chOffset = Math.min(chOverflow, chElapsed / 1000 * MARQUEE_SPEED);
+      octx.save();
+      octx.beginPath(); octx.rect(56, 78, CH_AVAIL_WIDTH + 8, 46); octx.clip();
+      octx.fillText(chText, 60 - chOffset, 110);
+      octx.restore();
+    }
+    if (SEGKIND !== 'none') { // multi-show broadcasts also show the air date under the name
+      octx.font = '24px VCR, monospace';
+      octx.fillText(airdate(EPISODES[epIndex][1]), 60, 150);
+    }
+    drew = true;
+  } else if (osdMode === 'list') {
+    if (settings.overlayEnabled) {
+      octx.fillStyle = 'rgba(0,0,0,.75)'; octx.fillRect(0, 0, 800, 600);
+    }
+    let indices, topY;
+    if (GROUPING === 'season') {
+      const grp = SEASONS[curSeason];
+      if (SEASONS.length > 1) {
+        octx.fillStyle = NEON; octx.font = '28px VCR, monospace'; octx.textAlign = 'center';
+        octx.fillText(SHOW.seasonNames?.[grp.season] || ('SEASON ' + grp.season), 400, 90);
+        // single green arrows at the far edges — click to page to the
+        // previous/next season, which re-centers that season in the list
+        octx.font = '56px VCR, monospace';
+        octx.fillText('◀', 50, 310);
+        octx.fillText('▶', 750, 310);
+      }
+      indices = grp.indices; topY = 140;
+    } else {
+      indices = EPISODES.map((_, n) => n); topY = 300;
+    }
+    // D-pad selection highlight, drawn under the row text
+    const ySel = topY + listSel * LH - listScroll;
+    if (ySel > (GROUPING === 'season' ? 108 : -12) && ySel < 636) {
+      octx.fillStyle = 'rgba(57,255,20,.16)';
+      octx.fillRect(40, ySel - 30, 720, 40);
+    }
+    octx.fillStyle = NEON; octx.font = (GROUPING === 'season' ? 26 : 30) + 'px VCR, monospace'; octx.textAlign = 'left';
+    const rowGapW = SEGKIND === 'film' ? octx.measureText(' '.repeat(10)).width : 0;
+    indices.forEach((n, i) => {
+      const y = topY + i * LH - listScroll;
+      if (y > (GROUPING === 'season' ? 100 : -20) && y < 640) {
+        const r = listRow(n);
+        if (SEGKIND === 'film' && r.fullW > LIST_AVAIL_WIDTH) {
+          octx.save();
+          octx.beginPath(); octx.rect(r.left - 4, y - 30, LIST_AVAIL_WIDTH + 8, 40); octx.clip();
+          if (n === hoveredRow) {
+            // 1s hold, then an endless seamless loop for as long as it's hovered
+            const elapsed = Math.max(0, performance.now() - hoverRowSince - 1000);
+            const period = r.fullW + rowGapW;
+            const offset = (elapsed / 1000 * MARQUEE_SPEED) % period;
+            octx.fillText(r.text + ' '.repeat(10) + r.text, r.left - offset, y);
+          } else {
+            octx.fillText(r.text, r.left, y); // static: just the clipped lead-in
+          }
+          octx.restore();
+        } else {
+          octx.fillText(r.text, r.left, y);
+        }
+        if (SEGKIND === 'film') octx.fillText(r.meta, r.metaLeft, y); // runtime + watched: fixed, never scrolls
+        if (SHOW.incompleteEpisodes?.includes(episodeCode(n))) { // one-off: flag known-truncated rips
+          octx.strokeStyle = NEON; octx.lineWidth = 2;
+          octx.beginPath(); octx.moveTo(r.left, y - 9); octx.lineTo(r.left + r.tw, y - 9); octx.stroke();
+        }
+        drawGlobe(r.glyphLeft + GLYPH_W / 2, y - 9, 12);
+      }
+    });
+    drew = true;
+  } else if (osdMode === 'set') {
+    if (settings.overlayEnabled) {
+      octx.fillStyle = 'rgba(0,0,0,.75)'; octx.fillRect(0, 0, 800, 600);
+    }
+    octx.fillStyle = NEON;
+    octx.font = '34px VCR, monospace'; octx.textAlign = 'center';
+    octx.fillText('SETTINGS', 400, 100);
+
+    const drawRow = (label, y, val, min, max, isCheck = false) => {
+      octx.font = '24px VCR, monospace'; octx.textAlign = 'left';
+      octx.fillText(label, 150, y);
+      if (isCheck) {
+        octx.strokeRect(450, y - 20, 40, 30);
+        if (val) octx.fillRect(455, y - 15, 30, 20);
+      } else {
+        octx.strokeRect(300, y - 20, 200, 30);
+        octx.fillRect(300, y - 20, (val - min) / (max - min) * 200, 30);
+      }
+    };
+
+    drawRow('OVERLAY', 140, settings.overlayEnabled, 0, 1, true);
+    drawRow('SCANLINES', 190, settings.fxEnabled, 0, 1, true);
+    drawRow('PIXELATED', 240, settings.pixelated, 0, 1, true);
+    drawRow('CAPTIONS', 290, settings.captionsEnabled, 0, 1, true);
+    drawRow('BRIGHTNESS', 340, settings.brightness, 50, 150);
+    drawRow('CONTRAST', 380, settings.contrast, 50, 150);
+    drawRow('COLOR', 420, settings.saturate, 0, 200);
+    drawRow('TINT', 460, settings.hueRotate, 0, 360);
+    drawRow('SHARPEN', 500, settings.sharpen, 0, 100);
+
+    octx.font = '24px VCR, monospace'; octx.textAlign = 'center';
+    octx.strokeRect(250, 550, 140, 40); octx.fillText('RESET', 320, 575);
+    octx.strokeRect(410, 550, 140, 40); octx.fillText('CLOSE', 480, 575);
+    // D-pad selection highlight around the focused control
+    { const r = SETTINGS_ROWS[setSel];
+      octx.lineWidth = 3;
+      if (r.type === 'action') octx.strokeRect(r.bx - 6, 544, 152, 52);
+      else octx.strokeRect(138, r.y - 27, 384, 40);
+      octx.lineWidth = 1; }
+    drew = true;
+  }
+  if (isHoldingVol) {
+    octx.font = '48px VCR, monospace'; octx.textAlign = 'left';
+    octx.fillText('VOL', 60, 110);
+    octx.fillText(Array(Math.round(holdVol * 10)).fill('|').join(' '), 60, 170);
+    drew = true;
+  }
+  if (isHolding) {
+    octx.font = '24px VCR, monospace'; octx.textAlign = 'center';
+    octx.fillText(`${fmt(holdTime)} / ${fmt(vDur())}`, 400, 560);
+    drew = true;
+  }
+  if (v.src && v.paused && osdMode !== 'list') { // pause bars, top-right corner
+    octx.fillStyle = NEON;
+    octx.fillRect(680, 60, 16, 50); octx.fillRect(708, 60, 16, 50);
+    drew = true;
+  }
+  if (bufferingSince && performance.now() - bufferingSince > 600 && osdMode !== 'list' && osdMode !== 'set') {
+    // archive.org's cold-start delay (see the 'waiting' listener above) can
+    // run 15-20+ seconds; without this the screen just sits black the whole
+    // time and looks broken instead of just slow
+    octx.fillStyle = NEON; octx.font = '28px VCR, monospace'; octx.textAlign = 'center';
+    octx.fillText('BUFFERING' + '.'.repeat(1 + Math.floor(performance.now() / 400) % 3), 400, 300);
+    drew = true;
+  }
+  // hover cues: fade in/out over the click zones so their function is discoverable
+  for (const z in hoverA) hoverA[z] += ((hoverZone === z ? 1 : 0) - hoverA[z]) * 0.12;
+  if (osdMode !== 'list') {
+    const cue = (a, txt, x, yy, align) => {
+      if (a < 0.02) return;
+      octx.globalAlpha = a; octx.textAlign = align; octx.fillStyle = NEON;
+      octx.fillText(txt, x, yy); octx.globalAlpha = 1; drew = true;
+    };
+    octx.font = '44px VCR, monospace';
+    cue(hoverA.rew, '◀◀', 40, 315, 'left');
+    cue(hoverA.ff, '▶▶', 760, 315, 'right');
+    octx.font = '36px VCR, monospace';
+    cue(hoverA.vup, 'VOL +', 400, 80, 'center');
+    cue(hoverA.vdn, 'VOL -', 400, 555, 'center');
+  }
+  osd.style.visibility = drew && tvOn ? '' : 'hidden';
+}
+
+let hoverZone = null;
+let hoveredRow = null, hoverRowSince = 0; // segments:'film' only: which list row is marqueeing on hover
+const hoverA = { rew: 0, ff: 0, vup: 0, vdn: 0 };
+renderer.domElement.addEventListener('mousemove', e => {
+  hoverZone = null;
+  if (osdMode === 'list') {
+    const hit = pick(e);
+    let row = null;
+    if (hit && hit.object === screenMesh) {
+      const x = hit.uv.x * 800, y = (1 - hit.uv.y) * 600;
+      const topY = GROUPING === 'season' ? 140 : 300;
+      const count = GROUPING === 'season' ? SEASONS[curSeason].indices.length : EPISODES.length;
+      const i = Math.round((y - topY + listScroll) / LH);
+      if (i >= 0 && i < count && Math.abs(y - (topY + i * LH - listScroll)) <= 18) {
+        row = GROUPING === 'season' ? SEASONS[curSeason].indices[i] : i;
+      }
+    }
+    if (row !== hoveredRow) { hoveredRow = row; hoverRowSince = performance.now(); }
+    return;
+  }
+  const hit = pick(e);
+  if (hit && hit.object === screenMesh) {
+    const u = hit.uv.x, y = 1 - hit.uv.y;
+    if (u < 0.115) hoverZone = 'rew';
+    else if (u > 0.885) hoverZone = 'ff';
+    else if (u > 0.23 && u < 0.77 && y < 0.115) hoverZone = 'vup';
+    else if (u > 0.23 && u < 0.77 && y > 0.885) hoverZone = 'vdn';
+  }
+});
+renderer.domElement.addEventListener('mouseleave', () => { hoverZone = null; hoveredRow = null; });
+
+v.addEventListener('loadedmetadata', () => popup('ch')); // announce episode/show on load
+
+// shell light: average color of the nearest thumbnail frame -> bezel point light
+const glow = new THREE.PointLight(0xffffff, 0, 1.2);
+const sampleCanvas = Object.assign(document.createElement('canvas'), { width: 8, height: 8 });
+const sampleCtx = sampleCanvas.getContext('2d', { willReadFrequently: true });
+const thumbImg = new Image();
+thumbImg.crossOrigin = 'anonymous';
+const glowTargetColor = new THREE.Color(0, 0, 0);
+let glowTargetIntensity = 0;
+thumbImg.onload = () => {
+  const c = cropFor(epIndex); // sample the true picture, not the letterbox
+  if (c) sampleCtx.drawImage(thumbImg, c.x * thumbImg.width, c.y * thumbImg.height,
+                             c.w * thumbImg.width, c.h * thumbImg.height, 0, 0, 8, 8);
+  else sampleCtx.drawImage(thumbImg, 0, 0, 8, 8);
+  const d = sampleCtx.getImageData(0, 0, 8, 8).data;
+  let r = 0, g = 0, b = 0;
+  for (let k = 0; k < d.length; k += 4) { r += d[k]; g += d[k + 1]; b += d[k + 2]; }
+  r /= 64 * 255; g /= 64 * 255; b /= 64 * 255;
+  // normalize hue, gamma-lift brightness so dim scenes still glow
+  const m = Math.max(r, g, b, 0.001), k2 = Math.min(1, Math.sqrt(m)) / m;
+  glowTargetColor.setRGB(r * k2, g * k2, b * k2);
+  glowTargetIntensity = Math.sqrt(m) * 10;
+};
+setInterval(() => {
+  if (!thumbs.length) return; // render loop gates power-off; don't clobber target
+  let frame = thumbs[0]; // latest thumbnail at or before the playhead
+  for (const th of thumbs) { if (th[0] <= v.currentTime) frame = th; else break; }
+  if (thumbImg.src !== frame[1]) thumbImg.src = frame[1];
+}, 2000);
+
+addEventListener('wheel', e => {
+  if (osdMode !== 'list') return;
+  e.preventDefault();
+  const count = GROUPING === 'season' ? SEASONS[curSeason].indices.length : EPISODES.length;
+  const max = Math.max(0, (count - 1) * LH);
+  listScroll = Math.min(Math.max(listScroll + e.deltaY * 0.5, 0), max);
+}, { passive: false });
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+function pick(e) {
+  if (flatMode) {
+    // fake a screenMesh hit from the video's on-screen rect so every
+    // existing uv-based control (edges, guide, settings) works unchanged
+    const r = screenEl.getBoundingClientRect();
+    if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) return null;
+    return { object: screenMesh, uv: { x: (e.clientX - r.left) / r.width, y: 1 - (e.clientY - r.top) / r.height } };
+  }
+  if (!tvRoot) return;
+  ptr.set(e.clientX / innerWidth * 2 - 1, 1 - e.clientY / innerHeight * 2);
+  ray.setFromCamera(ptr, cam);
+  // skip invisible meshes: raycasts still hit the hidden glass shell,
+  // which sits in front of the screen and would swallow every click
+  return ray.intersectObject(tvRoot, true).find(h => h.object.visible);
+}
+
+// double-click: browser fullscreen, like a video player
+renderer.domElement.addEventListener('dblclick', () => {
+  clearTimeout(pauseTimer); // the two clicks were a fullscreen toggle, not a pause
+  if (hoverA.vup > 0.05 || hoverA.vdn > 0.05) return; // VOL cue on screen: no toggle
+  // a menu is open: two quick clicks here are someone paging through the
+  // season arrows fast, not a fullscreen request — the browser still fires
+  // its native dblclick on any two fast clicks regardless of what they hit
+  if (osdMode === 'list' || osdMode === 'set') return;
+  document.fullscreenElement ? document.exitFullscreen()
+    : document.documentElement.requestFullscreen();
+});
+
+// press-and-hold state: holding FF/REW scrubs, holding VOL +/- ramps the volume
+let holdDir = 0, holdTime = 0, isHolding = false, holdTimer, holdStart;
+let volDir = 0, holdVol = 0, isHoldingVol = false, volTimer;
+let pauseTimer; // delays play/pause so a double-click can cancel it
+const fmt = s => {
+  if (!s) return '00:00:00';
+  const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, s2 = Math.floor(s % 60);
+  return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s2.toString().padStart(2, '0')}`;
+};
+// which seek direction a press means: screen left/right edges, or REW/FF panel buttons
+function getDir(e) {
+  // a menu overlay is showing: its own click handling owns the screen
+  // entirely, so don't also arm the screen-edge seek underneath it (this is
+  // what made the season-paging arrows also nudge the seek position)
+  if (osdMode === 'list' || osdMode === 'set') return 0;
+  const hit = pick(e);
+  if (!hit) return 0;
+  if (hit.object === screenMesh) {
+    const u = hit.uv.x;
+    if (u < 0.115) return -1;
+    if (u > 0.885) return 1;
+  }
+  if (flatMode) return 0; // no cabinet buttons in flat mode
+  const p = tvRoot.worldToLocal(hit.point.clone());
+  if (p.y < -0.28 || p.y > -0.21 || p.x < 1.2) return 0;
+  const n = BUTTONS.findIndex(b => p.z >= b[0] && p.z < b[1]);
+  if (n === 3) return -1;
+  if (n === 4) return 1;
+  return 0;
+}
+// same idea for volume: screen top/bottom edges, or the VOL panel buttons
+function getVolDir(e) {
+  // same reasoning as getDir: don't arm the volume hold while a menu owns the screen
+  if (osdMode === 'list' || osdMode === 'set') return 0;
+  const hit = pick(e);
+  if (!hit) return 0;
+  if (hit.object === screenMesh) {
+    const u = hit.uv.x, y = 1 - hit.uv.y;
+    if (y < 0.115 && u > 0.23 && u < 0.77) return 1;
+    if (y > 0.885 && u > 0.23 && u < 0.77) return -1;
+  }
+  if (flatMode) return 0; // no cabinet buttons in flat mode
+  const p = tvRoot.worldToLocal(hit.point.clone());
+  if (p.y < -0.28 || p.y > -0.21 || p.x < 1.2) return 0;
+  const n = BUTTONS.findIndex(b => p.z >= b[0] && p.z < b[1]);
+  if (n === 2) return 1;
+  if (n === 1) return -1;
+  return 0;
+}
+let downX, downY; // pointer-down spot, to tell clicks from orbit drags
+renderer.domElement.addEventListener('pointerdown', e => {
+  downX = e.clientX; downY = e.clientY;
+  const dir = getDir(e);
+  if (dir !== 0) {
+    holdDir = dir; holdTime = vCur(); holdStart = performance.now();
+    holdTimer = setTimeout(() => { isHolding = true; }, 300);
+  }
+  const vdir = getVolDir(e);
+  if (vdir !== 0) {
+    volDir = vdir; holdVol = v.volume;
+    volTimer = setTimeout(() => { isHoldingVol = true; }, 300);
+  }
+});
+renderer.domElement.addEventListener('pointerup', e => {
+  if (e.button !== 0) return;
+  clearTimeout(holdTimer);
+  clearTimeout(volTimer);
+  if (isHolding) {
+    seekVirtual(holdTime); // maps across parts if a merged episode's seam was crossed
+    isHolding = false; holdDir = 0;
+    return;
+  }
+  if (isHoldingVol) {
+    v.volume = holdVol;
+    isHoldingVol = false; volDir = 0;
+    return;
+  }
+
+  if (Math.hypot(e.clientX - downX, e.clientY - downY) > 5) return; // it was a drag
+  const hit = pick(e);
+  if (!hit) {
+    if (osdMode === 'list') toggleList();
+    if (osdMode === 'set') { osdMode = null; controls.enableZoom = true; }
+    return;
+  }
+  if (osdMode === 'set') {
+    const y = (1 - hit.uv.y) * 600;
+    const x = hit.uv.x * 800;
+    if (y < 130 && x > 300 && x < 500) { osdMode = null; controls.enableZoom = true; return; }
+    if (y > 540 && y < 600) {
+      if (x > 250 && x < 390) resetSettings();
+      if (x > 410 && x < 550) { osdMode = null; controls.enableZoom = true; }
+      return;
+    }
+    const rows = [
+      { k: 'overlayEnabled', y: 140, type: 'check' },
+      { k: 'fxEnabled', y: 190, type: 'check' },
+      { k: 'pixelated', y: 240, type: 'check' },
+      { k: 'captionsEnabled', y: 290, type: 'check' },
+      { k: 'brightness', y: 340, min: 50, max: 150 },
+      { k: 'contrast', y: 380, min: 50, max: 150 },
+      { k: 'saturate', y: 420, min: 0, max: 200 },
+      { k: 'hueRotate', y: 460, min: 0, max: 360 },
+      { k: 'sharpen', y: 500, min: 0, max: 100 },
+    ];
+    const row = rows.find(r => y > r.y - 30 && y < r.y + 10);
+    if (row) {
+      if (row.type === 'check') {
+        settings[row.k] = !settings[row.k];
+      } else if (x > 300 && x < 500) {
+        settings[row.k] = Math.round(((x - 300) / 200) * (row.max - row.min) + row.min);
+      }
+      updateScreenFilters();
+    }
+    return;
+  }
+  if (osdMode === 'list' && hit.object === screenMesh) {
+    const x = hit.uv.x * 800;
+    const y = (1 - hit.uv.y) * 600;
+    if (GROUPING === 'season' && SEASONS.length > 1 && y > 200 && y < 420) {
+      if (x < 110) { gotoSeason(-1); return; }
+      if (x > 690) { gotoSeason(1); return; }
+    }
+    const indices = GROUPING === 'season' ? SEASONS[curSeason].indices : EPISODES.map((_, n) => n);
+    const topY = GROUPING === 'season' ? 140 : 300;
+    const i = Math.round((y - topY + listScroll) / LH);
+    if (i >= 0 && i < indices.length &&
+        Math.abs(y - (topY + i * LH - listScroll)) <= 18) {
+      const n = indices[i];
+      const r = listRow(n);
+      if (x >= r.glyphLeft - 8 && x <= r.glyphLeft + r.gw + 8) {
+        // the link glyph: open the archive.org page in a new tab, leave the
+        // list up so more can be opened (pointerup = a real gesture, so this
+        // is not popup-blocked)
+        window.open('https://archive.org/details/' + EPISODES[n][0], '_blank', 'noopener');
+        return;
+      }
+      const hitRight = SEGKIND === 'film' ? r.metaLeft + r.metaW : r.left + r.tw;
+      if (x >= r.left - 8 && x <= hitRight + 8) { epIndex = n; partIndex = 0; fails = 0; load(); toggleList(); return; }
+    }
+    toggleList();   // a click in the margins just closes the list
+    return;
+  }
+  if (hit.object === screenMesh) {
+    const u = hit.uv.x, y = 1 - hit.uv.y;
+    if (u < 0.115) { chunk(-1); if (SEGKIND !== 'none') popup('ch'); }
+    else if (u > 0.885) { chunk(1); if (SEGKIND !== 'none') popup('ch'); }
+    else if (y < 0.115 && u > 0.23 && u < 0.77) { v.volume = Math.min(1, v.volume + 0.1); popup('vol'); }
+    else if (y > 0.885 && u > 0.23 && u < 0.77) { v.volume = Math.max(0, v.volume - 0.1); popup('vol'); }
+    else if (performance.now() - listClosedAt > 400) {
+      clearTimeout(pauseTimer);
+      pauseTimer = setTimeout(() => {
+        if (osdMode !== 'list') v.paused ? v.play() : v.pause();
+      }, 250);
+    }
+    return;
+  }
+  const p = tvRoot.worldToLocal(hit.point.clone());
+  if (p.y < -0.28 || p.y > -0.21 || p.x < 1.2) return;
+  BUTTONS.find(b => p.z >= b[0] && p.z < b[1])?.[2]();
+  holdDir = 0;
+});
+
+renderer.domElement.addEventListener('contextmenu', e => { e.preventDefault(); toggleList(); });
+
+let setZoomLimits = () => {};
+function size() {
+  renderer.setSize(innerWidth, innerHeight);
+  cssR.setSize(innerWidth, innerHeight);
+  cam.aspect = innerWidth / innerHeight;
+  cam.updateProjectionMatrix();
+  setZoomLimits();
+  layoutFlat();
+}
+addEventListener('resize', size);
+// corner label fades out after 5s with no mouse movement; window-level (not
+// renderer.domElement) so it still resets even when the mouse is sitting
+// over a UI element like a corner button that's on top of the canvas
+let lastMoveTime = performance.now();
+addEventListener('mousemove', () => { lastMoveTime = performance.now(); });
+size();
+loadSettings();
+setFlatMode(!settings.mode3d); // restore persisted mode, default flat
+updateScreenFilters();
+
+// --- TV remote (Tizen) + keyboard control -----------------------------------
+// The player was built for mouse/3D-button input; on a TV the remote drives it
+// instead. D-pad Left/Right page episodes, Up/Down are volume, OK is play/pause,
+// the color buttons expose guide/3D/settings/captions, Return goes back. Media
+// and color keys must be registered so the runtime delivers them (no-op in a
+// desktop browser, where the arrow/Enter keys still work).
+try {
+  if (window.tizen && tizen.tvinputdevice) {
+    ['MediaPlayPause', 'MediaPlay', 'MediaPause', 'MediaFastForward', 'MediaRewind',
+     'ColorF0Red', 'ColorF1Green', 'ColorF2Yellow', 'ColorF3Blue']
+      .forEach(k => { try { tizen.tvinputdevice.registerKey(k); } catch (e) {} });
+  }
+} catch (e) {}
+// ---- D-pad navigation of the OSD overlays ----------------------------------
+const listIndicesTV = () => GROUPING === 'season' ? SEASONS[curSeason].indices : EPISODES.map((_, n) => n);
+const listTopY = () => GROUPING === 'season' ? 140 : 300;
+// nudge listScroll so the selected row sits within the visible band on the
+// 600-tall canvas (rows are drawn at topY + i*LH - listScroll)
+function ensureListVisible() {
+  const top = listTopY();
+  const rowY = top + listSel * LH - listScroll;
+  const lo = top + 10, hi = 560;
+  if (rowY < lo) listScroll -= (lo - rowY);
+  else if (rowY > hi) listScroll += (rowY - hi);
+  const max = Math.max(0, (listIndicesTV().length - 1) * LH);
+  listScroll = Math.min(Math.max(listScroll, 0), max);
+}
+function initListSel() {
+  const idx = listIndicesTV();
+  listSel = GROUPING === 'season' ? Math.max(0, idx.indexOf(epIndex)) : epIndex;
+  hoveredRow = idx[listSel]; hoverRowSince = performance.now();
+  ensureListVisible();
+}
+function listNav(d) {
+  const idx = listIndicesTV();
+  listSel = Math.max(0, Math.min(idx.length - 1, listSel + d));
+  hoveredRow = idx[listSel]; hoverRowSince = performance.now();
+  ensureListVisible();
+}
+function listOpen() { epIndex = listIndicesTV()[listSel]; partIndex = 0; fails = 0; load(); toggleList(); }
+function setActivate() {
+  const r = SETTINGS_ROWS[setSel];
+  if (r.type === 'check') { settings[r.k] = !settings[r.k]; updateScreenFilters(); }
+  else if (r.k === 'reset') resetSettings();
+  else if (r.k === 'close') { osdMode = null; controls.enableZoom = true; }
+}
+function setAdjust(d) {
+  const r = SETTINGS_ROWS[setSel];
+  if (r.type === 'check') { settings[r.k] = !settings[r.k]; updateScreenFilters(); }
+  else if (r.min !== undefined) {
+    settings[r.k] = Math.max(r.min, Math.min(r.max, settings[r.k] + d * r.step));
+    updateScreenFilters();
+  }
+}
+const CLOSE_SET = () => { osdMode = null; controls.enableZoom = true; };
+
+addEventListener('keydown', e => {
+  const K = e.keyCode;
+  const startEl = document.getElementById('start');
+  // before playback begins, OK/Play is the "turn on" gesture (replaces the click)
+  if (startEl && (K === 13 || K === 10252 || K === 415)) {
+    startEl.remove(); load(); e.preventDefault(); return;
+  }
+
+  // --- episode guide open: the D-pad walks the list ---
+  if (osdMode === 'list') {
+    switch (K) {
+      case 38: listNav(-1); break;                                   // up
+      case 40: listNav(1); break;                                    // down
+      case 37: if (GROUPING === 'season' && SEASONS.length > 1) { gotoSeason(-1); listSel = 0; ensureListVisible(); } break;
+      case 39: if (GROUPING === 'season' && SEASONS.length > 1) { gotoSeason(1);  listSel = 0; ensureListVisible(); } break;
+      case 13: case 10252: case 415: listOpen(); break;              // OK -> play it
+      case 403: case 10009: case 27: case 71: toggleList(); break;   // Red / Back / Esc / g -> close
+      default: return;
+    }
+    e.preventDefault(); return;
+  }
+
+  // --- settings open: the D-pad walks the controls ---
+  if (osdMode === 'set') {
+    switch (K) {
+      case 38: setSel = Math.max(0, setSel - 1); break;              // up
+      case 40: setSel = Math.min(SETTINGS_ROWS.length - 1, setSel + 1); break; // down
+      case 37: setAdjust(-1); break;                                 // left  -> decrease / toggle
+      case 39: setAdjust(1); break;                                  // right -> increase / toggle
+      case 13: case 10252: case 415: setActivate(); break;           // OK
+      case 405: case 10009: case 27: case 83: CLOSE_SET(); break;    // Yellow / Back / Esc / s -> close
+      default: return;
+    }
+    e.preventDefault(); return;
+  }
+
+  // --- normal playback ---
+  switch (K) {
+    case 13: case 10252: case 415:  // OK / PlayPause / Play
+      v.paused ? v.play() : v.pause(); break;
+    case 19:                         // Pause
+      v.pause(); break;
+    case 39: case 417:               // Right / FastForward -> next episode/show
+      chunk(1); if (SEGKIND !== 'none') popup('ch'); break;
+    case 37: case 412:               // Left / Rewind -> previous
+      chunk(-1); if (SEGKIND !== 'none') popup('ch'); break;
+    case 38:                         // Up -> volume up
+      v.volume = Math.min(1, v.volume + 0.1); popup('vol'); break;
+    case 40:                         // Down -> volume down
+      v.volume = Math.max(0, v.volume - 0.1); popup('vol'); break;
+    // color buttons on a TV; the letter in each comment is the desktop-test key
+    case 403: case 71:               // Red / g     -> episode guide
+      toggleList(); initListSel(); break;
+    case 404: case 68:               // Green / d   -> flip the 3D CRT mode
+      setFlatMode(!flatMode); break;
+    case 405: case 83:               // Yellow / s  -> settings
+      toggleSettingsMenu(); setSel = 0; break;
+    case 406: case 67:               // Blue / c    -> captions
+      setCC(!ccOn); break;
+    case 10009: case 27:             // Return / Esc -> the channel guide
+      location.href = '../index.html'; break;
+    default: return;
+  }
+  e.preventDefault();
+});
+
+renderer.setAnimationLoop(() => {
+  if (isHolding) {
+    const accel = 1 + Math.max(0, (performance.now() - holdStart) / 1000) * 2;
+    holdTime = Math.max(0, Math.min(vDur(), holdTime + holdDir * 0.15 * accel));
+  }
+  if (isHoldingVol) {
+    holdVol = Math.max(0, Math.min(1, holdVol + volDir * 0.005));
+    v.volume = holdVol;
+  }
+  controls.update();
+  label.classList.toggle('idle', performance.now() - lastMoveTime > 5000);
+  drawOSD();
+  glow.color.lerp(glowTargetColor, 0.03); // ease the shell light between minute-frames
+  // a lit room washes out the screen's glow on the shell
+  glow.intensity += ((tvOn ? glowTargetIntensity * (lit ? 0.2 : 1) : 0) - glow.intensity) * 0.03;
+  if (!flatMode) { cssR.render(scene, cam); renderer.render(scene, cam); }
+});
+</script>

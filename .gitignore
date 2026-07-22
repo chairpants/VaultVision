@@ -1,0 +1,4 @@
+build/
+*.wgt
+__pycache__/
+*.pyc
