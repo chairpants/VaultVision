@@ -34,7 +34,7 @@ each file's position (episode N → season `ceil(N/20)`, episode
 
 ## Format note
 
-Unlike RetroTube's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
+Unlike VaultVision's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
 a multi-hour broadcast block — every entry is one full, self-contained
 episode. So a quick REW/FF tap pages to the previous/next episode instead
 of seeking within one (wrapping from the last episode back to the first and

@@ -1,8 +1,8 @@
 window.SHOW = {
   id: "MonsterVision",
   title: "MonsterVision",
-  storageProgressKey: "scifianime-progress",
-  storageSettingsKey: "scifianime-settings",
+  storageProgressKey: "monstervision-progress",
+  storageSettingsKey: "monstervision-settings",
   nestedPaths: false,
   grouping: "flat",
   segments: "film",

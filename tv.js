@@ -1,4 +1,4 @@
-// RetroSamsung — TV remote / D-pad navigation for the channel guide.
+// Keyboard / D-pad navigation for the channel guide.
 // The guide is a grid of <a class="card"> links; on a TV there's no mouse, so
 // this moves a focus ring with the arrow keys and opens a card with OK. Return
 // exits the app. Degrades cleanly in a desktop browser (arrow keys + Enter),
@@ -14,27 +14,23 @@
     }
   } catch (e) {}
 
-  var cards = [].slice.call(document.querySelectorAll("a.card"));
-  if (!cards.length) return;
-  var focusIndex = 0;
+  // Each category is its own carousel (one .row = one shelf of cards), so
+  // navigation is row/col rather than one flat index: left/right wrap within
+  // the current shelf (round robin), up/down move between shelves.
+  var rows = [].slice.call(document.querySelectorAll(".row")).map(function (row) {
+    return [].slice.call(row.querySelectorAll("a.card"));
+  }).filter(function (r) { return r.length; });
+  if (!rows.length) return;
+  var r = 0, c = 0;
 
-  // Columns per row, inferred from how many cards share the top row's offsetTop
-  // (the guide uses a responsive auto-fill grid, so this adapts to the panel).
-  function cols() {
-    var top = cards[0].offsetTop, n = 0;
-    for (var i = 0; i < cards.length; i++) {
-      if (cards[i].offsetTop !== top) break;
-      n++;
-    }
-    return Math.max(1, n);
-  }
-
-  function focus(i) {
-    focusIndex = Math.max(0, Math.min(cards.length - 1, i));
-    cards.forEach(function (c, j) { c.classList.toggle("tv-focus", j === focusIndex); });
-    var el = cards[focusIndex];
+  function focus() {
+    rows.forEach(function (row) {
+      row.forEach(function (card) { card.classList.remove("tv-focus"); });
+    });
+    var el = rows[r][c];
+    el.classList.add("tv-focus");
     el.focus({ preventScroll: true });
-    el.scrollIntoView({ block: "center", behavior: "smooth" });
+    el.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
   }
 
   function exit() {
@@ -45,18 +41,24 @@
   }
 
   document.addEventListener("keydown", function (e) {
-    var c = cols();
     switch (e.keyCode) {
-      case 39: focus(focusIndex + 1); break;   // right
-      case 37: focus(focusIndex - 1); break;   // left
-      case 40: focus(focusIndex + c); break;   // down
-      case 38: focus(focusIndex - c); break;   // up
-      case 13: location.href = cards[focusIndex].href; break;  // OK / Enter
-      case 10009: exit(); break;               // Return / Back
+      case 39: c = (c + 1) % rows[r].length; break;                  // right, wraps
+      case 37: c = (c - 1 + rows[r].length) % rows[r].length; break; // left, wraps
+      case 40:                                                       // down
+        r = Math.min(rows.length - 1, r + 1);
+        c = Math.min(c, rows[r].length - 1);
+        break;
+      case 38:                                                       // up
+        r = Math.max(0, r - 1);
+        c = Math.min(c, rows[r].length - 1);
+        break;
+      case 13: location.href = rows[r][c].href; break;                // OK / Enter
+      case 10009: exit(); break;                                      // Return / Back
       default: return;
     }
     e.preventDefault();
+    focus();
   });
 
-  focus(0);
+  focus();
 })();

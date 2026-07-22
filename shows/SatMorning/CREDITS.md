@@ -35,7 +35,7 @@ recordings and hosts no video content itself.
 
 The 09/13/1986 episode (`1986-09-13-abc-saturday-morning-popples-...`) runs
 about 6 hours — it's a combined ABC + NBC recording, genuinely that long,
-not a mistake. It's the single longest file across all five RetroTube
+not a mistake. It's the single longest file across all five VaultVision
 players. If very long archive.org streams turn out to be less reliable in
 practice, that's the one to suspect first.
 

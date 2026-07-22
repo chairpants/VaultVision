@@ -33,7 +33,7 @@ source has them rather than merged, so season 1 here is really "every
 part, in order," not 74 distinct one-off episodes. A bonus special is
 included as its own single-entry season 2.
 
-Unlike RetroTube's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
+Unlike VaultVision's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
 a multi-hour broadcast block — every entry is one full, self-contained
 file. So a quick REW/FF tap pages to the previous/next part instead of
 seeking within one (wrapping from the last entry back to the first and

@@ -40,7 +40,7 @@ bundled in the seasons 0-7 item, wasn't added to the episode lineup here.
 ## Cover art
 
 Logo pulled from Wikimedia Commons via the Wikipedia REST API, no API key
-needed — same source used for the rest of RetroTube's hub art.
+needed — same source used for the rest of VaultVision's hub art.
 
 ## Format note
 

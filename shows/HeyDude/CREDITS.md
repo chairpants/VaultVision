@@ -28,11 +28,11 @@ streams a publicly hosted recording and hosts no video content itself.
 ## Cover art
 
 Logo pulled from Wikimedia Commons via the Wikipedia REST API, no API key
-needed — same source used for the rest of RetroTube's hub art.
+needed — same source used for the rest of VaultVision's hub art.
 
 ## Format note
 
-Unlike RetroTube's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
+Unlike VaultVision's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
 a multi-hour broadcast block — every entry is one full, self-contained
 episode. So a quick REW/FF tap pages to the previous/next episode instead
 of seeking within one (wrapping from the last episode back to the first and

@@ -1,37 +1,169 @@
 <!doctype html>
 <meta charset="utf-8">
-<title>RetroTube</title>
+<title>VaultVision</title>
 <style>
   * { box-sizing: border-box; }
   body { margin: 0; height: 100vh; overflow: hidden; background: #000;
     transition: background .5s; }
   /* lights on: bright 3D room. Scoped off in flat mode — there the same
-     button/icon means something else (ambient on/off), see #corner below. */
+     button/icon means something else (ambient on/off), see #hud below.
+     #label no longer needs a color flip here: it now sits on #hud's own
+     dark backdrop, which stays dark regardless of room brightness. */
   body.lit:not(.flat) { background: #fff; }
   body.lit:not(.flat) #amb { display: none; }
-  body.lit:not(.flat) #label { color: #222; }
   /* flat mode: the lights button instead disables the ambient fill, its own
      setting entirely separate from 3D's room-lit toggle above */
   body.flat.ambientOff #amb { display: none; }
-  #back { position: fixed; top: 13px; left: 16px; color: #777; cursor: pointer;
-    z-index: 2; user-select: none; text-decoration: none; }
-  #back:hover { color: #aaa; }
-  body.lit:not(.flat) #back { color: #222; }
-  /* corner controls: a flex row anchored top-right so a hidden icon (cc/cast,
-     only shown when actually available) closes up instead of leaving a gap */
-  #corner { position: fixed; top: 13px; right: 16px; z-index: 2;
-    display: flex; flex-direction: row-reverse; gap: 18px; }
-  #corner > div { color: #777; cursor: pointer; user-select: none; position: relative; }
-  #corner > div svg { width: 26px; height: 26px; display: block; }
-  #cc, #cast { display: none; }
-  #corner > div:hover { color: #aaa; }
-  body.lit:not(.flat) #lights { color: #39ff14; }
-  #mode3d.on, #mode3d.on:hover { color: #39ff14; } /* on = currently in 3D mode */
-  #cc.on, #cc.on:hover { color: #39ff14; }
-  #cast.on, #cast.on:hover { color: #39ff14; }
+  /* matches the show-info screen's back button: a solid dark pill, so it
+     reads the same regardless of room brightness in 3D's "lit" mode —
+     no separate lit-mode color override needed any more. */
+  #back { position: fixed; top: 16px; left: 16px; width: 40px; height: 40px;
+    display: grid; place-items: center; border-radius: 50%; color: #e8def8;
+    background: #1c0f3a; border: 1px solid #b23bff40; cursor: pointer;
+    z-index: 3; user-select: none; text-decoration: none;
+    opacity: .95; transition: opacity .4s; }
+  #back:hover { border-color: #34e0ff; color: #34e0ff; }
+  /* fades with the HUD (same idle timer); 3D mode never hides it, matching
+     the settings/lights/3D-toggle buttons that also stay on there */
+  #back.idle { opacity: 0; pointer-events: none; }
+  body:not(.flat) #back.idle { opacity: .95; pointer-events: auto; }
+
+  /* bottom HUD: title + scrubber + timestamps + transport + volume + buttons,
+     one semi-transparent pane pinned to the bottom ~10% of the viewport, on
+     top of the video — flat mode only. In 3D mode the pane chrome and every
+     flat-only control disappear entirely (the physical cabinet already has
+     its own volume/seek buttons there); only settings/lights/3D-toggle stay
+     on screen, sitting at the same bottom-right spot #hudBtns occupies in
+     flat mode (see body:not(.flat) rules below), never auto-hiding. Accents
+     here use the main guide's neon-gradient palette; the OSD canvas
+     (settings/guide/popups) keeps its own green NEON — a separate "TV menu"
+     system this pane doesn't touch. */
+  #hud { position: fixed; left: 0; right: 0; bottom: 0; z-index: 2;
+    min-height: 112px; height: 12vh; max-height: 150px;
+    display: flex; flex-direction: column; justify-content: center; gap: 8px;
+    padding: 10px 20px; box-sizing: border-box;
+    opacity: .95; transition: opacity .4s; }
+  body.flat #hud { background: rgba(12, 10, 31, .82); backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px); border-top: 1px solid #b23bff40; }
+  #hud.idle { opacity: 0; pointer-events: none; }
+  /* 3D mode: ignore idle-fade entirely, the surviving buttons always stay on */
+  body:not(.flat) #hud.idle { opacity: .95; pointer-events: auto; }
+  /* everything except #hudBtns is flat-mode-only chrome. !important: #cc's
+     caption-loaded JS sets an inline display:block, which would otherwise
+     outrank this and leave CC visible in 3D mode. */
+  body:not(.flat) .flat-only { display: none !important; }
+  #label { max-width: 100%; overflow: hidden; white-space: nowrap;
+    font: 14px VCR, monospace; color: #e8def8; opacity: .85; }
+  #labelText { display: inline-block; }
+  /* only added when the text is wider than #label's clamped max-width;
+     the JS duplicates the text first so translateX(-50%) loops seamlessly */
+  #label.marquee #labelText { animation-name: marquee; animation-timing-function: linear;
+    animation-iteration-count: infinite; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  /* row 1: scrubber, on its own */
+  #scrubRow { display: flex; align-items: center; gap: 12px; }
+  #scrubRow .t { font: 12px VCR, monospace; color: #34e0ff; opacity: .9; min-width: 3.5em; }
+  #scrubRow .t.dur { text-align: right; }
+  /* row 2: transport (prev/play-pause/next, grouped) + volume + the rest */
+  #ctrlRow { display: flex; align-items: center; gap: 18px; }
+  #transportGroup { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+  .transport { color: #e8def8; cursor: pointer; user-select: none; position: relative; }
+  .transport svg { width: 28px; height: 28px; display: block; }
+  .transport:hover { color: #34e0ff; }
+  #playPause .ic-pause { display: none; }
+  #playPause.playing .ic-play { display: none; }
+  #playPause.playing .ic-pause { display: block; }
+  #scrub { flex: 1 1 auto; height: 16px; display: flex; align-items: center;
+    cursor: pointer; touch-action: none; }
+  #scrub .track { position: relative; width: 100%; height: 5px; border-radius: 3px;
+    background: #ffffff26; }
+  #scrub .fill { position: absolute; inset: 0; width: 0%; border-radius: 3px;
+    background: linear-gradient(90deg, #ff2d95, #b23bff, #34e0ff); }
+  #scrub .thumb { position: absolute; top: 50%; left: 0%; width: 13px; height: 13px;
+    border-radius: 50%; background: #34e0ff; transform: translate(-50%, -50%);
+    box-shadow: 0 0 8px #34e0ff99; }
+  #volSlider { width: 90px; accent-color: #34e0ff; flex: 0 0 auto; }
+  #hudBtns { display: flex; gap: 18px; flex: 0 0 auto; margin-left: auto; }
+  #cc { display: none; } /* shown once a captions track actually loads, see load() */
+  #hudBtns > div { color: #b6a9d6; cursor: pointer; user-select: none; position: relative; }
+  #hudBtns > div svg { width: 24px; height: 24px; display: block; }
+  #hudBtns > div:hover { color: #e8def8; }
+  #mode3d.on, #mode3d.on:hover { color: #34e0ff; } /* on = currently in 3D mode */
+  #cc.on, #cc.on:hover { color: #34e0ff; }
+  body.lit:not(.flat) #lights { color: #34e0ff; }
   /* flat mode, ambient disabled: cross out the lights icon */
   #lights .off-slash { display: none; position: absolute; inset: 0; }
   #lights.off .off-slash { display: block; }
+
+  /* flat-mode pause icon: neutral gray, centered, replaces the 3D-only green
+     corner bars so playback state doesn't lean on the reserved neon color */
+  #pauseIcon { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    z-index: 2; display: none; color: #ffffffb0; pointer-events: none; }
+  #pauseIcon.show { display: block; }
+  #pauseIcon svg { width: 64px; height: 64px; display: block;
+    filter: drop-shadow(0 2px 10px #00000090); }
+  /* buffering spinner: same in both modes, intentionally subtle */
+  #bufferSpin { position: fixed; top: 50%; left: 50%; width: 26px; height: 26px;
+    margin: -13px 0 0 -13px; z-index: 2; display: none; pointer-events: none;
+    border: 3px solid #ffffff30; border-top-color: #ffffff90; border-radius: 50%;
+    animation: bufferSpin .9s linear infinite; }
+  #bufferSpin.show { display: block; }
+  @keyframes bufferSpin { to { transform: rotate(360deg); } }
+
+  /* flat-mode settings panel: positioned above #hud (JS sets --hud-h to its
+     real measured height) so it never gets cut off by the pane underneath. */
+  #flatSettings { position: fixed; right: 20px; bottom: calc(var(--hud-h, 130px) + 16px);
+    z-index: 3; width: 300px; max-height: calc(100vh - var(--hud-h, 130px) - 48px);
+    overflow-y: auto; box-sizing: border-box; padding: 16px 18px;
+    background: rgba(12, 10, 31, .92); backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px); border: 1px solid #b23bff40; border-radius: 8px;
+    font: 14px VCR, monospace; color: #e8def8;
+    display: none; }
+  #flatSettings.open { display: block; }
+  #flatSettings h2 { margin: 0 0 12px; font-size: 1em; letter-spacing: 2px; color: #ff6fc7; }
+  .fsRow { display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; padding: 7px 4px; border-radius: 4px; }
+  .fsRow.fsFocus { background: #21123f; outline: 2px solid #b23bff; }
+  .fsRow input[type=range] { width: 130px; accent-color: #34e0ff; }
+  .fsRow input[type=checkbox] { accent-color: #34e0ff; width: 16px; height: 16px; }
+  #fsFooter { display: flex; gap: 10px; margin-top: 14px; }
+  #fsFooter button { flex: 1 1 auto; font: 13px VCR, monospace; letter-spacing: 1px;
+    padding: 8px; border-radius: 5px; border: 1px solid #b23bff40; cursor: pointer;
+    background: #1c0f3a; color: #e8def8; }
+  #fsFooter button:hover, #fsFooter button.fsFocus { border-color: #34e0ff; color: #34e0ff; }
+
+  /* flat-mode episode list: same corner/sizing rules as #flatSettings, just
+     wider (episode titles run long) and with a scrollable body instead of
+     a handful of setting rows. */
+  #flatEpisodes { position: fixed; right: 20px; bottom: calc(var(--hud-h, 130px) + 16px);
+    z-index: 3; width: 360px;
+    /* a fixed height (clamped for short viewports), not max-height — with only
+       max-height the panel shrinks to fit whatever the current season has,
+       so its top edge (and the scrollable area under your cursor) moves
+       every time you switch to a season with fewer episodes */
+    height: min(480px, calc(100vh - var(--hud-h, 130px) - 48px));
+    box-sizing: border-box; padding: 16px 18px 8px;
+    background: rgba(12, 10, 31, .92); backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px); border: 1px solid #b23bff40; border-radius: 8px;
+    font: 14px VCR, monospace; color: #e8def8;
+    display: none; flex-direction: column; }
+  #flatEpisodes.open { display: flex; }
+  #flatEpisodes h2 { margin: 0 0 12px; font-size: 1em; letter-spacing: 2px; color: #ff6fc7; flex: 0 0 auto; }
+  /* min-width: 0 is load-bearing here — a flex child defaults to min-width:
+     auto, which lets it grow past the panel to fit every tab instead of
+     clipping+scrolling internally. Without it overflow-x:auto never engages. */
+  #feTabs { display: flex; gap: 6px; overflow-x: auto; flex: 0 0 auto; min-width: 0;
+    margin-bottom: 8px; scrollbar-width: none; }
+  #feTabs::-webkit-scrollbar { display: none; }
+  #feTabs button { flex: 0 0 auto; font: 12px VCR, monospace; letter-spacing: 1px;
+    padding: 5px 10px; border-radius: 5px; border: 1px solid #b23bff40; cursor: pointer;
+    background: #1c0f3a88; color: #e8def8; opacity: .7; }
+  #feTabs button.active { opacity: 1; color: #ff6fc7; border-color: #ff2d95; }
+  #feBody { overflow-y: auto; flex: 1 1 auto; min-height: 0; padding-bottom: 8px; }
+  .feRow { padding: 8px 6px; border-radius: 4px; cursor: pointer; white-space: nowrap;
+    overflow: hidden; text-overflow: ellipsis; }
+  .feRow:hover, .feRow.feFocus { background: #21123f; outline: 2px solid #b23bff; }
+  .feRow.current { color: #34e0ff; }
   video::cue { color: #39ff14; background: rgba(0, 0, 0, .6);
     font-family: VCR, monospace; }
   #stage { position: absolute; inset: 0; }
@@ -43,7 +175,10 @@
   #screen video, #screen canvas { position: absolute; inset: 0;
     width: 100%; height: 100%; }
   #screen video { object-fit: fill; }
-  #screen { filter: url(#bulge); } /* CRT barrel bulge; delete to go flat */
+  /* CRT barrel bulge on the picture + OSD canvas — both should curve with the
+     glass. #fx's scanlines stay crisp on top: bulging their regular repeat
+     with the same displacement map turns it into moire/banding */
+  #screen video#v, #screen canvas { filter: url(#bulge); }
   #screen canvas { z-index: 1; }
   /* flat mode: default view, edge-to-edge video at its real aspect ratio.
      #screen gets pulled out of the CSS3D scene and centered here instead. */
@@ -67,18 +202,6 @@
   body.flat #amb { left: 0; top: 0; margin: 0; width: 100vw; height: 100vh;
     object-fit: cover; opacity: 1;
     -webkit-mask-image: none; mask-image: none; }
-  #label { position: fixed; left: 16px; bottom: 12px; max-width: calc(100vw - 32px);
-    overflow: hidden; white-space: nowrap; font: 14px VCR, monospace;
-    color: #39ff14; opacity: .7; transition: opacity .4s; }
-  #label.idle { opacity: 0; } /* faded out after 5s with no mouse movement */
-  #labelText { display: inline-block; }
-  /* only added when the text is wider than #label's clamped max-width;
-     the JS duplicates the text first so translateX(-50%) loops seamlessly */
-  #label.marquee #labelText { animation-name: marquee; animation-timing-function: linear;
-    animation-iteration-count: infinite; }
-  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-  #start { position: fixed; inset: 0; display: grid; place-items: center;
-    font: 2em sans-serif; color: #ccc; cursor: pointer; background: #111c; z-index: 1; }
   /* glass effects: faint scanlines + corner vignette — display-only */
   #fx { position: absolute; inset: 0; z-index: 2; pointer-events: none;
     background:
@@ -108,20 +231,64 @@
                        divisor="1" preserveAlpha="true" edgeMode="duplicate"/>
   </filter>
 </svg>
-<a id="back" href="../index.html" title="All Shows"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
-<div id="label"><span id="labelText"></span></div>
-<div id="corner">
-<div id="lights" title="Lights">
-  <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>
-  <svg class="off-slash" viewBox="0 0 24 24"><line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="2"/></svg>
-</div>
-<div id="mode3d" title="3D TV mode"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg></div>
-<div id="cc" title="Closed captions"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H5V6h14v12zM7 15h3c.55 0 1-.45 1-1v-1H9.5v.5h-2v-3h2v.5H11v-1c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm7 0h3c.55 0 1-.45 1-1v-1h-1.5v.5h-2v-3h2v.5H18v-1c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg></div>
-<div id="cast" title="Cast to a TV"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v3h2V5h18v14h-7v2h7c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11z"/></svg></div>
-<div id="settingsBtn" title="Settings"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></div>
+<a id="back" href="../index.html" title="Back"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
+<div id="hud">
+  <div id="label" class="flat-only"><span id="labelText"></span></div>
+  <div id="scrubRow" class="flat-only">
+    <span class="t cur" id="curT">0:00</span>
+    <div id="scrub"><div class="track"><div class="fill" id="scrubFill"></div><div class="thumb" id="scrubThumb"></div></div></div>
+    <span class="t dur" id="durT">0:00</span>
+  </div>
+  <div id="ctrlRow">
+    <div id="transportGroup" class="flat-only">
+      <div id="prev" class="transport" title="Previous episode"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></div>
+      <div id="playPause" class="transport" title="Play / Pause">
+        <svg class="ic-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></svg>
+        <svg class="ic-pause" viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      </div>
+      <div id="next" class="transport" title="Next episode"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></div>
+    </div>
+    <input type="range" id="volSlider" class="flat-only" min="0" max="1" step="0.01" title="Volume">
+    <div id="hudBtns">
+      <div id="episodesBtn" class="flat-only" title="Episodes"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 10h4v4H4zm0-6h4v4H4zm0 12h4v4H4zm6-6h10v4H10zm0-6h10v4H10zm0 12h10v4H10z"/></svg></div>
+      <div id="settingsBtn" title="Settings"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg></div>
+      <div id="cc" class="flat-only" title="Closed captions"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M19 4H5c-1.11 0-2 .9-2 2v12c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H5V6h14v12zM7 15h3c.55 0 1-.45 1-1v-1H9.5v.5h-2v-3h2v.5H11v-1c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm7 0h3c.55 0 1-.45 1-1v-1h-1.5v.5h-2v-3h2v.5H18v-1c0-.55-.45-1-1-1h-3c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1z"/></svg></div>
+      <div id="lights" title="Lights">
+        <svg viewBox="0 0 24 24"><path fill="currentColor" d="M9 21c0 .55.45 1 1 1h4c.55 0 1-.45 1-1v-1H9v1zm3-19C8.14 2 5 5.14 5 9c0 2.38 1.19 4.47 3 5.74V17c0 .55.45 1 1 1h6c.55 0 1-.45 1-1v-2.26c1.81-1.27 3-3.36 3-5.74 0-3.86-3.14-7-7-7zm2.85 11.1l-.85.6V16h-4v-2.3l-.85-.6C7.8 12.16 7 10.63 7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 1.63-.8 3.16-2.15 4.1z"/></svg>
+        <svg class="off-slash" viewBox="0 0 24 24"><line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="2"/></svg>
+      </div>
+      <div id="mode3d" title="3D TV mode"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg></div>
+    </div>
+  </div>
 </div>
 
-<div id="start">&#9654; click to turn on</div>
+<!-- flat-mode pause icon: replaces the 3D canvas's green corner bars with a
+     centered, neutral one — see drawOSD()'s pause-bars block for the 3D twin -->
+<div id="pauseIcon"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg></div>
+<!-- buffering: a small, barely-there spinner — same in both modes, see the
+     'waiting' listener above for why this needs to exist (archive.org cold-starts) -->
+<div id="bufferSpin"></div>
+
+<!-- flat-mode-only settings panel: real DOM controls skinned to match the
+     HUD, sized/positioned to sit above it instead of getting cut off by it.
+     3D mode keeps the original canvas-drawn settings menu untouched. -->
+<div id="flatSettings">
+  <h2>Settings</h2>
+  <div id="fsBody"></div>
+  <div id="fsFooter">
+    <button id="fsReset" type="button">Reset</button>
+    <button id="fsClose" type="button">Close</button>
+  </div>
+</div>
+
+<!-- flat-mode-only episode list: same treatment as #flatSettings above.
+     3D mode keeps the original canvas-drawn guide untouched. -->
+<div id="flatEpisodes">
+  <h2>Episodes</h2>
+  <div id="feTabs"></div>
+  <div id="feBody"></div>
+</div>
+
 <script type="importmap">
 { "imports": {
   "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
@@ -148,6 +315,7 @@ if (!showId) {
   fatal('No show specified. Use viewer.html?show=<ShowId>');
   throw new Error('missing ?show=');
 }
+back.href = `../show.html?show=${encodeURIComponent(showId)}`; // one step back: the show's episode list, not the top-level guide
 let SHOW;
 try {
   // a classic script tag, not import() — unlike ES modules, this loads fine
@@ -233,8 +401,8 @@ const epKey = ([id, , file]) => file ? id + '::' + file : id;
 }
 
 // note: DOM elements are referenced through their id globals throughout —
-// v = the screen <video>, amb = ambilight twin, cc/cast/lights = corner
-// buttons, label = episode title, stage = 3D container, start = click-to-play
+// v = the screen <video>, amb = ambilight twin, cc/lights/mode3d/settingsBtn
+// = HUD buttons, label = episode title, stage = 3D container
 let epIndex = 0, partIndex = 0, fails = 0, loadRetry = 0, bufferingSince = 0, thumbs = [];
 
 // watch progress: best-effort localStorage (losing it just means starting fresh)
@@ -244,13 +412,32 @@ try {
   if (EPISODES[s.i]) { epIndex = s.i; resumeT = s.t || 0; }
   watched = new Set(s.w || []);
 } catch {}
-setInterval(() => {
-  if (!v.duration || v.paused) return;
+// explicit episode pick (from the show info screen) overrides whatever was
+// resumed — picking S02E05 means "play that", not "continue where I left off".
+// absent ?ep= must leave epIndex alone: get() returns null, and +null is 0,
+// which would otherwise silently force every plain link back to episode 0.
+const epParamRaw = new URLSearchParams(location.search).get('ep');
+if (epParamRaw !== null) {
+  const epParam = +epParamRaw;
+  if (Number.isInteger(epParam) && EPISODES[epParam]) { epIndex = epParam; resumeT = 0; }
+}
+// factored out so a real navigate-away (pagehide, below) can also force a
+// save — otherwise the periodic timer's 5s granularity means the *last*
+// saved t is always >= ~5s even for a session that lasted 2, which made the
+// guide's "barely started, don't resume it" check unable to ever fire
+function saveProgress() {
+  if (!v.duration) return;
   if (vCur() > vDur() * 0.9) watched.add(epKey(EPISODES[epIndex]));
   try {
     localStorage[SHOW.storageProgressKey] =
-      JSON.stringify({ i: epIndex, t: vCur(), w: [...watched] }); // t is virtual (spans all parts)
+      // ts lets the guide's Resume row sort by most-recently-watched
+      JSON.stringify({ i: epIndex, t: vCur(), w: [...watched], ts: Date.now() }); // t is virtual (spans all parts)
   } catch {}
+}
+addEventListener('pagehide', saveProgress);
+setInterval(() => {
+  if (v.paused) return;
+  saveProgress();
 }, 5000);
 // archive.org filenames can include a folder path (nested "directories"
 // inside one item) — encode each path segment on its own so a literal '/'
@@ -299,8 +486,17 @@ async function load() {
   applyCrop(); // per-episode: seasons may crop differently (or not at all)
   try {
     const meta = await (await fetch('https://archive.org/metadata/' + id)).json();
+    // a fileHint naming a non-web container (.mkv originals, mainly) can't just
+    // be played as-is — the video track often decodes fine but the audio codec
+    // (AC3/DTS in most mkv rips) doesn't, so it silently plays picture-only.
+    // archive.org auto-generates a same-named .mp4 derivative for these on
+    // upload; prefer that when one exists, and only fall back to the exact
+    // hint (still better than nothing) if it doesn't.
+    const needsDerivative = fileHint && !/\.(mp4|webm|ogv)$/i.test(fileHint);
+    const derivativeName = needsDerivative && fileHint.replace(/\.[^./]+$/, '.mp4');
     const file = fileHint
-      ? meta.files.find(f => f.name === fileHint)
+      ? (needsDerivative && meta.files.find(f => f.name === derivativeName)) ||
+        meta.files.find(f => f.name === fileHint)
       : meta.files.find(f => /\.mp4$/i.test(f.name)) ??
         meta.files.find(f => /\.(ogv|webm)$/i.test(f.name));
     if (!file) throw new Error('no playable file');
@@ -342,7 +538,19 @@ async function load() {
     else tr.onload = () => cc.style.display = 'block';
     v.append(tr);
     tr.track.mode = ccOn ? 'showing' : 'hidden';
-    await v.play();
+    try {
+      await v.play();
+    } catch (playErr) {
+      // selecting the episode from the guide is already the "turn it on" click,
+      // so we autoplay straight away — but a strict autoplay policy can still
+      // reject sound-on playback here. Muted autoplay is always allowed, so
+      // fall back to that and unmute on the viewer's first input.
+      if (playErr.name !== 'NotAllowedError') throw playErr;
+      v.muted = true;
+      await v.play();
+      addEventListener('pointerdown', () => v.muted = false, { once: true });
+      addEventListener('keydown', () => v.muted = false, { once: true });
+    }
     if (seekLocal > 0) v.currentTime = seekLocal; // resume, within the mapped part
     else if (partIndex === 0 && SHOW.introSkipSeconds) v.currentTime = SHOW.introSkipSeconds; // intro skip: first part only
     fails = 0;
@@ -469,7 +677,6 @@ setInterval(() => {
   if (!v.paused && Math.abs(amb.currentTime - v.currentTime) > 0.75)
     amb.currentTime = v.currentTime;
 }, 3000);
-start.onclick = () => { start.remove(); load(); };
 let ccOn = false;
 function setCC(on) { // shared by the corner CC badge and the SETTINGS menu
   ccOn = on;
@@ -479,24 +686,19 @@ function setCC(on) { // shared by the corner CC badge and the SETTINGS menu
   window.onCCChange?.(on); // keep the persisted setting in sync
 }
 cc.onclick = () => setCC(!ccOn);
-// cast: browser-native Remote Playback picker; sends the raw video stream
-// to the device, so the 3D set stays local. Button shows green while casting.
-if ('remote' in v) {
-  cast.style.display = 'block'; // css default is display:none
-  let flashT;
-  const flash = msg => { // borrow the corner label to explain a failed cast
-    setLabel(msg);
-    clearTimeout(flashT);
-    flashT = setTimeout(() => setLabel(EPISODES[epIndex][1]), 2500);
-  };
-  cast.onclick = () => v.remote.prompt().catch(e => {
-    if (e.name === 'NotAllowedError') return; // user closed the picker themselves
-    flash(e.name === 'NotFoundError' ? 'NO CAST DEVICES FOUND'
-        : 'CASTING NOT SUPPORTED IN THIS BROWSER');
-  });
-  v.remote.onconnect = () => cast.classList.add('on');
-  v.remote.ondisconnect = () => cast.classList.remove('on');
-}
+
+// flat-mode transport + volume: the HUD's own buttons, replacing the old
+// click-the-video-edge hotzones (disabled in flat mode below, in getDir/getVolDir)
+prev.onclick = () => { chunk(-1); if (SEGKIND !== 'none') popup('ch'); };
+next.onclick = () => { chunk(1); if (SEGKIND !== 'none') popup('ch'); };
+playPause.onclick = () => v.paused ? v.play() : v.pause();
+const syncPlayIcon = () => playPause.classList.toggle('playing', !v.paused);
+v.addEventListener('play', syncPlayIcon);
+v.addEventListener('pause', syncPlayIcon);
+syncPlayIcon();
+volSlider.value = v.volume;
+volSlider.oninput = () => v.volume = +volSlider.value;
+v.addEventListener('volumechange', () => volSlider.value = v.volume); // stays in sync with Up/Down-key volume too
 
 // css3d layer (the video) first, transparent webgl canvas on top of it:
 // the punched-out screen hole lets the video show through, and the opaque
@@ -507,7 +709,7 @@ const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(devicePixelRatio);
 renderer.domElement.style.position = 'absolute';
 renderer.domElement.style.inset = '0';
-renderer.domElement.style.zIndex = '1'; // above #flatScreen, below corner buttons
+renderer.domElement.style.zIndex = '1'; // above #flatScreen, below #hud/#back
 stage.append(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -597,6 +799,7 @@ function setFlatMode(on) {
   document.body.classList.toggle('flat', on);
   mode3d.classList.toggle('on', !on);
   controls.enabled = !on;
+  if (!on && flatSettingsOpen) closeFlatSettings(); // leaving flat mode: its DOM panel doesn't apply in 3D
   // stopping cssR/renderer.render() while flat leaves the canvas showing its
   // last-drawn 3D frame; hide it (it still receives input, opacity doesn't
   // affect that) instead of clearing, so the last frame is ready to show
@@ -625,6 +828,7 @@ function setFlatMode(on) {
 }
 mode3d.onclick = () => setFlatMode(!flatMode);
 settingsBtn.onclick = toggleSettingsMenu;
+episodesBtn.onclick = toggleList;
 
 // on-screen display: DOM canvas stacked on the video inside the same 3D element
 const osd = Object.assign(document.createElement('canvas'), { width: 800, height: 600 });
@@ -830,8 +1034,11 @@ function updateScreenFilters() {
   // bulge is always on in 3D (that's the point of the CRT look) and always
   // off in flat mode (nothing to apply it to) — not a user setting anymore.
   // sharpen applies in both modes — it's a picture-quality fix, not a look.
-  document.getElementById('screen').style.filter =
-    colorStr + sharpStr + (!flatMode ? ' url(#bulge)' : '');
+  // applied to the video + OSD canvas, not #screen as a whole — bulging
+  // #fx's scanlines with them warps their regular repeat into moire/banding
+  const screenFilter = colorStr + sharpStr + (!flatMode ? ' url(#bulge)' : '');
+  v.style.filter = screenFilter;
+  osd.style.filter = screenFilter;
   document.getElementById('fx').style.display = settings.fxEnabled ? 'block' : 'none';
   // no sharpen here: #amb is already blurred 100px, any edge contrast the
   // kernel adds would be immediately washed back out
@@ -865,17 +1072,156 @@ const SETTINGS_ROWS = [
   { k: 'reset', y: 570, type: 'action', bx: 250 },
   { k: 'close', y: 570, type: 'action', bx: 410 },
 ];
+
+// flat-mode settings panel: real DOM controls generated from SETTINGS_ROWS
+// (skipping the two 'action' rows — reset/close are the fixed footer
+// buttons instead) so the two menus can never drift out of sync with each
+// other over which settings exist.
+const SETTING_LABELS = {
+  overlayEnabled: 'Overlay', fxEnabled: 'FX', pixelated: 'Pixelated',
+  captionsEnabled: 'Captions', brightness: 'Brightness', contrast: 'Contrast',
+  saturate: 'Saturate', hueRotate: 'Hue Rotate', sharpen: 'Sharpen',
+};
+const fsInputs = {}; // settings key -> its <input>, for refreshFlatSettingsUI()
+for (const r of SETTINGS_ROWS) {
+  if (r.type === 'action') continue;
+  // 'overlay' dims the canvas behind the OSD-drawn 3D menus so their text
+  // reads over the video — meaningless here, the flat panel is a real DOM
+  // element with its own solid background
+  if (r.k === 'overlayEnabled') continue;
+  const row = document.createElement('label');
+  row.className = 'fsRow';
+  const name = document.createElement('span');
+  name.textContent = SETTING_LABELS[r.k] || r.k;
+  const input = document.createElement('input');
+  if (r.type === 'check') {
+    input.type = 'checkbox';
+    input.onchange = () => { settings[r.k] = input.checked; updateScreenFilters(); };
+  } else {
+    input.type = 'range';
+    input.min = r.min; input.max = r.max; input.step = r.step;
+    input.oninput = () => { settings[r.k] = +input.value; updateScreenFilters(); };
+  }
+  fsInputs[r.k] = input;
+  row.append(name, input);
+  fsBody.append(row);
+}
+function refreshFlatSettingsUI() {
+  for (const k in fsInputs) {
+    const el = fsInputs[k];
+    if (el.type === 'checkbox') el.checked = settings[k]; else el.value = settings[k];
+  }
+}
+const fsRows = [...Object.values(fsInputs), fsReset, fsClose]; // D-pad focus order
+let flatSettingsOpen = false, fsSel = 0;
+function fsFocusRow() {
+  // inputs show focus on their wrapping .fsRow (a full-width highlight reads
+  // better than outlining a lone checkbox); reset/close highlight themselves
+  fsRows.forEach((el, i) => {
+    const target = el.tagName === 'INPUT' ? el.parentElement : el;
+    target.classList.toggle('fsFocus', i === fsSel);
+  });
+  fsRows[fsSel].scrollIntoView({ block: 'nearest' });
+}
+function openFlatSettings() {
+  if (flatEpisodesOpen) closeFlatEpisodes(); // the two flat panels share the same corner — never both open
+  refreshFlatSettingsUI();
+  document.documentElement.style.setProperty('--hud-h', hud.offsetHeight + 'px');
+  flatSettingsOpen = true;
+  flatSettings.classList.add('open');
+  fsSel = 0;
+  fsFocusRow();
+}
+function closeFlatSettings() {
+  flatSettingsOpen = false;
+  flatSettings.classList.remove('open');
+}
+fsReset.onclick = () => { resetSettings(); refreshFlatSettingsUI(); };
+fsClose.onclick = closeFlatSettings;
+
+// flat-mode episode list: same treatment as the settings panel — a real DOM
+// list skinned to match, replacing the canvas-drawn guide for flat mode only.
+// Reuses listLabel()/SEASONS/EPISODES as-is, so film/merged-episode/watched
+// formatting stays identical to the 3D version; only the current season's
+// rows are ever in the DOM (episode counts run past 300 on some shows).
+let flatEpisodesOpen = false, feSel = 0, feSeason = 0;
+let feRows = []; // current season's row elements, D-pad focus order
+function feRenderTabs() {
+  feTabs.innerHTML = '';
+  if (GROUPING !== 'season' || SEASONS.length <= 1) return;
+  SEASONS.forEach((s, i) => {
+    const b = document.createElement('button');
+    b.textContent = SHOW.seasonNames?.[s.season] || ('Season ' + s.season);
+    b.className = i === feSeason ? 'active' : '';
+    b.onclick = () => feSelectSeason(i);
+    feTabs.append(b);
+  });
+  feTabs.children[feSeason]?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+}
+// listLabel() (shared with the 3D canvas list) only ever shows the season
+// code for grouping:'season' shows — the canvas has no room/marquee support
+// for a name there. This panel does, so surface the name when data.js has
+// one (titles are "<SHOW> - <CODE> - <name>"; not every show has a <name>).
+function feLabel(n) {
+  if (SEGKIND === 'film' || GROUPING !== 'season') return listLabel(n).replace(/^>\s*/, '');
+  const [, title] = EPISODES[n];
+  const name = title.split(' - ').slice(2).join(' - ');
+  const key = epKey(EPISODES[n]);
+  const d = durOf(n);
+  return episodeCode(n) + (name ? '  ' + name : '') + (d ? '  ' + hhmm(d) : '') + (watched.has(key) ? ' *' : '');
+}
+function feSelectSeason(i) {
+  feSeason = Math.max(0, Math.min(SEASONS.length - 1, i));
+  feRenderTabs();
+  const indices = GROUPING === 'season' ? SEASONS[feSeason].indices : EPISODES.map((_, n) => n);
+  feBody.innerHTML = '';
+  feRows = indices.map(n => {
+    const row = document.createElement('div');
+    row.className = 'feRow' + (n === epIndex ? ' current' : '');
+    row.textContent = feLabel(n);
+    row.title = row.textContent; // full text on hover, in case it's clipped
+    row.onclick = () => { epIndex = n; partIndex = 0; fails = 0; load(); closeFlatEpisodes(); };
+    feBody.append(row);
+    return row;
+  });
+  feSel = Math.max(0, feRows.findIndex(r => r.classList.contains('current')));
+  feFocusRow();
+}
+function feFocusRow() {
+  feRows.forEach((r, i) => r.classList.toggle('feFocus', i === feSel));
+  feRows[feSel]?.scrollIntoView({ block: 'nearest' });
+}
+function openFlatEpisodes() {
+  if (flatSettingsOpen) closeFlatSettings(); // the two flat panels share the same corner — never both open
+  document.documentElement.style.setProperty('--hud-h', hud.offsetHeight + 'px');
+  flatEpisodesOpen = true;
+  flatEpisodes.classList.add('open');
+  feSeason = GROUPING === 'season' ? Math.max(0, SEASONS.findIndex(g => g.indices.includes(epIndex))) : 0;
+  feSelectSeason(feSeason);
+}
+function closeFlatEpisodes() {
+  flatEpisodesOpen = false;
+  flatEpisodes.classList.remove('open');
+}
 // canvas is 800 wide; 60px left margin to match where text starts, 40px
 // right margin — same width budget the "ch" popup and the corner label
 // marquee both measure against
 const CH_AVAIL_WIDTH = 700;
 const popup = m => {
   if (osdMode === 'list' || osdMode === 'set') return;
+  // flat mode already shows the title in the HUD (and its own palette) —
+  // the canvas "now playing" flash is 3D-only from here on
+  if (flatMode && m === 'ch') return;
   osdMode = m; osdStart = performance.now();
   osdUntil = osdStart + 1500; // 'ch' extends this itself in drawOSD if the name is long
 };
 let listClosedAt = 0;
 function toggleList() {
+  // flat mode gets its own DOM episode list (see #flatEpisodes); the
+  // canvas-drawn guide below is unchanged and 3D-mode-only. Same fork
+  // toggleSettingsMenu() uses, so Red key / right-click / the GUIDE cabinet
+  // button (3D-only anyway) and this new HUD button all route correctly.
+  if (flatMode) { flatEpisodesOpen ? closeFlatEpisodes() : openFlatEpisodes(); return; }
   if (osdMode === 'list') { osdMode = null; listClosedAt = performance.now(); hoveredRow = null; }
   else {
     if (GROUPING === 'season') {
@@ -901,6 +1247,9 @@ function gotoSeason(d) {
   centerOnCurrent();
 }
 function toggleSettingsMenu() {
+  // flat mode gets its own DOM settings panel (see #flatSettings); the
+  // canvas-drawn menu below is unchanged and 3D-mode-only
+  if (flatMode) { flatSettingsOpen ? closeFlatSettings() : openFlatSettings(); return; }
   osdMode = osdMode === 'set' ? null : 'set';
   controls.enableZoom = osdMode !== 'set';
 }
@@ -1066,19 +1415,17 @@ function drawOSD() {
     octx.fillText(`${fmt(holdTime)} / ${fmt(vDur())}`, 400, 560);
     drew = true;
   }
-  if (v.src && v.paused && osdMode !== 'list') { // pause bars, top-right corner
+  if (!flatMode && v.src && v.paused && osdMode !== 'list') { // pause bars, top-right corner (3D only — flat mode uses #pauseIcon, a centered DOM icon)
     octx.fillStyle = NEON;
     octx.fillRect(680, 60, 16, 50); octx.fillRect(708, 60, 16, 50);
     drew = true;
   }
-  if (bufferingSince && performance.now() - bufferingSince > 600 && osdMode !== 'list' && osdMode !== 'set') {
-    // archive.org's cold-start delay (see the 'waiting' listener above) can
-    // run 15-20+ seconds; without this the screen just sits black the whole
-    // time and looks broken instead of just slow
-    octx.fillStyle = NEON; octx.font = '28px VCR, monospace'; octx.textAlign = 'center';
-    octx.fillText('BUFFERING' + '.'.repeat(1 + Math.floor(performance.now() / 400) % 3), 400, 300);
-    drew = true;
-  }
+  // flat mode's pause icon (DOM, not canvas) mirrors the same condition
+  pauseIcon.classList.toggle('show', flatMode && v.src && v.paused && osdMode !== 'list');
+  // buffering: a small DOM spinner now, in both modes — see the 'waiting'
+  // listener above for why this needs to exist at all (archive.org cold-starts)
+  bufferSpin.classList.toggle('show',
+    !!bufferingSince && performance.now() - bufferingSince > 600 && osdMode !== 'list' && osdMode !== 'set');
   // hover cues: fade in/out over the click zones so their function is discoverable
   for (const z in hoverA) hoverA[z] += ((hoverZone === z ? 1 : 0) - hoverA[z]) * 0.12;
   if (osdMode !== 'list') {
@@ -1117,6 +1464,9 @@ renderer.domElement.addEventListener('mousemove', e => {
     if (row !== hoveredRow) { hoveredRow = row; hoverRowSince = performance.now(); }
     return;
   }
+  // flat mode has real buttons in the HUD now — these edge cues (and the
+  // clicks behind them, see getDir/getVolDir) are 3D-mode-only
+  if (flatMode) return;
   const hit = pick(e);
   if (hit && hit.object === screenMesh) {
     const u = hit.uv.x, y = 1 - hit.uv.y;
@@ -1199,6 +1549,37 @@ renderer.domElement.addEventListener('dblclick', () => {
 let holdDir = 0, holdTime = 0, isHolding = false, holdTimer, holdStart;
 let volDir = 0, holdVol = 0, isHoldingVol = false, volTimer;
 let pauseTimer; // delays play/pause so a double-click can cancel it
+
+// keyboard/remote hold-to-seek: Left/Right (and the Rewind/FF codes some
+// remotes send instead) already mean "previous/next episode" on a tap — a
+// sustained hold reuses the exact same holdDir/holdTime/isHolding state the
+// mouse path uses (see getDir()'s pointerdown/pointerup below and the
+// isHolding ramp in the render loop), so the scrubber and the accel curve
+// both just work without duplicating that logic. Detected by wall-clock time
+// between keydown and keyup rather than the native `repeat` flag — more
+// portable across browsers/TV webviews than trusting OS auto-repeat timing.
+let seekHoldKey = 0, seekHoldTimer = null;
+function seekKeyDown(K, dir) {
+  if (seekHoldKey === K) return; // OS auto-repeat while already tracking this key: ignore
+  seekHoldKey = K;
+  holdDir = dir; holdTime = vCur(); holdStart = performance.now();
+  seekHoldTimer = setTimeout(() => { isHolding = true; }, 300);
+}
+function seekKeyUp(K, dir) {
+  if (seekHoldKey !== K) return;
+  seekHoldKey = 0;
+  clearTimeout(seekHoldTimer);
+  if (isHolding) {
+    seekVirtual(holdTime); // maps across parts if a merged episode's seam was crossed
+    isHolding = false; holdDir = 0;
+  } else {
+    chunk(dir); if (SEGKIND !== 'none') popup('ch'); // quick tap: unchanged existing behavior
+  }
+}
+addEventListener('keyup', e => {
+  if (e.keyCode === 39 || e.keyCode === 417) seekKeyUp(e.keyCode, 1);
+  else if (e.keyCode === 37 || e.keyCode === 412) seekKeyUp(e.keyCode, -1);
+});
 const fmt = s => {
   if (!s) return '00:00:00';
   const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, s2 = Math.floor(s % 60);
@@ -1212,7 +1593,10 @@ function getDir(e) {
   if (osdMode === 'list' || osdMode === 'set') return 0;
   const hit = pick(e);
   if (!hit) return 0;
-  if (hit.object === screenMesh) {
+  // flat mode has its own << / >> buttons in the HUD now, so the invisible
+  // screen-edge click zone is redundant there — 3D mode keeps it, since it
+  // has no HUD (see #hud's body:not(.flat) rules)
+  if (!flatMode && hit.object === screenMesh) {
     const u = hit.uv.x;
     if (u < 0.115) return -1;
     if (u > 0.885) return 1;
@@ -1231,7 +1615,8 @@ function getVolDir(e) {
   if (osdMode === 'list' || osdMode === 'set') return 0;
   const hit = pick(e);
   if (!hit) return 0;
-  if (hit.object === screenMesh) {
+  // flat mode has its own volume slider in the HUD now — see getDir() above
+  if (!flatMode && hit.object === screenMesh) {
     const u = hit.uv.x, y = 1 - hit.uv.y;
     if (y < 0.115 && u > 0.23 && u < 0.77) return 1;
     if (y > 0.885 && u > 0.23 && u < 0.77) return -1;
@@ -1289,18 +1674,7 @@ renderer.domElement.addEventListener('pointerup', e => {
       if (x > 410 && x < 550) { osdMode = null; controls.enableZoom = true; }
       return;
     }
-    const rows = [
-      { k: 'overlayEnabled', y: 140, type: 'check' },
-      { k: 'fxEnabled', y: 190, type: 'check' },
-      { k: 'pixelated', y: 240, type: 'check' },
-      { k: 'captionsEnabled', y: 290, type: 'check' },
-      { k: 'brightness', y: 340, min: 50, max: 150 },
-      { k: 'contrast', y: 380, min: 50, max: 150 },
-      { k: 'saturate', y: 420, min: 0, max: 200 },
-      { k: 'hueRotate', y: 460, min: 0, max: 360 },
-      { k: 'sharpen', y: 500, min: 0, max: 100 },
-    ];
-    const row = rows.find(r => y > r.y - 30 && y < r.y + 10);
+    const row = SETTINGS_ROWS.find(r => r.type !== 'action' && y > r.y - 30 && y < r.y + 10);
     if (row) {
       if (row.type === 'check') {
         settings[row.k] = !settings[row.k];
@@ -1375,6 +1749,24 @@ addEventListener('resize', size);
 // over a UI element like a corner button that's on top of the canvas
 let lastMoveTime = performance.now();
 addEventListener('mousemove', () => { lastMoveTime = performance.now(); });
+addEventListener('keydown', () => { lastMoveTime = performance.now(); }); // remote input wakes the HUD too
+
+// scrubber: click or drag anywhere on the bar to seek immediately (unlike the
+// mouse hold-to-scrub on the 3D screen edges, a literal progress bar is
+// expected to seek on drag, not after a hold delay)
+let scrubDragging = false;
+function scrubSeek(e) {
+  const r = scrub.getBoundingClientRect();
+  const frac = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+  seekVirtual(frac * vDur());
+}
+scrub.addEventListener('pointerdown', e => {
+  scrubDragging = true;
+  scrub.setPointerCapture(e.pointerId);
+  scrubSeek(e);
+});
+scrub.addEventListener('pointermove', e => { if (scrubDragging) scrubSeek(e); });
+scrub.addEventListener('pointerup', () => { scrubDragging = false; });
 size();
 loadSettings();
 setFlatMode(!settings.mode3d); // restore persisted mode, default flat
@@ -1438,10 +1830,41 @@ const CLOSE_SET = () => { osdMode = null; controls.enableZoom = true; };
 
 addEventListener('keydown', e => {
   const K = e.keyCode;
-  const startEl = document.getElementById('start');
-  // before playback begins, OK/Play is the "turn on" gesture (replaces the click)
-  if (startEl && (K === 13 || K === 10252 || K === 415)) {
-    startEl.remove(); load(); e.preventDefault(); return;
+
+  // --- flat-mode settings panel open: same shape as the 3D 'set' block
+  // below, just driving real <input> elements instead of canvas coordinates ---
+  if (flatSettingsOpen) {
+    const el = fsRows[fsSel];
+    switch (K) {
+      case 38: fsSel = Math.max(0, fsSel - 1); fsFocusRow(); break;             // up
+      case 40: fsSel = Math.min(fsRows.length - 1, fsSel + 1); fsFocusRow(); break; // down
+      case 37:                                                                   // left -> decrease/toggle
+        if (el.type === 'range') { el.value = Math.max(+el.min, +el.value - +el.step); el.dispatchEvent(new Event('input')); }
+        else if (el.type === 'checkbox') el.click();
+        break;
+      case 39:                                                                   // right -> increase/toggle
+        if (el.type === 'range') { el.value = Math.min(+el.max, +el.value + +el.step); el.dispatchEvent(new Event('input')); }
+        else if (el.type === 'checkbox') el.click();
+        break;
+      case 13: case 10252: case 415: el.click(); break;                          // OK
+      case 405: case 10009: case 27: case 83: closeFlatSettings(); break;        // Yellow/Back/Esc/s
+      default: return;
+    }
+    e.preventDefault(); return;
+  }
+
+  // --- flat-mode episode list open: same shape as the 3D 'list' block below ---
+  if (flatEpisodesOpen) {
+    switch (K) {
+      case 38: feSel = Math.max(0, feSel - 1); feFocusRow(); break;                    // up
+      case 40: feSel = Math.min(feRows.length - 1, feSel + 1); feFocusRow(); break;    // down
+      case 37: if (GROUPING === 'season' && SEASONS.length > 1) feSelectSeason(feSeason - 1); break; // left -> prev season
+      case 39: if (GROUPING === 'season' && SEASONS.length > 1) feSelectSeason(feSeason + 1); break; // right -> next season
+      case 13: case 10252: case 415: feRows[feSel]?.click(); break;                    // OK -> play it
+      case 403: case 10009: case 27: case 71: closeFlatEpisodes(); break;              // Red/Back/Esc/g -> close
+      default: return;
+    }
+    e.preventDefault(); return;
   }
 
   // --- episode guide open: the D-pad walks the list ---
@@ -1478,10 +1901,10 @@ addEventListener('keydown', e => {
       v.paused ? v.play() : v.pause(); break;
     case 19:                         // Pause
       v.pause(); break;
-    case 39: case 417:               // Right / FastForward -> next episode/show
-      chunk(1); if (SEGKIND !== 'none') popup('ch'); break;
-    case 37: case 412:               // Left / Rewind -> previous
-      chunk(-1); if (SEGKIND !== 'none') popup('ch'); break;
+    case 39: case 417:               // Right / FastForward -> tap: next episode; hold: scrub
+      seekKeyDown(K, 1); break;
+    case 37: case 412:               // Left / Rewind -> tap: previous episode; hold: scrub
+      seekKeyDown(K, -1); break;
     case 38:                         // Up -> volume up
       v.volume = Math.min(1, v.volume + 0.1); popup('vol'); break;
     case 40:                         // Down -> volume down
@@ -1495,8 +1918,8 @@ addEventListener('keydown', e => {
       toggleSettingsMenu(); setSel = 0; break;
     case 406: case 67:               // Blue / c    -> captions
       setCC(!ccOn); break;
-    case 10009: case 27:             // Return / Esc -> the channel guide
-      location.href = '../index.html'; break;
+    case 10009: case 27:             // Return / Esc -> back (same target as the #back button)
+      location.href = back.href; break;
     default: return;
   }
   e.preventDefault();
@@ -1512,11 +1935,24 @@ renderer.setAnimationLoop(() => {
     v.volume = holdVol;
   }
   controls.update();
-  label.classList.toggle('idle', performance.now() - lastMoveTime > 5000);
+  const idle = performance.now() - lastMoveTime > 2000;
+  hud.classList.toggle('idle', idle);
+  back.classList.toggle('idle', idle); // fades with the HUD, same rules (stays on in 3D)
+  if (!scrubDragging) {
+    const t = isHolding ? holdTime : vCur(), d = vDur();
+    const pct = d ? Math.max(0, Math.min(100, t / d * 100)) : 0;
+    scrubFill.style.width = pct + '%';
+    scrubThumb.style.left = pct + '%';
+    curT.textContent = fmt(t);
+    durT.textContent = fmt(d);
+  }
   drawOSD();
   glow.color.lerp(glowTargetColor, 0.03); // ease the shell light between minute-frames
   // a lit room washes out the screen's glow on the shell
   glow.intensity += ((tvOn ? glowTargetIntensity * (lit ? 0.2 : 1) : 0) - glow.intensity) * 0.03;
   if (!flatMode) { cssR.render(scene, cam); renderer.render(scene, cam); }
 });
+
+load(); // selecting the episode in the guide was the play gesture — no extra click needed; called
+        // here (not earlier) because it reaches into consts/lets this script only finishes declaring by now
 </script>

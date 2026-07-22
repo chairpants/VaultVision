@@ -1,8 +1,8 @@
 window.SHOW = {
   id: "JeffFoxworthyShow",
   title: "The Jeff Foxworthy Show",
-  storageProgressKey: "jefffoxworthy-progress",
-  storageSettingsKey: "jefffoxworthy-settings",
+  storageProgressKey: "jefffoxworthyshow-progress",
+  storageSettingsKey: "jefffoxworthyshow-settings",
   nestedPaths: true,
   grouping: "season",
   segments: "none",

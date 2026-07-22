@@ -48,7 +48,7 @@ description. Both are in the player as separate entries.
 
 `myopic-vhs-no-05`, `-08`, and `-09` each run **7-8 hours** — by far the
 longest files in this player (everything else is ~1.5-2h). If long
-archive.org streams are giving you trouble elsewhere in RetroTube, these
+archive.org streams are giving you trouble elsewhere in VaultVision, these
 three are the ones most likely to struggle.
 
 The player also uses the Archive's metadata API and per-item thumbnail frames

@@ -1,0 +1,222 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>VaultVision — show</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; color: #e8def8; display: flex; flex-direction: column; overflow: hidden;
+    background: linear-gradient(160deg, #0c0a1f 0%, #1c0f3a 45%, #06040f 100%);
+    font-family: VCR, monospace; }
+  @font-face { font-family: VCR;
+    src: url('https://fonts.cdnfonts.com/s/14798/VCR_OSD_MONO_1.001[1].woff') format('woff'); }
+  body::before { content: ''; position: fixed; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, #0000 0 2px, rgba(0,0,0,.1) 2px 3px);
+    z-index: 1; }
+  a#back { position: fixed; top: 20px; left: 20px; width: 40px; height: 40px;
+    display: grid; place-items: center; border-radius: 50%; color: #e8def8;
+    background: #1c0f3a; border: 1px solid #b23bff40; text-decoration: none; z-index: 3; }
+  a#back:hover, a#back.tv-focus { border-color: #34e0ff; color: #34e0ff; }
+
+  /* locked top section: art/title/count/play — never scrolls */
+  #head { flex: 0 0 auto; max-width: 1100px; width: 100%; margin: 0 auto; box-sizing: border-box;
+    padding: 32px 24px 0; display: flex; gap: 28px; flex-wrap: wrap; }
+  #head .art { width: 220px; height: 165px; flex: 0 0 auto; border-radius: 8px;
+    overflow: hidden; background: #eee; border: 1px solid #b23bff40; }
+  #head .art img { width: 100%; height: 100%; object-fit: contain; background: #eee; }
+  #head .meta { flex: 1 1 260px; min-width: 0; padding-top: 4px; }
+  #head h1 { margin: 0 0 8px; font-size: 1.8em; letter-spacing: 2px;
+    background: linear-gradient(90deg, #ff2d95, #b23bff, #34e0ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  #head .count { opacity: .6; margin: 0 0 16px; font-size: .9em; }
+  a#playBtn { display: inline-block; padding: 12px 22px; border-radius: 6px;
+    background: #ff2d95; color: #0a0618; text-decoration: none; font: inherit;
+    font-size: 1.05em; letter-spacing: 1px; }
+  a#playBtn:hover, a#playBtn.tv-focus { background: #34e0ff; outline: 3px solid #34e0ff;
+    outline-offset: 3px; }
+
+  /* season tabs: locked, horizontally scrollable if there are a lot of them.
+     min-width: 0 is load-bearing — #tabs is a flex child of body's column
+     layout, and a flex child defaults to min-width: auto, which lets it grow
+     past its own width to fit every tab instead of clipping+scrolling. */
+  #tabs { flex: 0 0 auto; max-width: 1100px; width: 100%; min-width: 0; margin: 0 auto;
+    box-sizing: border-box; padding: 20px 24px 0; display: flex; gap: 8px;
+    overflow-x: auto; scrollbar-width: none; }
+  #tabs::-webkit-scrollbar { display: none; }
+  #tabs button { flex: 0 0 auto; font: inherit; font-size: .85em; letter-spacing: 1px;
+    padding: 8px 16px; border-radius: 6px 6px 0 0; border: 1px solid #b23bff40; border-bottom: none;
+    background: #1c0f3a88; color: #e8def8; cursor: pointer; opacity: .7; }
+  #tabs button.active { opacity: 1; background: #21123f; color: #ff6fc7; border-color: #ff2d95; }
+  #tabs button:hover { opacity: 1; }
+
+  /* the only part of the page that scrolls */
+  #listWrap { flex: 1 1 auto; min-height: 0; overflow-y: auto; border-top: 1px solid #b23bff40; }
+  #list { max-width: 1100px; margin: 0 auto; padding: 12px 24px; }
+  .ep { display: flex; gap: 14px; padding: 10px 12px; border-radius: 6px;
+    text-decoration: none; color: #e8def8; cursor: pointer; }
+  .ep:hover, .ep.tv-focus { background: #21123f; outline: 2px solid #b23bff; }
+  .ep .code { flex: 0 0 70px; opacity: .6; }
+  .ep .title { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
+    white-space: nowrap; }
+  .ep.watched .title::after { content: ' \2713'; opacity: .5; }
+
+  /* locked bottom panel: never scrolls with the list */
+  #desc { flex: 0 0 auto; max-width: 1100px; width: 100%; margin: 0 auto; box-sizing: border-box;
+    padding: 14px 24px; min-height: 24px; font-size: .85em; line-height: 1.5; opacity: .85;
+    border-top: 1px solid #b23bff30; background: #1c0f3a88; }
+  #desc .t { color: #34e0ff; display: block; margin-bottom: 4px; }
+</style>
+<a id="back" title="All Shows"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
+<div id="head">
+  <div class="art"><img id="artImg" alt=""></div>
+  <div class="meta">
+    <h1 id="titleEl">Loading…</h1>
+    <p class="count" id="countEl"></p>
+    <a id="playBtn" href="#">▶ Play</a>
+  </div>
+</div>
+<div id="tabs"></div>
+<div id="listWrap"><div id="list"></div></div>
+<div id="desc"><span class="t">Hover or select an episode</span>episode descriptions pull from archive.org and may cover a whole recording, not just one episode.</div>
+<script>
+(function () {
+  "use strict";
+  // cache-buster for the viewer.html links below — same reasoning as the
+  // guide's own (GitHub Pages caches it for 10min, and a link-navigation
+  // won't pick up a fresh copy on its own)
+  const bust = Date.now();
+  const params = new URLSearchParams(location.search);
+  const showId = params.get('show');
+  const back = document.getElementById('back');
+  back.href = 'index.html';
+  if (!showId) { document.getElementById('titleEl').textContent = 'No show specified.'; return; }
+
+  const art = params.get('art');
+  if (art) document.getElementById('artImg').src = 'art/' + art;
+
+  const s = document.createElement('script');
+  s.src = `shows/${showId}/data.js`;
+  s.onload = () => { try { init(window.SHOW); } catch (e) { fail(e); } };
+  s.onerror = () => fail(new Error(`shows/${showId}/data.js not found`));
+  document.head.append(s);
+
+  function fail(e) {
+    document.getElementById('titleEl').textContent = 'Could not load this show.';
+    console.warn(e);
+  }
+
+  function codeOf(title) { return title.split(' - ')[1] || ''; }
+  function seasonOf(title) { const m = codeOf(title).match(/S(\d+)/i); return m ? +m[1] : 1; }
+  function epKey(ep) { return ep[2] || ep[0]; }
+
+  function init(SHOW) {
+    document.title = SHOW.title + ' — VaultVision';
+    document.getElementById('titleEl').textContent = SHOW.title;
+    document.getElementById('countEl').textContent =
+      SHOW.episodes.length + (SHOW.grouping === 'season' ? ' episodes' : ' parts');
+
+    let progress = null;
+    try { progress = JSON.parse(localStorage[SHOW.storageProgressKey]); } catch {}
+    const watched = new Set(progress?.w || []);
+    const playBtn = document.getElementById('playBtn');
+    if (progress && SHOW.episodes[progress.i]) {
+      playBtn.textContent = '▶ Resume — ' + codeOf(SHOW.episodes[progress.i][1]);
+      playBtn.href = `engine/viewer.html?show=${showId}&v=${bust}`; // no &ep=: let the viewer resume its own saved time
+    } else {
+      playBtn.textContent = '▶ Play';
+      playBtn.href = `engine/viewer.html?show=${showId}&ep=0&v=${bust}`;
+    }
+
+    // group into seasons (single implicit "season" for flat shows)
+    const seasons = [];
+    SHOW.episodes.forEach((ep, i) => {
+      const sn = SHOW.grouping === 'season' ? seasonOf(ep[1]) : 1;
+      let season = seasons.find(x => x.n === sn);
+      if (!season) seasons.push(season = { n: sn, indices: [] });
+      season.indices.push(i);
+    });
+
+    const tabsEl = document.getElementById('tabs');
+    const list = document.getElementById('list');
+    let curSeason = 0;
+    let rows = []; // flat nav order for the CURRENT season: playBtn, then its episode rows
+    let focusIndex = 0; // declared here, not down by focusRow() — selectSeason(0) below calls
+                         // focusRow() before that point, and a `let` can't be read/written
+                         // before its own declaration line runs (TDZ), unlike a hoisted function
+
+    if (SHOW.grouping === 'season' && seasons.length > 1) {
+      seasons.forEach((season, i) => {
+        const b = document.createElement('button');
+        b.textContent = 'Season ' + season.n;
+        b.addEventListener('click', () => selectSeason(i));
+        tabsEl.append(b);
+      });
+    }
+
+    function selectSeason(i) {
+      curSeason = Math.max(0, Math.min(seasons.length - 1, i));
+      [...tabsEl.children].forEach((b, j) => b.classList.toggle('active', j === curSeason));
+      tabsEl.children[curSeason]?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+      list.innerHTML = '';
+      rows = [playBtn];
+      for (const idx of seasons[curSeason].indices) {
+        const [id, title] = SHOW.episodes[idx];
+        const row = document.createElement('a');
+        row.className = 'ep' + (watched.has(epKey(SHOW.episodes[idx])) ? ' watched' : '');
+        row.href = `engine/viewer.html?show=${showId}&ep=${idx}&v=${bust}`;
+        row.innerHTML = `<span class="code">${codeOf(title)}</span><span class="title">${
+          title.split(' - ').slice(2).join(' - ') || title}</span>`;
+        row.addEventListener('mouseenter', () => showDesc(id, title));
+        row.addEventListener('focus', () => showDesc(id, title));
+        list.append(row);
+        rows.push(row);
+      }
+      focusRow(0);
+    }
+    selectSeason(0);
+
+    // description: lazy, on-demand, debounced, cached — one fetch per archive
+    // item even though several episodes can share one (bundled recordings)
+    const descCache = new Map();
+    const descEl = document.getElementById('desc');
+    let descToken = 0;
+    function showDesc(id, title) {
+      const token = ++descToken;
+      descEl.innerHTML = `<span class="t">${title}</span>loading…`;
+      setTimeout(async () => {
+        if (token !== descToken) return; // moved on before the debounce fired
+        if (!descCache.has(id)) {
+          try {
+            const meta = await (await fetch('https://archive.org/metadata/' + id)).json();
+            const raw = meta?.metadata?.description || '';
+            const text = Array.isArray(raw) ? raw.join(' ') : raw;
+            descCache.set(id, text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 320));
+          } catch { descCache.set(id, ''); }
+        }
+        if (token !== descToken) return;
+        const text = descCache.get(id);
+        descEl.innerHTML = `<span class="t">${title}</span>${text || 'No description available.'}`;
+      }, 300);
+    }
+
+    // TV remote: up/down the current season's row list, left/right switch season
+    // (tabs), OK follows the focused row's link, Back exits to the guide.
+    function focusRow(i) {
+      focusIndex = Math.max(0, Math.min(rows.length - 1, i));
+      rows.forEach((r, j) => r.classList.toggle('tv-focus', j === focusIndex));
+      rows[focusIndex].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+    document.addEventListener('keydown', e => {
+      switch (e.keyCode) {
+        case 40: focusRow(focusIndex + 1); break;                          // down
+        case 38: focusRow(focusIndex - 1); break;                          // up
+        case 39: if (seasons.length > 1) selectSeason(curSeason + 1); break; // right -> next season
+        case 37: if (seasons.length > 1) selectSeason(curSeason - 1); break; // left -> prev season
+        case 13: location.href = rows[focusIndex].href; break;             // OK / Enter
+        case 10009: case 27: location.href = back.href; break;             // Return / Esc -> guide
+        default: return;
+      }
+      e.preventDefault();
+    });
+  }
+})();
+</script>

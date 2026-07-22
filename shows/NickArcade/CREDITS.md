@@ -14,7 +14,7 @@ Used as the player's TV set, embedded as glTF for web rendering.
 
 **The Internet Archive** — https://archive.org
 
-Unlike RetroTube's other complete-series shows, *Nick Arcade* isn't one
+Unlike VaultVision's other complete-series shows, *Nick Arcade* isn't one
 archive.org item bundling every episode — each episode is its own
 separate upload. These 11 were found by searching archive.org for "Nick
 Arcade" (movies mediatype) and keeping only the items whose titles carry a
@@ -45,7 +45,7 @@ itself.
 
 ## Format note
 
-Unlike RetroTube's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
+Unlike VaultVision's other players (SNICK, TGIF, Fox Kids, etc.), this isn't
 a multi-hour broadcast block — every entry is one full, self-contained
 episode. So a quick REW/FF tap pages to the previous/next episode instead
 of seeking within one (wrapping from the last episode back to the first and

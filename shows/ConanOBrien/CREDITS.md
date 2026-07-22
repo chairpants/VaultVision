@@ -26,7 +26,7 @@ video content itself.
 
 ## Format note
 
-Unlike RetroTube's other complete-series shows, this isn't organized by
+Unlike VaultVision's other complete-series shows, this isn't organized by
 season/episode number in the source at all — each file is just a date
 plus that night's guests. The entries here are numbered sequentially by
 air date within a single season, with the real date and guest list kept

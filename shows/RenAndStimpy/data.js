@@ -4,8 +4,8 @@ window.SHOW = {
   segments: 'none',
   mergeParts: true, // S03 splits each episode into a/b cartoons — play them as one
 
-  storageProgressKey: 'retubev_renstimpy',
-  storageSettingsKey: 'retsen_renstimpy',
+  storageProgressKey: 'renandstimpy-progress',
+  storageSettingsKey: 'renandstimpy-settings',
   seasonNames: {
     1: 'Season 1',
     3: 'Season 3',
