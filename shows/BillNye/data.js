@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "BillNye",
   title: "Bill Nye the Science Guy",
+  art: "BillNye.jpg",
   storageProgressKey: "billnye-progress",
   storageSettingsKey: "billnye-settings",
   nestedPaths: true,

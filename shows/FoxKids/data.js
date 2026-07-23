@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "FoxKids",
   title: "Fox Kids Saturday Morning",
+  art: "FoxKids.png",
   storageProgressKey: "foxkids-progress",
   storageSettingsKey: "foxkids-settings",
   nestedPaths: false,

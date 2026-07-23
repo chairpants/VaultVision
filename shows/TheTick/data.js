@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "TheTick",
   title: "The Tick",
+  art: "TheTick.png",
   storageProgressKey: "thetick-progress",
   storageSettingsKey: "thetick-settings",
   nestedPaths: true,

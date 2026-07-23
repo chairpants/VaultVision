@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "AlexMack",
   title: "The Secret World of Alex Mack",
+  art: "AlexMack.jpg",
   storageProgressKey: "alexmack-progress",
   storageSettingsKey: "alexmack-settings",
   nestedPaths: true,

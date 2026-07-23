@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "AreYouAfraidOfTheDark",
   title: "Are You Afraid of the Dark",
+  art: "AreYouAfraidOfTheDark.jpg",
   storageProgressKey: "areyouafraidofthedark-progress",
   storageSettingsKey: "areyouafraidofthedark-settings",
   nestedPaths: true,

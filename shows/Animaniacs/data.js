@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Animaniacs",
   title: "Animaniacs",
+  art: "Animaniacs.jpg",
   storageProgressKey: "animaniacs-progress",
   storageSettingsKey: "animaniacs-settings",
   nestedPaths: true,

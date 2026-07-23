@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "SavedByTheBell",
   title: "Saved by the Bell",
+  art: "SavedByTheBell.png",
   storageProgressKey: "savedbythebell-progress",
   storageSettingsKey: "savedbythebell-settings",
   nestedPaths: true,

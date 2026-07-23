@@ -3,6 +3,7 @@ const AYAOTD = 'Are You Afraid of the Dark?';
 window.SHOW = {
   id: "SNICK",
   title: "SNICK",
+  art: "SNICK.png",
   storageProgressKey: "snick-progress",
   storageSettingsKey: "snick-settings",
   nestedPaths: false,

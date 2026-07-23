@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "SatMorning",
   title: "Saturday Morning (ABC/NBC/CBS)",
+  art: "SatMorning.jpg",
   storageProgressKey: "satmorning-progress",
   storageSettingsKey: "satmorning-settings",
   nestedPaths: false,

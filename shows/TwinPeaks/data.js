@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "TwinPeaks",
   title: "Twin Peaks",
+  art: "TwinPeaks.svg",
   storageProgressKey: "twinpeaks-progress",
   storageSettingsKey: "twinpeaks-settings",
   nestedPaths: true,

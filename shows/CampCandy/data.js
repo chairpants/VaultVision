@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "CampCandy",
   title: "Camp Candy",
+  art: "CampCandy.jpg",
   storageProgressKey: "campcandy-progress",
   storageSettingsKey: "campcandy-settings",
   nestedPaths: true,

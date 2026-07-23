@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "GetSmart",
   title: "Get Smart",
+  art: "GetSmart.gif",
   storageProgressKey: "getsmart-progress",
   storageSettingsKey: "getsmart-settings",
   nestedPaths: true,

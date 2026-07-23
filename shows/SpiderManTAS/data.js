@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "SpiderManTAS",
   title: "Spider-Man: The Animated Series",
+  art: "SpiderManTAS.png",
   storageProgressKey: "spidermantas-progress",
   storageSettingsKey: "spidermantas-settings",
   nestedPaths: true,

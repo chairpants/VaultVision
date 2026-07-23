@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "FamilyMatters",
   title: "Family Matters",
+  art: "FamilyMatters.jpg",
   storageProgressKey: "familymatters-progress",
   storageSettingsKey: "familymatters-settings",
   nestedPaths: true,

@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "TMNTNextMutation",
   title: "Teenage Mutant Ninja Turtles: The Next Mutation",
+  art: "TMNTNextMutation.png",
   storageProgressKey: "tmntnextmutation-progress",
   storageSettingsKey: "tmntnextmutation-settings",
   nestedPaths: true,

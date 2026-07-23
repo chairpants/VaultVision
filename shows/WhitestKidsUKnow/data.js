@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "WhitestKidsUKnow",
   title: "The Whitest Kids U'Know",
+  art: "WhitestKidsUKnow.jpg",
   storageProgressKey: "whitestkidsuknow-progress",
   storageSettingsKey: "whitestkidsuknow-settings",
   nestedPaths: true,

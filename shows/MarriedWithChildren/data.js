@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "MarriedWithChildren",
   title: "Married... with Children",
+  art: "MarriedWithChildren.jpg",
   storageProgressKey: "marriedwithchildren-progress",
   storageSettingsKey: "marriedwithchildren-settings",
   nestedPaths: true,

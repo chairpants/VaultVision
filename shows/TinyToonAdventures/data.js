@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "TinyToonAdventures",
   title: "Tiny Toon Adventures",
+  art: "TinyToonAdventures.jpg",
   storageProgressKey: "tinytoonadventures-progress",
   storageSettingsKey: "tinytoonadventures-settings",
   nestedPaths: true,

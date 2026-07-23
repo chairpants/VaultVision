@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "BenStillerShow",
   title: "The Ben Stiller Show",
+  art: "BenStillerShow.png",
   storageProgressKey: "benstillershow-progress",
   storageSettingsKey: "benstillershow-settings",
   nestedPaths: true,

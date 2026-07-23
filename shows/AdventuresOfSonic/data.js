@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "AdventuresOfSonic",
   title: "Adventures of Sonic the Hedgehog",
+  art: "AdventuresOfSonic.png",
   storageProgressKey: "adventuresofsonic-progress",
   storageSettingsKey: "adventuresofsonic-settings",
   nestedPaths: true,

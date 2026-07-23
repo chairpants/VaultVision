@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Wishbone",
   title: "Wishbone",
+  art: "Wishbone.png",
   storageProgressKey: "wishbone-progress",
   storageSettingsKey: "wishbone-settings",
   nestedPaths: true,

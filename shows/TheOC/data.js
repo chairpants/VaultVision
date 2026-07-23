@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "TheOC",
   title: "The O.C.",
+  art: "TheOC.jpg",
   storageProgressKey: "theoc-progress",
   storageSettingsKey: "theoc-settings",
   nestedPaths: true,

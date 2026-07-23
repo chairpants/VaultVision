@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "JeffFoxworthyShow",
   title: "The Jeff Foxworthy Show",
+  art: "JeffFoxworthyShow.jpg",
   storageProgressKey: "jefffoxworthyshow-progress",
   storageSettingsKey: "jefffoxworthyshow-settings",
   nestedPaths: true,

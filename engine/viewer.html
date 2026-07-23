@@ -325,12 +325,18 @@ const fatal = msg => {
   document.body.style.cssText = 'color:#39ff14;font:20px/1.5 monospace;padding:40px;background:#000;white-space:pre-wrap;';
   document.body.textContent = msg;
 };
-const showId = new URLSearchParams(location.search).get('show');
+const urlParams = new URLSearchParams(location.search);
+const showId = urlParams.get('show');
 if (!showId) {
   fatal('No show specified. Use viewer.html?show=<ShowId>');
   throw new Error('missing ?show=');
 }
-back.href = `../show.html?show=${encodeURIComponent(showId)}`; // one step back: the show's episode list, not the top-level guide
+// one step back: the show's episode list, not the top-level guide. Carries
+// ?art= along (when we were handed one) so that screen's poster still loads
+// instead of showing a blank box — it has no other way to know the filename.
+const artFile = urlParams.get('art');
+back.href = `../show.html?show=${encodeURIComponent(showId)}` +
+  (artFile ? `&art=${encodeURIComponent(artFile)}` : '');
 let SHOW;
 try {
   // a classic script tag, not import() — unlike ES modules, this loads fine

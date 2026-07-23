@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "MASH",
   title: "M*A*S*H",
+  art: "MASH.jpg",
   storageProgressKey: "mash-progress",
   storageSettingsKey: "mash-settings",
   nestedPaths: true,

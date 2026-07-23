@@ -1,5 +1,6 @@
 window.SHOW = {
   title: 'The Ren & Stimpy Show',
+  art: 'RenAndStimpy.png',
   grouping: 'season',
   segments: 'none',
   mergeParts: true, // S03 splits each episode into a/b cartoons — play them as one

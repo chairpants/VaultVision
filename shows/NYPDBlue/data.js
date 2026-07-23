@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "NYPDBlue",
   title: "NYPD Blue",
+  art: "NYPDBlue.svg",
   storageProgressKey: "nypdblue-progress",
   storageSettingsKey: "nypdblue-settings",
   nestedPaths: true,

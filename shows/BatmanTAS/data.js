@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "BatmanTAS",
   title: "Batman: The Animated Series",
+  art: "BatmanTAS.png",
   storageProgressKey: "batmantas-progress",
   storageSettingsKey: "batmantas-settings",
   nestedPaths: true,

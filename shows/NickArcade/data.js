@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "NickArcade",
   title: "Nick Arcade",
+  art: "NickArcade.jpg",
   storageProgressKey: "nickarcade-progress",
   storageSettingsKey: "nickarcade-settings",
   nestedPaths: true,

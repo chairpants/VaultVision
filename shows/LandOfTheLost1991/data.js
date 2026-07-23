@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "LandOfTheLost1991",
   title: "Land of the Lost",
+  art: "LandOfTheLost1991.jpg",
   storageProgressKey: "landofthelost1991-progress",
   storageSettingsKey: "landofthelost1991-settings",
   nestedPaths: true,

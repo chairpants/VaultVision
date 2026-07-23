@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Popular",
   title: "Popular",
+  art: "Popular.svg",
   storageProgressKey: "popular-progress",
   storageSettingsKey: "popular-settings",
   nestedPaths: true,

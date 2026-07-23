@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "HeyDude",
   title: "Hey Dude",
+  art: "HeyDude.webp",
   storageProgressKey: "heydude-progress",
   storageSettingsKey: "heydude-settings",
   nestedPaths: true,

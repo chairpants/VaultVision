@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "ConanOBrien",
   title: "Late Night with Conan O'Brien",
+  art: "ConanOBrien.png",
   storageProgressKey: "conanobrien-progress",
   storageSettingsKey: "conanobrien-settings",
   nestedPaths: true,

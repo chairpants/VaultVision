@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "FreddysNightmares",
   title: "Freddy's Nightmares",
+  art: "FreddysNightmares.png",
   storageProgressKey: "freddysnightmares-progress",
   storageSettingsKey: "freddysnightmares-settings",
   nestedPaths: true,

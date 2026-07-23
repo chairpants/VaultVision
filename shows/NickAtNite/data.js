@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "NickAtNite",
   title: "Nick at Nite",
+  art: "NickAtNite.png",
   storageProgressKey: "nickatnite-progress",
   storageSettingsKey: "nickatnite-settings",
   nestedPaths: false,

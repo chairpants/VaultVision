@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "BriscoCountyJr",
   title: "The Adventures of Brisco County Jr.",
+  art: "BriscoCountyJr.jpg",
   storageProgressKey: "briscocountyjr-progress",
   storageSettingsKey: "briscocountyjr-settings",
   nestedPaths: true,

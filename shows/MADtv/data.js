@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "MADtv",
   title: "MADtv",
+  art: "MADtv.png",
   storageProgressKey: "madtv-progress",
   storageSettingsKey: "madtv-settings",
   nestedPaths: true,

@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Seinfeld",
   title: "Seinfeld",
+  art: "Seinfeld.jpg",
   storageProgressKey: "seinfeld-progress",
   storageSettingsKey: "seinfeld-settings",
   nestedPaths: true,

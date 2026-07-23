@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "ParkerLewis",
   title: "Parker Lewis Can't Lose",
+  art: "ParkerLewis.jpg",
   storageProgressKey: "parkerlewis-progress",
   storageSettingsKey: "parkerlewis-settings",
   nestedPaths: true,

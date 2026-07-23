@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "BikerMiceFromMars",
   title: "Biker Mice from Mars",
+  art: "BikerMiceFromMars.jpg",
   storageProgressKey: "bikermicefrommars-progress",
   storageSettingsKey: "bikermicefrommars-settings",
   nestedPaths: true,

@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "BobbysWorld",
   title: "Bobby's World",
+  art: "BobbysWorld.png",
   storageProgressKey: "bobbysworld-progress",
   storageSettingsKey: "bobbysworld-settings",
   nestedPaths: true,

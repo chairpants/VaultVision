@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "NedAndStacey",
   title: "Ned and Stacey",
+  art: "NedAndStacey.jpg",
   storageProgressKey: "nedandstacey-progress",
   storageSettingsKey: "nedandstacey-settings",
   nestedPaths: true,

@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "AmazingStories",
   title: "Amazing Stories",
+  art: "AmazingStories.jpg",
   storageProgressKey: "amazingstories-progress",
   storageSettingsKey: "amazingstories-settings",
   nestedPaths: true,

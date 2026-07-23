@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Jackass",
   title: "Jackass",
+  art: "Jackass.png",
   storageProgressKey: "jackass-progress",
   storageSettingsKey: "jackass-settings",
   nestedPaths: true,

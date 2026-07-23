@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "MuppetBabies",
   title: "Muppet Babies",
+  art: "MuppetBabies.png",
   storageProgressKey: "muppetbabies-progress",
   storageSettingsKey: "muppetbabies-settings",
   nestedPaths: true,

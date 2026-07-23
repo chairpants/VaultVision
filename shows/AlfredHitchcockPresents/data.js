@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "AlfredHitchcockPresents",
   title: "Alfred Hitchcock Presents",
+  art: "AlfredHitchcockPresents.jpg",
   storageProgressKey: "alfredhitchcockpresents-progress",
   storageSettingsKey: "alfredhitchcockpresents-settings",
   nestedPaths: true,

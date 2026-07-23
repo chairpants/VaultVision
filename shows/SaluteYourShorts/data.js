@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "SaluteYourShorts",
   title: "Salute Your Shorts",
+  art: "SaluteYourShorts.png",
   storageProgressKey: "saluteyourshorts-progress",
   storageSettingsKey: "saluteyourshorts-settings",
   nestedPaths: true,

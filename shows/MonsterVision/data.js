@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "MonsterVision",
   title: "MonsterVision",
+  art: "MonsterVision.jpg",
   storageProgressKey: "monstervision-progress",
   storageSettingsKey: "monstervision-settings",
   nestedPaths: false,

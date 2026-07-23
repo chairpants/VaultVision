@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Joey",
   title: "Joey",
+  art: "Joey.png",
   storageProgressKey: "joey-progress",
   storageSettingsKey: "joey-settings",
   nestedPaths: true,

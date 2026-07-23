@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Roseanne",
   title: "Roseanne",
+  art: "Roseanne.jpg",
   storageProgressKey: "roseanne-progress",
   storageSettingsKey: "roseanne-settings",
   nestedPaths: true,

@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "MalcolmInTheMiddle",
   title: "Malcolm in the Middle",
+  art: "MalcolmInTheMiddle.jpg",
   storageProgressKey: "malcolminthemiddle-progress",
   storageSettingsKey: "malcolminthemiddle-settings",
   nestedPaths: true,

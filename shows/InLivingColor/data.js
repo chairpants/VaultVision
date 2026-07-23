@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "InLivingColor",
   title: "In Living Color",
+  art: "InLivingColor.png",
   storageProgressKey: "inlivingcolor-progress",
   storageSettingsKey: "inlivingcolor-settings",
   nestedPaths: true,

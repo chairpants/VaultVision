@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "BeavisButthead",
   title: "Beavis and Butt-Head",
+  art: "BeavisButthead.png",
   storageProgressKey: "beavisbutthead-progress",
   storageSettingsKey: "beavisbutthead-settings",
   nestedPaths: true,

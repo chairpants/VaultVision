@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "WonderYears",
   title: "The Wonder Years",
+  art: "WonderYears.png",
   storageProgressKey: "wonderyears-progress",
   storageSettingsKey: "wonderyears-settings",
   nestedPaths: true,

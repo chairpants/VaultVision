@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "EverybodyLovesRaymond",
   title: "Everybody Loves Raymond",
+  art: "EverybodyLovesRaymond.png",
   storageProgressKey: "everybodylovesraymond-progress",
   storageSettingsKey: "everybodylovesraymond-settings",
   nestedPaths: true,

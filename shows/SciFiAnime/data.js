@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "SciFiAnime",
   title: "Sci-Fi Saturday Anime",
+  art: "SciFiAnime.png",
   storageProgressKey: "scifianime-progress",
   storageSettingsKey: "scifianime-settings",
   nestedPaths: false,

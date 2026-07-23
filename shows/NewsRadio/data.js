@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "NewsRadio",
   title: "NewsRadio",
+  art: "NewsRadio.jpg",
   storageProgressKey: "newsradio-progress",
   storageSettingsKey: "newsradio-settings",
   nestedPaths: true,

@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Recess",
   title: "Recess",
+  art: "Recess.jpg",
   storageProgressKey: "recess-progress",
   storageSettingsKey: "recess-settings",
   nestedPaths: true,

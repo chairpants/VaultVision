@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "TGIF",
   title: "TGIF",
+  art: "TGIF.png",
   storageProgressKey: "tgif-progress",
   storageSettingsKey: "tgif-settings",
   nestedPaths: false,

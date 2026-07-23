@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "CelebrityDeathmatch",
   title: "Celebrity Deathmatch",
+  art: "CelebrityDeathmatch.png",
   storageProgressKey: "celebritydeathmatch-progress",
   storageSettingsKey: "celebritydeathmatch-settings",
   nestedPaths: true,

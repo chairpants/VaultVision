@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Xena",
   title: "Xena: Warrior Princess",
+  art: "Xena.jpg",
   storageProgressKey: "xena-progress",
   storageSettingsKey: "xena-settings",
   nestedPaths: true,

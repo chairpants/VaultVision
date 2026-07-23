@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "Ghostwriter",
   title: "Ghostwriter",
+  art: "Ghostwriter.png",
   storageProgressKey: "ghostwriter-progress",
   storageSettingsKey: "ghostwriter-settings",
   nestedPaths: true,

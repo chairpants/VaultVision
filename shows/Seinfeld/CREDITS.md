@@ -10,6 +10,19 @@ This project stands on other people's work. Thank you, all.
 
 Used as the player's TV set, embedded as glTF for web rendering.
 
+## ⚠ Currently unavailable
+
+As of July 2026, archive.org converted this item to
+`access-restricted-item: true` and moved it into its logged-in lending
+collection — every file, every format, now 401s unless you're browsing
+with a borrowed session. That's an access-control wall, not a codec or
+hosting problem on this end, and there's currently no unrestricted
+replacement upload of the full series on archive.org (the only other
+Seinfeld bundle found is a set of per-season `.zip` downloads, not
+streamable video). Left in the guide rather than deleted, in case the
+item gets unrestricted again or a new source turns up — if you're reading
+this and it's still broken, that hasn't happened yet.
+
 ## Video content
 
 **The Internet Archive** — https://archive.org

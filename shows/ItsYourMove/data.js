@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "ItsYourMove",
   title: "It's Your Move",
+  art: "ItsYourMove.jpg",
   storageProgressKey: "itsyourmove-progress",
   storageSettingsKey: "itsyourmove-settings",
   nestedPaths: true,

@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "PowerRangers",
   title: "Power Rangers",
+  art: "PowerRangers.jpg",
   storageProgressKey: "powerrangers-progress",
   storageSettingsKey: "powerrangers-settings",
   nestedPaths: true,

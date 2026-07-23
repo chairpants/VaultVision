@@ -1,6 +1,7 @@
 window.SHOW = {
   id: "XMen",
   title: "X-Men: The Animated Series",
+  art: "XMen.jpg",
   storageProgressKey: "xmen-progress",
   storageSettingsKey: "xmen-settings",
   nestedPaths: true,
