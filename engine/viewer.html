@@ -52,14 +52,24 @@
      caption-loaded JS sets an inline display:block, which would otherwise
      outrank this and leave CC visible in 3D mode. */
   body:not(.flat) .flat-only { display: none !important; }
-  #label { max-width: 100%; overflow: hidden; white-space: nowrap;
+  #label { max-width: 100%; display: flex; align-items: center; gap: 8px;
     font: 14px VCR, monospace; color: #e8def8; opacity: .85; }
+  /* flex: 0 1 auto (not 1 1 auto): hugs the text's own width instead of
+     stretching to fill the row, so the globe icon sits right after the title
+     instead of pinned to the row's far edge. min-width:0 lets it still shrink
+     and clip (triggering the marquee) when a long title runs out of room. */
+  #labelTextWrap { overflow: hidden; white-space: nowrap; min-width: 0; flex: 0 1 auto; }
   #labelText { display: inline-block; }
-  /* only added when the text is wider than #label's clamped max-width;
+  /* only added when the text is wider than #labelTextWrap's clamped max-width;
      the JS duplicates the text first so translateX(-50%) loops seamlessly */
   #label.marquee #labelText { animation-name: marquee; animation-timing-function: linear;
     animation-iteration-count: infinite; }
   @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  /* source link: the current episode's archive.org item, opened in a new tab —
+     sits outside #labelTextWrap so it never gets clipped or dragged into the marquee */
+  #sourceLink { flex: 0 0 auto; display: flex; color: #b6a9d6; }
+  #sourceLink svg { width: 16px; height: 16px; display: block; }
+  #sourceLink:hover { color: #e8def8; }
   /* row 1: scrubber, on its own */
   #scrubRow { display: flex; align-items: center; gap: 12px; }
   #scrubRow .t { font: 12px VCR, monospace; color: #34e0ff; opacity: .9; min-width: 3.5em; }
@@ -233,7 +243,12 @@
 </svg>
 <a id="back" href="../index.html" title="Back"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
 <div id="hud">
-  <div id="label" class="flat-only"><span id="labelText"></span></div>
+  <div id="label" class="flat-only">
+    <span id="labelTextWrap"><span id="labelText"></span></span>
+    <a id="sourceLink" href="https://archive.org" target="_blank" rel="noopener" title="View source on archive.org">
+      <svg viewBox="0 0 24 24"><path fill="currentColor" d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zm6.93 6h-2.95c-.32-1.25-.78-2.45-1.38-3.56 1.84.63 3.37 1.91 4.33 3.56zM12 4.04c.83 1.2 1.48 2.53 1.91 3.96h-3.82c.43-1.43 1.08-2.76 1.91-3.96zM4.26 14C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2 0 .68.06 1.34.14 2H4.26zm.82 2h2.95c.32 1.25.78 2.45 1.38 3.56-1.84-.63-3.37-1.9-4.33-3.56zm2.95-8H5.08c.96-1.66 2.49-2.93 4.33-3.56C8.81 5.55 8.35 6.75 8.03 8zM12 19.96c-.83-1.2-1.48-2.53-1.91-3.96h3.82c-.43 1.43-1.08 2.76-1.91 3.96zM14.34 14H9.66c-.09-.66-.16-1.32-.16-2 0-.68.07-1.35.16-2h4.68c.09.65.16 1.32.16 2 0 .68-.07 1.34-.16 2zm.25 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95c-.96 1.65-2.49 2.93-4.33 3.56zM16.36 14c.08-.66.14-1.32.14-2 0-.68-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2h-3.38z"/></svg>
+    </a>
+  </div>
   <div id="scrubRow" class="flat-only">
     <span class="t cur" id="curT">0:00</span>
     <div id="scrub"><div class="track"><div class="fill" id="scrubFill"></div><div class="thumb" id="scrubThumb"></div></div></div>
@@ -483,6 +498,7 @@ async function load() {
   const id = part.id, fileHint = part.file;
   const partKey = durKey(id, fileHint); // captions/thumbs are per-part; watched/progress stay logical
   setLabel(EPISODES[epIndex][1]);
+  sourceLink.href = 'https://archive.org/details/' + id; // globe icon: this episode's archive.org item, opens in a new tab
   applyCrop(); // per-episode: seasons may crop differently (or not at all)
   try {
     const meta = await (await fetch('https://archive.org/metadata/' + id)).json();
@@ -586,7 +602,7 @@ function setLabel(text) {
   labelText.style.animationDuration = '';
   labelText.style.animationDelay = '';
   requestAnimationFrame(() => {
-    if (labelText.scrollWidth <= label.clientWidth) return;
+    if (labelText.scrollWidth <= labelTextWrap.clientWidth) return;
     labelText.textContent = text + ' '.repeat(10) + text;
     labelText.style.animationDuration = (labelText.scrollWidth / 2 / MARQUEE_SPEED) + 's';
     labelText.style.animationDelay = '1s'; // hold still before the first scroll
@@ -800,6 +816,10 @@ function setFlatMode(on) {
   mode3d.classList.toggle('on', !on);
   controls.enabled = !on;
   if (!on && flatSettingsOpen) closeFlatSettings(); // leaving flat mode: its DOM panel doesn't apply in 3D
+  // entering flat mode: the 3D canvas-drawn guide/settings overlay doesn't apply in
+  // flat (it has its own DOM panels instead) and nothing else clears osdMode for it —
+  // left alone, the guide from 3D mode kept rendering on top of the flat player.
+  if (on && (osdMode === 'list' || osdMode === 'set')) { osdMode = null; controls.enableZoom = true; }
   // stopping cssR/renderer.render() while flat leaves the canvas showing its
   // last-drawn 3D frame; hide it (it still receives input, opacity doesn't
   // affect that) instead of clearing, so the last frame is ready to show
