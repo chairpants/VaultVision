@@ -1,0 +1,23 @@
+window.SHOW = {
+  id: "Woops",
+  title: "Woops!",
+  art: "Woops.jpg",
+  storageProgressKey: "woops-progress",
+  storageSettingsKey: "woops-settings",
+  nestedPaths: true,
+  grouping: "season",
+  segments: "none",
+  episodes: [
+    ['woops_202206', "WOOPS! - S01E01 - Pilot", "Woops! S01E01 Pilot.mp4"],
+    ['woops_202206', "WOOPS! - S01E02 - It's a Dirty Job", "Woops! S01E02 Its a dirty job.mp4"],
+    ['woops_202206', "WOOPS! - S01E03 - Root of All Evil", "Woops! S01E03 Root of All Evil.mp4"],
+    ['woops_202206', "WOOPS! - S01E04 - Days of Berries and Roses", "Woops! S01E04 Days of Berries and Roses.mp4"],
+    ['woops_202206', "WOOPS! - S01E05 - The Rise and Fall of Alice McConnell", "Woops! S01E05 The Rise and Fall of Alice McConnell.mp4"],
+    ['woops_202206', "WOOPS! - S01E06 - The Election", "Woops! S01E06 The Election.mp4"],
+    ['woops_202206', "WOOPS! - S01E07 - Curtis Unglued", "Woops! S01E07 Curtis Unglued.mp4"],
+    ['woops_202206', "WOOPS! - S01E08 - Dumb Love", "Woops! S01E08 Dumb Love.mp4"],
+    ['woops_202206', "WOOPS! - S01E09 - The Thanksgiving Show", "Woops! S01E09 The Thanksgiving Show.mp4"],
+    ['woops_202206', "WOOPS! - S01E10 - Say It Ain't So, Santa", "Woops! S01E10 Say It Ain't So, Santa.mp4"],
+  ],
+  durations: {},
+};
