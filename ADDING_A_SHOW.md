@@ -387,12 +387,20 @@ lineups: [ // [first air date using this lineup, shows]
 
 Hard requirements:
 
-* Sorted **ascending** by date, and the first entry must be on or before the
+* Sorted **ascending** by date, and the first entry should be on or before the
   earliest episode's date.
-* **Every** episode title must contain an `MM/DD/YYYY` date — the lookup does
-  `title.match(/(\d\d)\/(\d\d)\/(\d{4})/)` and dereferences the result without a
-  null check, so an undated title throws when REW/FF or the `ch` popup runs.
 * Four entries per lineup (boundaries are `duration / 4`).
+
+Dating an episode title, in the order the player tries them:
+
+1. `MM/DD/YYYY` anywhere in the title — the normal case, and the only one that
+   also feeds the airdate display.
+2. a bare four-digit year — read as January 1st of it. Good enough to land on
+   the right slate most of the time, since lineups change once or twice a
+   season. Use this for a tape you can't date precisely; don't invent a
+   specific date it doesn't have.
+3. neither, or a date earlier than every row in the table — falls back to
+   `[SHOW.title]`, so the `ch` popup names the block itself.
 
 A `const NAME = '…'` above `window.SHOW` for a repeated show name is supported by
 both the browser and the Roku parser (see `shows/SNICK/data.js`).
@@ -790,7 +798,8 @@ Manual pass in the browser (`http://localhost:8080`):
 | No runtimes in the list | `durations` keys don't match the episode keys (`item::file` exactly) |
 | Merged episode's scrubber jumps | `mergeParts` without complete `durations` |
 | Captions never appear | `CAPTIONS` key isn't the episode key, or the `.vtt` filename isn't URL-encoded |
-| `ch` popup / FF throws on a block | `segments: "lineup"` with an undated title, or a missing `shows`/`film` map |
+| `ch` popup names the block instead of a show | `segments: "lineup"` with a title carrying no year at all, or one predating every `lineups` row |
+| `ch` popup / FF throws on a block | missing `shows` map under `"static"`, or missing `film` map under `"film"` |
 | Poster blank on Roku only | `.svg`/`.webp` poster with no PNG sidecar — run `make_roku_art.py` |
 | Duplicate or half-length guide rows | alternate cuts / bumper files not excluded in Step 1b |
 
@@ -902,8 +911,12 @@ def check(show_id, html):
                 warns.append("episode %d: code %r is not SxxEyy -> treated as season 1"
                              % (i, bits[1]))
         elif d.get("segments") == "lineup" and not re.search(r"\d\d/\d\d/\d{4}", title):
-            errs.append("episode %d: lineup title %r needs an MM/DD/YYYY date"
-                        % (i, title))
+            if re.search(r"\b\d{4}\b", title):
+                warns.append("episode %d: lineup title %r has only a year -> read as Jan 1"
+                             % (i, title))
+            else:
+                errs.append("episode %d: lineup title %r has no date at all -> falls back "
+                            "to the show name" % (i, title))
 
     dur = d.get("durations") or {}
     for k in dur:
