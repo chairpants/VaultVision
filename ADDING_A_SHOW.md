@@ -117,15 +117,32 @@ fully supported: each episode row carries its own item id.
 
 ### 1c. Verify order against an external source
 
-**Do not trust filenames for season/episode placement.** Check every episode
-title against Wikipedia's episode list (or an equivalent) and pin each file to
-its real season/episode. Green Acres is the cautionary tale: its files run
-`001`–`170` straight through, several Season 1 entries are transposed, and the
-sequence skips `027` while still ending at `170` — slicing the range into
-seasons mislabels most of the back half of Season 1.
+**Never take an episode's identity from its filename.** Get the season/episode
+list from a reliable source — Wikipedia's episode list is the one used
+throughout this repo — and decide placement from that. Which way you apply it
+depends on one question: **does the upload carry `SxxEyy` numbering, and do its
+per-season counts match the record exactly?**
 
-When the upload's spelling differs from the canonical title, put the **canonical
-title in the guide** and note the discrepancy in `CREDITS.md`.
+**Yes — trust the numbering, replace the titles.** A complete, gapless run whose
+season sizes match the broadcast record is almost certainly in broadcast order,
+whatever the labels say. Take titles from the reliable source by position and
+drop the upload's own. Northern Exposure is the worked example: 8/7/23/25/24/23
+files against an identical broadcast record, but 30 of 110 filenames disagree
+with broadcast order, and within a single filename the title and the date often
+contradict each other. Its numbering was kept and every title relabelled.
+
+**No — pin each file individually.** With no usable numbering, or counts that
+don't match, match each file to its episode by title and pin it. Green Acres is
+that case: files run `001`–`170` straight through, several Season 1 entries are
+transposed, and the sequence skips `027` while still ending at `170`, so
+slicing the range into seasons mislabels most of the back half of Season 1.
+
+Either way, the **canonical title goes in the guide**, and `CREDITS.md` records
+which rule was applied, what disagreed, and what that leaves uncertain. A
+count-matched relabel is an educated guess, not proof: if a file sits somewhere
+other than its own `SxxEyy` claims, its title will be wrong, and only watching
+can settle it. Say so there rather than implying the list was verified frame by
+frame.
 
 ---
 
