@@ -14,33 +14,34 @@ Used as the player's TV set, embedded as glTF for web rendering.
 
 **The Internet Archive** — https://archive.org
 
-[Dragon Ball GT Complete](https://archive.org/details/dragon-ball-gt_202605)
-— 61 of the series' 64 episodes (Fuji TV, 1996-97), about 23 minutes each.
-Support the Archive: https://archive.org/donate
+[Dragon Ball GT Remastered 1080p HD Tri Audio With Subs](https://archive.org/details/dragon-ball-gt-remastered-1080p-hd-tri-audio-with-subs-2023)
+— all 64 episodes (Fuji TV, 1996-97), about 25 minutes each. Support the
+Archive: https://archive.org/donate
 
 *Dragon Ball GT* is the property of its respective rights holders; this project
 streams a publicly hosted recording and hosts no video content itself.
 
 ## Source notes
 
-Episode titles are the English dub titles, taken from the raw wikitext of
-Wikipedia's episode list and parsed mechanically rather than through a
-summarizer. The files are trusted for *placement* — their numbering is
-complete and matches the broadcast record — and relabelled from that list, the
-house rule for uploads whose own labels can't be verified (see
-`ADDING_A_SHOW.md` §1c).
+Complete at 64 episodes, numbered 1-64 with no gaps, grouped into the series'
+four sagas.
 
-**Episodes 7, 8 and 9 are not listed.** The item stores every episode as an
-`.mkv`, which the player can only handle by falling back to the `.mp4`
-derivative archive.org generates alongside. Those three never got one, and the
-originals probe as h.264 with **AC3** audio — a codec no browser will decode,
-inside a container Safari won't open at all. Listing them would have produced
-three entries that fail on load and skip, so they're left out and the guide
-shows the gap honestly. If the Archive ever derives them, they can be added
-with no other change.
+**This replaced an earlier source.** GT was first added from a different upload
+that shipped 64 `.mkv` files but never got `.mp4` derivatives for episodes 7, 8
+and 9 — those three probed as h.264 with AC3 audio, which no browser decodes,
+so they had to be left out and the show sat at 61. This remastered upload has
+all 64 with derivatives, at 1080p, so the whole series was rebuilt from it
+rather than patching three episodes in from a second item and leaving the run
+split across two sources.
 
-The other 61 rely on that same derivative fallback, which is why their file
-hints end in `.mkv`.
+Titles come from the broadcast record, parsed from the raw wikitext of
+Wikipedia's episode list; all 64 matched their slot.
+
+The item also carries 12 extras — Toonami promos, a trailer reel, featurettes,
+Japanese trailers. They aren't episodes and aren't listed.
+
+Every episode is an `.mkv` played through its `.mp4` derivative; all 64 have
+one.
 
 ## Poster
 
