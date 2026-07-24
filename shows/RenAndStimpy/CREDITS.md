@@ -42,13 +42,24 @@ its derivatives, the affected episodes go silent rather than failing outright.
 
 ## Format note
 
-Season 3 splits each half-hour into two separately-titled cartoons, uploaded as
-separate files. Those entries are coded `S03E01a` / `S03E01b` and folded back
-together by `mergeParts`: the two halves play back to back as one episode, the
-scrubber and runtime span both, and the list shows the merged title
-("Cartoon A / Cartoon B"). Twelve part-files become six episodes that way, so
-the player lists 41 episodes where the data file has 47 rows — the guide card's
-count is of rows.
+A Ren & Stimpy half-hour is normally *two* ~11-minute cartoons, and that is
+what makes the numbering here look odd. Everywhere except Season 3 the pair
+arrives as a single file and the title just names both stories — "Space Dogged
+- Feud for Sale". Season 3's uploader instead broke six of its ten half-hours
+out into their two cartoons as separate files, coded `S03E01a` / `S03E01b`.
+
+`mergeParts` folds those back together: the halves play back to back as one
+episode, the scrubber and runtime span both, and the list shows the merged
+title ("Cartoon A / Cartoon B"). The runtimes confirm the reading — each half
+runs 9-12 minutes and each pair sums to 20-23, the same as every whole-file
+entry.
+
+So twelve part-files become six episodes, and the player lists 41 episodes
+where the data file has 47 rows. The guide card counts rows.
+
+Two entries are genuinely not pairs: S01E00 "Big House Blues" is the 1990
+pilot, a single 8-minute short, and a handful of half-hours (S03E04, S03E05,
+S03E07, S03E09, S04E01, S05E09) gave one story the full slot.
 
 Merging depends on `durations` covering every part, which it does; all 47
 runtimes come from the items' own metadata.
