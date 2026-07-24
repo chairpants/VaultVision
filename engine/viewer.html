@@ -671,11 +671,17 @@ function chName() {
   const shows = currentShows();
   return shows[Math.min(q, shows.length - 1)];
 }
-// 'lineup' shows only: which 4-show slate was airing on this broadcast's date
+// 'lineup' shows only: which 4-show slate was airing on this broadcast's date.
+// Most titles carry a full MM/DD/YYYY, but some tapes are only dated to the
+// year — fall back to Jan 1 of it, since the slate changes at most once or
+// twice a season, so a year still usually lands on the right one. With no
+// date at all (or one predating the whole table), name the show itself rather
+// than throwing: this runs on every REW/FF and 'ch' popup.
 function lineup([id, title]) {
-  const m = title.match(/(\d\d)\/(\d\d)\/(\d{4})/);
-  const d = `${m[3]}-${m[1]}-${m[2]}`;
-  return SHOW.lineups.findLast(l => d >= l[0])[1];
+  const m = title.match(/(\d\d)\/(\d\d)\/(\d{4})/), y = m || title.match(/\b(\d{4})\b/);
+  if (!y) return [SHOW.title];
+  const d = m ? `${m[3]}-${m[1]}-${m[2]}` : `${y[1]}-01-01`;
+  return SHOW.lineups.findLast(l => d >= l[0])?.[1] ?? [SHOW.title];
 }
 const MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 const airdate = t => { const m = t.match(/(\d\d)\/(\d\d)\/(\d{4})/);

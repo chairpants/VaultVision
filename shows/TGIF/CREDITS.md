@@ -40,6 +40,12 @@ archive.org uploaders' own episode breakdowns where available, cross-checked
 against [Wikipedia's TGIF article](https://en.wikipedia.org/wiki/TGIF_(TV_programming_block))
 for the seasons where no per-episode breakdown existed.
 
+One recording is dated only to the year — it's listed as "TGIF - 1994" rather
+than inventing a broadcast date it doesn't have. The player reads a bare year
+as January 1st for lineup purposes, which puts it in the Sept 1993 slate:
+Family Matters, Boy Meets World, Step By Step, Hangin' With Mr. Cooper —
+the same four the item's own title names.
+
 ## Everything else
 
 - **[three.js](https://threejs.org)** (MIT) — 3D rendering, including
