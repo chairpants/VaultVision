@@ -7,6 +7,10 @@ window.SHOW = {
   nestedPaths: false,
   grouping: "season",
   segments: "none",
+  // seasons 3-4 open on the uploader's colorization credit card, about a
+  // minute of sponsor logos before the show's own titles; 1 and 2 are
+  // untouched Blu-ray rips that start where they should
+  introSkipBySeason: { 3: 64, 4: 64 },
   cropBySeason: {
     // this rip frames the picture inside a black surround with a watermark
     // panel down the left; measured per season with ffmpeg cropdetect

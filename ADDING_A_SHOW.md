@@ -504,21 +504,34 @@ always render `Season N`. `seasonNames` is player-only.
 
 ---
 
-### `introSkipSeconds`
+### `introSkipSeconds` / `introSkipBySeason`
 
-**Type:** `number` (seconds) · Optional.
+**Type:** `number` (seconds), or `{ [seasonNumber]: number }` · Optional.
 
-Starts playback this far in — for rips with a baked-in station intro before
-every episode.
+Starts playback this far in — for rips that open on something that isn't the
+show: a baked-in station intro, or an uploader's colorization credit.
 
 ```js
-introSkipSeconds: 54,
+introSkipSeconds: 54,                  // every episode (AlfredHitchcockPresents)
+introSkipBySeason: { 3: 64, 4: 64 },   // per season (TwilightZone1959)
 ```
 
-Applies **only** on the first part of an episode and **only** when not resuming
-a saved position. Currently used by `AlfredHitchcockPresents`.
+Resolved exactly like [`crop`](#crop--cropbyseason):
+`introSkipBySeason?.[season] ?? introSkipSeconds ?? 0`. Use the per-season form
+when only some seasons come from a topped-and-tailed rip — Twilight Zone's
+colorized seasons 3-4 need it while its Blu-ray seasons 1-2 start correctly, and
+a show-wide value would cut a minute off every one of those.
 
-**Roku:** yes, as `introSkip`.
+Applies **only** on the first part of an episode and **only** when not resuming
+a saved position, so it never fights a saved playhead.
+
+Measure it rather than guessing: sample the first 90 seconds
+(`ffmpeg -i URL -t 90 -vf "fps=1/5,scale=220:-1,tile=9x2" -frames:v 1 out.jpg`)
+and read off where the show actually starts.
+
+**Roku:** yes — `introSkipSeconds` as a show-level `introSkip`, and
+`introSkipBySeason` resolved to a per-episode `introSkip`, the same way `crop`
+is. The Roku player does not read the per-episode field yet.
 
 ---
 

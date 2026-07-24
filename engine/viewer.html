@@ -574,7 +574,7 @@ async function load() {
       addEventListener('keydown', () => v.muted = false, { once: true });
     }
     if (seekLocal > 0) v.currentTime = seekLocal; // resume, within the mapped part
-    else if (partIndex === 0 && SHOW.introSkipSeconds) v.currentTime = SHOW.introSkipSeconds; // intro skip: first part only
+    else if (partIndex === 0 && introSkipFor(epIndex)) v.currentTime = introSkipFor(epIndex); // intro skip: first part only
     fails = 0;
     loadRetry = 0;
   } catch (e) {
@@ -796,6 +796,16 @@ let flatMode = true;
 // crop, behavior unchanged. Resolved per episode so it can vary as you page.
 function cropFor(n) {
   return SHOW.cropBySeason?.[seasonOf(n)] ?? SHOW.crop ?? null;
+}
+// ---- intro skip -------------------------------------------------------------
+// Seconds to jump on first play, for rips that open on something that isn't the
+// show — a station intro, or an uploader's colorization credit. `introSkipSeconds`
+// applies to every episode; `introSkipBySeason` keys the same by season number,
+// for shows whose seasons come from differently-topped rips (Twilight Zone's
+// colorized seasons 3-4 sit alongside untouched Blu-ray rips of 1-2). Resolved
+// per episode so it can vary as you page; 0/absent means start at the top.
+function introSkipFor(n) {
+  return SHOW.introSkipBySeason?.[seasonOf(n)] ?? SHOW.introSkipSeconds ?? 0;
 }
 // CSS transform (with transform-origin: 0 0) that maps the crop rect onto the
 // full element box — valid for any object-fit:fill layer showing the video,
