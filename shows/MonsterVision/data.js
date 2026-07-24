@@ -317,9 +317,4 @@ window.SHOW = {
   "joe-bob-briggs-monstervision::JoeBobBriggs_Willy_Wonka_Chocolate_Factory.mp4": "Willy Wonka Chocolate Factory",
   "joe-bob-briggs-monstervision::JoeBobBriggs_Xmas_Part1_Gremlins.mp4": "Xmas Part1 Gremlins",
 },
-  shows: {
-  'myopic-vhs-no-05': ['Casshan: Robot Hunter', 'Outlaw Star', 'Tenchi Muyo!', 'Beast Wars'],
-  'myopic-vhs-no-08': ['Roujin Z', 'Project A-Ko', 'Outlaw Star'],
-  'myopic-vhs-no-09': ['Dominion Tank Police', 'Dragon Ball Z', 'Tenchi Muyo!'],
-},
 };

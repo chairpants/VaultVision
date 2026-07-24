@@ -28,15 +28,24 @@ three seasons. The following non-episode files were excluded:
 - Original unedited versions
 
 Episode numbering follows the archive's scheme; episodes 001-022 are Season 1,
-023-044 are Season 2, and 045-067 are Season 3. Episode titles have been
-normalized from the archive filenames (e.g., "The End?" instead of "The End").
+023-044 are Season 2, and 045-067 are Season 3. The uploader capitalized every
+word of every filename, so the guide uses ordinary title case instead ("Panic
+at Malibu Pier", not "Panic At Malibu Pier") — 21 of the 67 titles differ that
+way, and in no other.
 
-Three two-part episodes are included:
-- S02E01-02: Nightmare Bay
-- S03E01-02: River of No Return  
-- S03E15-16: Vacation
-- S03E19-20: Shattered
-- S03E23: Race Against Time Part 1 (Part 2 not in this collection)
+Five two-part stories are here in full. Both halves are listed as their own
+episodes rather than merged, since each aired as a separate broadcast:
+- S02E01 / S02E02: Nightmare Bay
+- S02E09 / S02E10: The Trophy
+- S03E01 / S03E02: River of No Return
+- S03E15 / S03E16: Vacation
+- S03E19 / S03E20: Shattered
+
+A sixth is orphaned: S03E23 is "Race Against Time Part 1", and Part 2 isn't in
+this collection.
+
+The Season 1 opener runs 95 minutes — it was a feature-length pilot, not a
+truncated or doubled rip.
 
 ## Captions
 
