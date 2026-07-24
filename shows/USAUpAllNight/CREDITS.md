@@ -86,7 +86,8 @@ No captions yet for this player — `captions.js` is an empty placeholder.
 
 ## Poster
 
-The block's own logo bumper, from a 1990s commercial-break capture.
+Gilbert Gottfried mid-rant, from the *Hell Comes to Frogtown* broadcast he
+hosted — he is who this block looks like.
 
 ## Everything else
 
