@@ -456,9 +456,18 @@ Requirements:
 * Rows without a trailing letter never merge; mixing merged and unmerged rows in
   one show is fine.
 
+Counting: `show.html` applies the same fold, so both it and the player list the
+**merged** count. Write that number on the `index.html` card too — Ren & Stimpy
+is 47 rows and reads as "41 episodes" everywhere on the web.
+
+The `?ep=` index in a link is an index into the **merged** list. Anything
+generating those links has to merge first, or it addresses the wrong episode.
+
 Only `RenAndStimpy` uses this.
 
-**Roku:** no — parts appear as separate episodes there.
+**Roku:** no — the catalog lists parts as separate episodes (its player has no
+part-chaining), so a merged show's Roku episode count is the raw row count
+while the guide card, coming from `index.html`, gives the merged one.
 
 ---
 

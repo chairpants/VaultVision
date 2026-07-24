@@ -110,7 +110,31 @@
 
   function codeOf(title) { return title.split(' - ')[1] || ''; }
   function seasonOf(title) { const m = codeOf(title).match(/S(\d+)/i); return m ? +m[1] : 1; }
-  function epKey(ep) { return ep[2] || ep[0]; }
+  // must match the player's epKey exactly — it's the id the watched-set is
+  // stored under, and a bare filename never matches an "item::file" entry
+  function epKey(ep) { return ep[2] ? ep[0] + '::' + ep[2] : ep[0]; }
+
+  // mergeParts: fold split entries (S03E01a + S03E01b -> one S03E01) the same
+  // way the player does. Not cosmetic — the player's ?ep= is an index into its
+  // *merged* list, so without this the rows below link to the wrong episode
+  // (drifting by one per merge) and the last few point past the end entirely.
+  function episodesOf(SHOW) {
+    if (!SHOW.mergeParts) return SHOW.episodes;
+    const out = [];
+    for (const [id, title, file] of SHOW.episodes) {
+      const code = codeOf(title);
+      const m = code.match(/^(.*\d)([a-z])$/i);   // "S03E01a" -> base "S03E01" + part "a"
+      const prev = out[out.length - 1];
+      if (m && prev && prev._base === m[1]) {     // another part of the current episode
+        prev[1] += ' / ' + title.split(' - ').slice(2).join(' - ');
+        continue;
+      }
+      const entry = [id, m ? title.replace(code, m[1]) : title, file];
+      entry._base = m ? m[1] : '\0' + out.length; // non-parts get a base nothing can merge into
+      out.push(entry);
+    }
+    return out;
+  }
 
   function init(SHOW) {
     // fills in the poster when we arrived here without a usable ?art= (Resume
@@ -120,15 +144,16 @@
     if (!art && SHOW.art) document.getElementById('artImg').src = 'art/' + SHOW.art;
     document.title = SHOW.title + ' — VaultVision';
     document.getElementById('titleEl').textContent = SHOW.title;
+    const episodes = episodesOf(SHOW);
     document.getElementById('countEl').textContent =
-      SHOW.episodes.length + (SHOW.grouping === 'season' ? ' episodes' : ' parts');
+      episodes.length + (SHOW.grouping === 'season' ? ' episodes' : ' parts');
 
     let progress = null;
     try { progress = JSON.parse(localStorage[SHOW.storageProgressKey]); } catch {}
     const watched = new Set(progress?.w || []);
     const playBtn = document.getElementById('playBtn');
-    if (progress && SHOW.episodes[progress.i]) {
-      playBtn.textContent = '▶ Resume — ' + codeOf(SHOW.episodes[progress.i][1]);
+    if (progress && episodes[progress.i]) {
+      playBtn.textContent = '▶ Resume — ' + codeOf(episodes[progress.i][1]);
       playBtn.href = `engine/viewer.html?show=${showId}${artParam}&v=${bust}`; // no &ep=: let the viewer resume its own saved time
     } else {
       playBtn.textContent = '▶ Play';
@@ -137,7 +162,7 @@
 
     // group into seasons (single implicit "season" for flat shows)
     const seasons = [];
-    SHOW.episodes.forEach((ep, i) => {
+    episodes.forEach((ep, i) => {
       const sn = SHOW.grouping === 'season' ? seasonOf(ep[1]) : 1;
       let season = seasons.find(x => x.n === sn);
       if (!season) seasons.push(season = { n: sn, indices: [] });
@@ -168,9 +193,9 @@
       list.innerHTML = '';
       rows = [playBtn];
       for (const idx of seasons[curSeason].indices) {
-        const [id, title] = SHOW.episodes[idx];
+        const [id, title] = episodes[idx];
         const row = document.createElement('a');
-        row.className = 'ep' + (watched.has(epKey(SHOW.episodes[idx])) ? ' watched' : '');
+        row.className = 'ep' + (watched.has(epKey(episodes[idx])) ? ' watched' : '');
         row.href = `engine/viewer.html?show=${showId}&ep=${idx}${artParam}&v=${bust}`;
         row.innerHTML = `<span class="code">${codeOf(title)}</span><span class="title">${
           title.split(' - ').slice(2).join(' - ') || title}</span>`;
