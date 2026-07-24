@@ -19,5 +19,16 @@ window.SHOW = {
     ['woops_202206', "WOOPS! - S01E09 - The Thanksgiving Show", "Woops! S01E09 The Thanksgiving Show.mp4"],
     ['woops_202206', "WOOPS! - S01E10 - Say It Ain't So, Santa", "Woops! S01E10 Say It Ain't So, Santa.mp4"],
   ],
-  durations: {},
+  durations: {
+  "woops_202206::Woops! S01E01 Pilot.mp4": 1327,
+  "woops_202206::Woops! S01E02 Its a dirty job.mp4": 1369,
+  "woops_202206::Woops! S01E03 Root of All Evil.mp4": 1362,
+  "woops_202206::Woops! S01E04 Days of Berries and Roses.mp4": 1362,
+  "woops_202206::Woops! S01E05 The Rise and Fall of Alice McConnell.mp4": 1341,
+  "woops_202206::Woops! S01E06 The Election.mp4": 1379,
+  "woops_202206::Woops! S01E07 Curtis Unglued.mp4": 1375,
+  "woops_202206::Woops! S01E08 Dumb Love.mp4": 1382,
+  "woops_202206::Woops! S01E09 The Thanksgiving Show.mp4": 1379,
+  "woops_202206::Woops! S01E10 Say It Ain't So, Santa.mp4": 1379,
+},
 };
