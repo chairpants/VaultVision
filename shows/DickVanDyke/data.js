@@ -8,6 +8,9 @@ window.SHOW = {
   grouping: "season",
   segments: "none",
   seasonNames: { 0: "Unaired Pilot" },
+  // The guide card headlines 158, not the 159 rows here: the season-0 pilot is
+  // called out in the card's note instead of folded into the total.
+  cardCountExcludeSeasons: [0],
   episodes: [
   ['the-dick-van-dyke-show-the-complete-series-1961-1966', "THE DICK VAN DYKE SHOW - S00E00 - Head of the Family (Pilot)",
     "The Dick Van Dyke Show (The Complete Series) [1961 - 1966]/Season 1/S00E00 - Head of the Family (Pilot).mp4"],
