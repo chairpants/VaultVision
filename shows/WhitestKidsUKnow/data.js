@@ -7,6 +7,9 @@ window.SHOW = {
   nestedPaths: true,
   grouping: "season",
   segments: "none",
+  // 50 files hold 60 episodes — season 3 bundles two per file, as its
+  // S03E01-02 codes record. The card headlines episodes, so expand the ranges.
+  cardCountBasis: "episodes",
   episodes: [
   ['WhitestKidsUKnowSeries', "THE WHITEST KIDS U'KNOW - S01E01",
     "S1E1.mp4"],
