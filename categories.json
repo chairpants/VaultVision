@@ -1,0 +1,1130 @@
+{
+  "AceVenturaPetDetectiveSeries": {
+    "category": "Animation",
+    "order": 0
+  },
+  "AdventuresOfSonic": {
+    "category": "Animation",
+    "order": 1
+  },
+  "AeonFlux": {
+    "category": "Animation",
+    "order": 2
+  },
+  "AlvinandtheChipmunks": {
+    "category": "Animation",
+    "order": 3
+  },
+  "Animaniacs": {
+    "category": "Animation",
+    "order": 4
+  },
+  "ArchiesWeirdMysteries": {
+    "category": "Animation",
+    "order": 5
+  },
+  "AttackonTitan": {
+    "category": "Animation",
+    "order": 6
+  },
+  "BatmanBeyond": {
+    "category": "Animation",
+    "order": 7
+  },
+  "BatmanTAS": {
+    "category": "Animation",
+    "order": 8
+  },
+  "BeastWarsTransformers": {
+    "category": "Animation",
+    "order": 9
+  },
+  "BeavisButthead": {
+    "category": "Animation",
+    "order": 10
+  },
+  "Beetlejuice": {
+    "category": "Animation",
+    "order": 11
+  },
+  "Berserk1997": {
+    "category": "Animation",
+    "order": 12
+  },
+  "BigMouth": {
+    "category": "Animation",
+    "order": 13
+  },
+  "BikerMiceFromMars": {
+    "category": "Animation",
+    "order": 14
+  },
+  "BobandMargaret": {
+    "category": "Animation",
+    "order": 15
+  },
+  "BobbysWorld": {
+    "category": "Animation",
+    "order": 16
+  },
+  "Boondocks": {
+    "category": "Animation",
+    "order": 17
+  },
+  "BrakShowSeries": {
+    "category": "Animation",
+    "order": 18
+  },
+  "BubblegumCrisistheSeriesDualAudioHD": {
+    "category": "Animation",
+    "order": 19
+  },
+  "BuzzLightyearofStarCommand": {
+    "category": "Animation",
+    "order": 20
+  },
+  "CampCandy": {
+    "category": "Animation",
+    "order": 21
+  },
+  "CampLakebottom": {
+    "category": "Animation",
+    "order": 22
+  },
+  "CaptainN": {
+    "category": "Animation",
+    "order": 23
+  },
+  "CaspertheFriendlyGhost": {
+    "category": "Animation",
+    "order": 24
+  },
+  "CaspersScareSchool": {
+    "category": "Animation",
+    "order": 25
+  },
+  "CattanoogaCatstheSeries": {
+    "category": "Animation",
+    "order": 26
+  },
+  "CelebritysComicolor": {
+    "category": "Animation",
+    "order": 27
+  },
+  "CouragetheCowardlyDog": {
+    "category": "Animation",
+    "order": 28
+  },
+  "DarkwingDucktheSeries": {
+    "category": "Animation",
+    "order": 29
+  },
+  "DextersLaboratorytheSeries": {
+    "category": "Animation",
+    "order": 30
+  },
+  "Digimon": {
+    "category": "Animation",
+    "order": 31
+  },
+  "DragonBall": {
+    "category": "Animation",
+    "order": 32
+  },
+  "DragonBallGT": {
+    "category": "Animation",
+    "order": 33
+  },
+  "DragonBallSuper": {
+    "category": "Animation",
+    "order": 34
+  },
+  "DragonBallZ": {
+    "category": "Animation",
+    "order": 35
+  },
+  "DragonBallZKai": {
+    "category": "Animation",
+    "order": 36
+  },
+  "DragonBallZMovies": {
+    "category": "Animation",
+    "order": 37
+  },
+  "DuckDodgers": {
+    "category": "Animation",
+    "order": 38
+  },
+  "Duckman": {
+    "category": "Animation",
+    "order": 39
+  },
+  "DuckTalesSeriesWorkinProgress": {
+    "category": "Animation",
+    "order": 40
+  },
+  "EdEddNEddySeriesAllEpisodesandSpecials": {
+    "category": "Animation",
+    "order": 41
+  },
+  "FairlyOddParents": {
+    "category": "Animation",
+    "order": 42
+  },
+  "GarbagePailKids": {
+    "category": "Animation",
+    "order": 43
+  },
+  "GarfieldandFriendsSeries": {
+    "category": "Animation",
+    "order": 44
+  },
+  "Godzilla": {
+    "category": "Animation",
+    "order": 45
+  },
+  "GravityFalls": {
+    "category": "Animation",
+    "order": 46
+  },
+  "HeathcliffandtheCatillacCatsTVSeries": {
+    "category": "Animation",
+    "order": 47
+  },
+  "HermanandKatnip": {
+    "category": "Animation",
+    "order": 48
+  },
+  "Histeria": {
+    "category": "Animation",
+    "order": 49
+  },
+  "HomeMovies": {
+    "category": "Animation",
+    "order": 50
+  },
+  "Houndcats": {
+    "category": "Animation",
+    "order": 51
+  },
+  "InspectorGadget": {
+    "category": "Animation",
+    "order": 52
+  },
+  "InvaderZIM": {
+    "category": "Animation",
+    "order": 53
+  },
+  "KaBlam": {
+    "category": "Animation",
+    "order": 54
+  },
+  "KarateKid": {
+    "category": "Animation",
+    "order": 55
+  },
+  "LandBeforeTime": {
+    "category": "Animation",
+    "order": 56
+  },
+  "LippytheLionandHardyHarHar": {
+    "category": "Animation",
+    "order": 57
+  },
+  "LodossWarSeriesEnglishDub": {
+    "category": "Animation",
+    "order": 58
+  },
+  "LOONEYTUNESSERIES": {
+    "category": "Animation",
+    "order": 59
+  },
+  "MightyMax": {
+    "category": "Animation",
+    "order": 60
+  },
+  "MightyMousetheNewAdventures": {
+    "category": "Animation",
+    "order": 61
+  },
+  "MonsterRancher": {
+    "category": "Animation",
+    "order": 62
+  },
+  "MoralOrel": {
+    "category": "Animation",
+    "order": 63
+  },
+  "MorphFiles": {
+    "category": "Animation",
+    "order": 64
+  },
+  "MotormouseandAutocat": {
+    "category": "Animation",
+    "order": 65
+  },
+  "MuppetBabies": {
+    "category": "Animation",
+    "order": 66
+  },
+  "MutantLeague": {
+    "category": "Animation",
+    "order": 67
+  },
+  "NeonGenesisEvangelion": {
+    "category": "Animation",
+    "order": 68
+  },
+  "Oblongs": {
+    "category": "Animation",
+    "order": 69
+  },
+  "PeabodysImprobableHistory": {
+    "category": "Animation",
+    "order": 70
+  },
+  "PJs": {
+    "category": "Animation",
+    "order": 71
+  },
+  "PokmonChronicles": {
+    "category": "Animation",
+    "order": 72
+  },
+  "PokemonOrangeIslands": {
+    "category": "Animation",
+    "order": 73
+  },
+  "PokemonIndigoLeague": {
+    "category": "Animation",
+    "order": 74
+  },
+  "PolePosition": {
+    "category": "Animation",
+    "order": 75
+  },
+  "PoliceAcademyTheAnimatedSeries": {
+    "category": "Animation",
+    "order": 76
+  },
+  "PopeyetheSailorMan": {
+    "category": "Animation",
+    "order": 77
+  },
+  "PowerpuffGirls": {
+    "category": "Animation",
+    "order": 78
+  },
+  "RamboTheForceofFreedom": {
+    "category": "Animation",
+    "order": 79
+  },
+  "Recess": {
+    "category": "Animation",
+    "order": 80
+  },
+  "RenAndStimpy": {
+    "category": "Animation",
+    "order": 81
+  },
+  "RockosModernLife": {
+    "category": "Animation",
+    "order": 82
+  },
+  "RockyandBullwinkleShow": {
+    "category": "Animation",
+    "order": 83
+  },
+  "Simpsons": {
+    "category": "Animation",
+    "order": 84
+  },
+  "SonictheHedgehog": {
+    "category": "Animation",
+    "order": 85
+  },
+  "SpawntheAnimatedSeriesSeries480x480": {
+    "category": "Animation",
+    "order": 86
+  },
+  "SpiderManTAS": {
+    "category": "Animation",
+    "order": 87
+  },
+  "SpongeBobSquarePants": {
+    "category": "Animation",
+    "order": 88
+  },
+  "StarcomtheUSSpaceForceSeries": {
+    "category": "Animation",
+    "order": 89
+  },
+  "SwanBoy": {
+    "category": "Animation",
+    "order": 90
+  },
+  "TeenTitansSeries": {
+    "category": "Animation",
+    "order": 91
+  },
+  "TeenageMutantNinjaTurtles": {
+    "category": "Animation",
+    "order": 92
+  },
+  "TMNTNextMutation": {
+    "category": "Animation",
+    "order": 93
+  },
+  "TheMaskAnimatedSeries": {
+    "category": "Animation",
+    "order": 94
+  },
+  "TheTick": {
+    "category": "Animation",
+    "order": 95
+  },
+  "TinyToonAdventures": {
+    "category": "Animation",
+    "order": 96
+  },
+  "TransformersPrime": {
+    "category": "Animation",
+    "order": 97
+  },
+  "UltimateMuscleSeries": {
+    "category": "Animation",
+    "order": 98
+  },
+  "Undergrads": {
+    "category": "Animation",
+    "order": 99
+  },
+  "WackyRacesSeries": {
+    "category": "Animation",
+    "order": 100
+  },
+  "WallyGator": {
+    "category": "Animation",
+    "order": 101
+  },
+  "XMen": {
+    "category": "Animation",
+    "order": 102
+  },
+  "Action": {
+    "category": "Sitcoms",
+    "order": 0
+  },
+  "ALFtheSeries": {
+    "category": "Sitcoms",
+    "order": 1
+  },
+  "ArchieBunkersPlace": {
+    "category": "Sitcoms",
+    "order": 2
+  },
+  "AreWeThereYet": {
+    "category": "Sitcoms",
+    "order": 3
+  },
+  "BacktoYou": {
+    "category": "Sitcoms",
+    "order": 4
+  },
+  "BakersfieldPD": {
+    "category": "Sitcoms",
+    "order": 5
+  },
+  "BernieMacShow": {
+    "category": "Sitcoms",
+    "order": 6
+  },
+  "BlessThisHouse": {
+    "category": "Sitcoms",
+    "order": 7
+  },
+  "CavemenSeriesSlightlyBetterQuality": {
+    "category": "Sitcoms",
+    "order": 8
+  },
+  "CosbyShow": {
+    "category": "Sitcoms",
+    "order": 9
+  },
+  "DesigningWomen": {
+    "category": "Sitcoms",
+    "order": 10
+  },
+  "DickVanDyke": {
+    "category": "Sitcoms",
+    "order": 11
+  },
+  "DrewCareyShow": {
+    "category": "Sitcoms",
+    "order": 12
+  },
+  "EverybodyLovesRaymond": {
+    "category": "Sitcoms",
+    "order": 13
+  },
+  "FactsofLife": {
+    "category": "Sitcoms",
+    "order": 14
+  },
+  "FamilyMatters": {
+    "category": "Sitcoms",
+    "order": 15
+  },
+  "GetSmart": {
+    "category": "Sitcoms",
+    "order": 16
+  },
+  "GreenAcres": {
+    "category": "Sitcoms",
+    "order": 17
+  },
+  "GrowingPains": {
+    "category": "Sitcoms",
+    "order": 18
+  },
+  "HarryandtheHendersons": {
+    "category": "Sitcoms",
+    "order": 19
+  },
+  "HeyDude": {
+    "category": "Sitcoms",
+    "order": 20
+  },
+  "ItsYourMove": {
+    "category": "Sitcoms",
+    "order": 21
+  },
+  "JeffFoxworthyShow": {
+    "category": "Sitcoms",
+    "order": 22
+  },
+  "Joey": {
+    "category": "Sitcoms",
+    "order": 23
+  },
+  "JusttheTenofUs": {
+    "category": "Sitcoms",
+    "order": 24
+  },
+  "KingofQueens": {
+    "category": "Sitcoms",
+    "order": 25
+  },
+  "LeaveIttoBeavertheSeries": {
+    "category": "Sitcoms",
+    "order": 26
+  },
+  "LifeGoesOn": {
+    "category": "Sitcoms",
+    "order": 27
+  },
+  "MASH": {
+    "category": "Sitcoms",
+    "order": 28
+  },
+  "MadAboutYou": {
+    "category": "Sitcoms",
+    "order": 29
+  },
+  "MalcolmInTheMiddle": {
+    "category": "Sitcoms",
+    "order": 30
+  },
+  "MamasFamily": {
+    "category": "Sitcoms",
+    "order": 31
+  },
+  "MarriedWithChildren": {
+    "category": "Sitcoms",
+    "order": 32
+  },
+  "MaryTylerMooreShow": {
+    "category": "Sitcoms",
+    "order": 33
+  },
+  "McHalesNavySeries": {
+    "category": "Sitcoms",
+    "order": 34
+  },
+  "MisterEd": {
+    "category": "Sitcoms",
+    "order": 35
+  },
+  "Mulaney": {
+    "category": "Sitcoms",
+    "order": 36
+  },
+  "Nanny": {
+    "category": "Sitcoms",
+    "order": 37
+  },
+  "NedAndStacey": {
+    "category": "Sitcoms",
+    "order": 38
+  },
+  "Newhart": {
+    "category": "Sitcoms",
+    "order": 39
+  },
+  "NewsRadio": {
+    "category": "Sitcoms",
+    "order": 40
+  },
+  "ParkerLewis": {
+    "category": "Sitcoms",
+    "order": 41
+  },
+  "PetticoatJunction": {
+    "category": "Sitcoms",
+    "order": 42
+  },
+  "Popular": {
+    "category": "Sitcoms",
+    "order": 43
+  },
+  "PunkyBrewster": {
+    "category": "Sitcoms",
+    "order": 44
+  },
+  "Reba": {
+    "category": "Sitcoms",
+    "order": 45
+  },
+  "Roseanne": {
+    "category": "Sitcoms",
+    "order": 46
+  },
+  "SaluteYourShorts": {
+    "category": "Sitcoms",
+    "order": 47
+  },
+  "SavedByTheBell": {
+    "category": "Sitcoms",
+    "order": 48
+  },
+  "AlexMack": {
+    "category": "Sitcoms",
+    "order": 49
+  },
+  "Seinfeld": {
+    "category": "Sitcoms",
+    "order": 50
+  },
+  "ShastaMcNasty": {
+    "category": "Sitcoms",
+    "order": 51
+  },
+  "SoulMan": {
+    "category": "Sitcoms",
+    "order": 52
+  },
+  "StillStanding": {
+    "category": "Sitcoms",
+    "order": 53
+  },
+  "Ted": {
+    "category": "Sitcoms",
+    "order": 54
+  },
+  "Tucker": {
+    "category": "Sitcoms",
+    "order": 55
+  },
+  "UnhappilyEverAfter": {
+    "category": "Sitcoms",
+    "order": 56
+  },
+  "VeronicasCloset": {
+    "category": "Sitcoms",
+    "order": 57
+  },
+  "WeberShow": {
+    "category": "Sitcoms",
+    "order": 58
+  },
+  "WhatILikeAboutYou": {
+    "category": "Sitcoms",
+    "order": 59
+  },
+  "WkrpinCincinnati": {
+    "category": "Sitcoms",
+    "order": 60
+  },
+  "Woops": {
+    "category": "Sitcoms",
+    "order": 61
+  },
+  "ZoeDuncanJackJane": {
+    "category": "Sitcoms",
+    "order": 62
+  },
+  "ATeam": {
+    "category": "Drama & Adventure",
+    "order": 0
+  },
+  "BriscoCountyJr": {
+    "category": "Drama & Adventure",
+    "order": 1
+  },
+  "Animorphs": {
+    "category": "Drama & Adventure",
+    "order": 2
+  },
+  "Automan": {
+    "category": "Drama & Adventure",
+    "order": 3
+  },
+  "BarbaryCoast": {
+    "category": "Drama & Adventure",
+    "order": 4
+  },
+  "BattlestarGalactica": {
+    "category": "Drama & Adventure",
+    "order": 5
+  },
+  "Baywatch": {
+    "category": "Drama & Adventure",
+    "order": 6
+  },
+  "BlueThunder": {
+    "category": "Drama & Adventure",
+    "order": 7
+  },
+  "BrooklynSouth": {
+    "category": "Drama & Adventure",
+    "order": 8
+  },
+  "BuckRogers": {
+    "category": "Drama & Adventure",
+    "order": 9
+  },
+  "CharmedtheSeries": {
+    "category": "Drama & Adventure",
+    "order": 10
+  },
+  "Chase": {
+    "category": "Drama & Adventure",
+    "order": 11
+  },
+  "DallastheSeries": {
+    "category": "Drama & Adventure",
+    "order": 12
+  },
+  "DoctorWho": {
+    "category": "Drama & Adventure",
+    "order": 13
+  },
+  "Everwood": {
+    "category": "Drama & Adventure",
+    "order": 14
+  },
+  "FireflySeries": {
+    "category": "Drama & Adventure",
+    "order": 15
+  },
+  "GeneRoddenberrysAndromeda": {
+    "category": "Drama & Adventure",
+    "order": 16
+  },
+  "HandmaidsTaleSeries": {
+    "category": "Drama & Adventure",
+    "order": 17
+  },
+  "HitchhikersGuidetotheGalaxy": {
+    "category": "Drama & Adventure",
+    "order": 18
+  },
+  "IntotheBadlands": {
+    "category": "Drama & Adventure",
+    "order": 19
+  },
+  "Jericho": {
+    "category": "Drama & Adventure",
+    "order": 20
+  },
+  "KnightRider": {
+    "category": "Drama & Adventure",
+    "order": 21
+  },
+  "LifeAsWeKnowIt": {
+    "category": "Drama & Adventure",
+    "order": 22
+  },
+  "LogansRun": {
+    "category": "Drama & Adventure",
+    "order": 23
+  },
+  "LoneGunmen": {
+    "category": "Drama & Adventure",
+    "order": 24
+  },
+  "MaxHeadroom": {
+    "category": "Drama & Adventure",
+    "order": 25
+  },
+  "Middleman": {
+    "category": "Drama & Adventure",
+    "order": 26
+  },
+  "MortalKombatConquest": {
+    "category": "Drama & Adventure",
+    "order": 27
+  },
+  "NorthernExposure": {
+    "category": "Drama & Adventure",
+    "order": 28
+  },
+  "NYPDBlue": {
+    "category": "Drama & Adventure",
+    "order": 29
+  },
+  "TheOC": {
+    "category": "Drama & Adventure",
+    "order": 30
+  },
+  "PartyOfFive": {
+    "category": "Drama & Adventure",
+    "order": 31
+  },
+  "Persuaders": {
+    "category": "Drama & Adventure",
+    "order": 32
+  },
+  "PowerRangers": {
+    "category": "Drama & Adventure",
+    "order": 33
+  },
+  "Rookies": {
+    "category": "Drama & Adventure",
+    "order": 34
+  },
+  "Space1999": {
+    "category": "Drama & Adventure",
+    "order": 35
+  },
+  "SwitchedatBirth": {
+    "category": "Drama & Adventure",
+    "order": 36
+  },
+  "Tick": {
+    "category": "Drama & Adventure",
+    "order": 37
+  },
+  "TwinPeaks": {
+    "category": "Drama & Adventure",
+    "order": 38
+  },
+  "V1983": {
+    "category": "Drama & Adventure",
+    "order": 39
+  },
+  "WonderYears": {
+    "category": "Drama & Adventure",
+    "order": 40
+  },
+  "Xena": {
+    "category": "Drama & Adventure",
+    "order": 41
+  },
+  "666ParkAvenueSeries": {
+    "category": "Horror & Anthology",
+    "order": 0
+  },
+  "AlfredHitchcockPresents": {
+    "category": "Horror & Anthology",
+    "order": 1
+  },
+  "AmazingStories": {
+    "category": "Horror & Anthology",
+    "order": 2
+  },
+  "AreYouAfraidOfTheDark": {
+    "category": "Horror & Anthology",
+    "order": 3
+  },
+  "AshvsEvilDead": {
+    "category": "Horror & Anthology",
+    "order": 4
+  },
+  "BeyondReality": {
+    "category": "Horror & Anthology",
+    "order": 5
+  },
+  "DarkShadowsTheSeries": {
+    "category": "Horror & Anthology",
+    "order": 6
+  },
+  "EerieIndiana": {
+    "category": "Horror & Anthology",
+    "order": 7
+  },
+  "FreddysNightmares": {
+    "category": "Horror & Anthology",
+    "order": 8
+  },
+  "HammerHouseofHorror": {
+    "category": "Horror & Anthology",
+    "order": 9
+  },
+  "Millennium": {
+    "category": "Horror & Anthology",
+    "order": 10
+  },
+  "NewAlfredHitchcockPresents": {
+    "category": "Horror & Anthology",
+    "order": 11
+  },
+  "SapphireandSteel": {
+    "category": "Horror & Anthology",
+    "order": 12
+  },
+  "Spooksville": {
+    "category": "Horror & Anthology",
+    "order": 13
+  },
+  "TwilightZone1959": {
+    "category": "Horror & Anthology",
+    "order": 14
+  },
+  "ABCsFridays": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 0
+  },
+  "BenStillerShow": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 1
+  },
+  "CelebrityDeathmatch": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 2
+  },
+  "HeyVernIt": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 3
+  },
+  "InLivingColor": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 4
+  },
+  "InsomniacwithDaveAttell": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 5
+  },
+  "Jackass": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 6
+  },
+  "ConanOBrien": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 7
+  },
+  "MADtv": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 8
+  },
+  "MontyPythonsFlyingCircus": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 9
+  },
+  "WhitestKidsUKnow": {
+    "category": "Sketch Comedy & Late Night",
+    "order": 10
+  },
+  "AdventuresinWonderland": {
+    "category": "Kids & Educational",
+    "order": 0
+  },
+  "AllegrasWindow": {
+    "category": "Kids & Educational",
+    "order": 1
+  },
+  "BerenstainBears": {
+    "category": "Kids & Educational",
+    "order": 2
+  },
+  "BertandErniesGreatAdventures": {
+    "category": "Kids & Educational",
+    "order": 3
+  },
+  "BillNye": {
+    "category": "Kids & Educational",
+    "order": 4
+  },
+  "CliffordtheBigRedDogSeriesSeries": {
+    "category": "Kids & Educational",
+    "order": 5
+  },
+  "CosmosaPersonalVoyage": {
+    "category": "Kids & Educational",
+    "order": 6
+  },
+  "Ghostwriter": {
+    "category": "Kids & Educational",
+    "order": 7
+  },
+  "JimHensonHour": {
+    "category": "Kids & Educational",
+    "order": 8
+  },
+  "LandOfTheLost1991": {
+    "category": "Kids & Educational",
+    "order": 9
+  },
+  "LittleBear": {
+    "category": "Kids & Educational",
+    "order": 10
+  },
+  "MartyStouffersWildAmerica": {
+    "category": "Kids & Educational",
+    "order": 11
+  },
+  "MouseFactory": {
+    "category": "Kids & Educational",
+    "order": 12
+  },
+  "MrMen": {
+    "category": "Kids & Educational",
+    "order": 13
+  },
+  "NickArcade": {
+    "category": "Kids & Educational",
+    "order": 14
+  },
+  "PlanetEarth": {
+    "category": "Kids & Educational",
+    "order": 15
+  },
+  "RoundtheTwist": {
+    "category": "Kids & Educational",
+    "order": 16
+  },
+  "SchoolhouseRock": {
+    "category": "Kids & Educational",
+    "order": 17
+  },
+  "Wishbone": {
+    "category": "Kids & Educational",
+    "order": 18
+  },
+  "WonderPetsEpisodeswithMissingEpisodes": {
+    "category": "Kids & Educational",
+    "order": 19
+  },
+  "Zoboomafoo": {
+    "category": "Kids & Educational",
+    "order": 20
+  },
+  "Asteroid1997": {
+    "category": "TV Movies",
+    "order": 0
+  },
+  "Meteorites1998": {
+    "category": "TV Movies",
+    "order": 1
+  },
+  "SometimesTheyComeBack": {
+    "category": "TV Movies",
+    "order": 2
+  },
+  "It1990": {
+    "category": "TV Movies",
+    "order": 3
+  },
+  "StormOfTheCentury": {
+    "category": "TV Movies",
+    "order": 4
+  },
+  "Langoliers": {
+    "category": "TV Movies",
+    "order": 5
+  },
+  "TheShining1997": {
+    "category": "TV Movies",
+    "order": 6
+  },
+  "TheStand1994": {
+    "category": "TV Movies",
+    "order": 7
+  },
+  "Tommyknockers": {
+    "category": "TV Movies",
+    "order": 8
+  },
+  "Tornado1996": {
+    "category": "TV Movies",
+    "order": 9
+  },
+  "VolcanoFireOnTheMountain": {
+    "category": "TV Movies",
+    "order": 10
+  },
+  "WithoutWarning1994": {
+    "category": "TV Movies",
+    "order": 11
+  },
+  "Y2KTheMovie": {
+    "category": "TV Movies",
+    "order": 12
+  },
+  "FoxKids": {
+    "category": "Broadcast Blocks",
+    "order": 0
+  },
+  "HorrorSciFi4": {
+    "category": "Broadcast Blocks",
+    "order": 1
+  },
+  "MonsterVision": {
+    "category": "Broadcast Blocks",
+    "order": 2
+  },
+  "NickAtNite": {
+    "category": "Broadcast Blocks",
+    "order": 3
+  },
+  "SatMorning": {
+    "category": "Broadcast Blocks",
+    "order": 4
+  },
+  "SciFiAnime": {
+    "category": "Broadcast Blocks",
+    "order": 5
+  },
+  "SNICK": {
+    "category": "Broadcast Blocks",
+    "order": 6
+  },
+  "TGIF": {
+    "category": "Broadcast Blocks",
+    "order": 7
+  },
+  "USAUpAllNight": {
+    "category": "Broadcast Blocks",
+    "order": 8
+  },
+  "BeyondScaredStraight2": {
+    "category": "Reality TV",
+    "order": 0
+  },
+  "JuryDutySeries": {
+    "category": "Reality TV",
+    "order": 1
+  },
+  "LivePDSeriesNotDoneYet": {
+    "category": "Reality TV",
+    "order": 2
+  },
+  "MostExtremeEliminationChallenge": {
+    "category": "Reality TV",
+    "order": 3
+  },
+  "WorldsWildestPoliceVideos": {
+    "category": "Reality TV",
+    "order": 4
+  }
+}
