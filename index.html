@@ -442,8 +442,7 @@
   // touches the genre-grid originals, not the (already-linked) clones.
   for (const c of document.querySelectorAll('a.card[href*="engine/viewer.html?show="]:not(.resume)')) {
     const id = new URL(c.href, location.href).searchParams.get('show');
-    const artFile = c.querySelector('.art img')?.getAttribute('src')?.replace(/^art\//, '') || '';
-    c.href = `show.html?show=${encodeURIComponent(id)}&art=${encodeURIComponent(artFile)}`;
+    c.href = `show.html?show=${encodeURIComponent(id)}`;
   }
 
   // Mouse-friendly scroll arrows: horizontal wheel/trackpad scrolling isn't
@@ -491,14 +490,12 @@
   // (not a reload), so the browser can serve a stale copy for up to 10
   // minutes after a deploy. One token per page load forces a fresh fetch
   // without re-fetching on every click within a visit.
-  const bust = Date.now();
+  const bust = Date.now().toString(36);
   for (const a of document.querySelectorAll('a.card[href*="show.html"], a.card[href*="viewer.html"]'))
     a.href += '&v=' + bust;
 
   // Mobile-only: prefer the taller portrait art (art/<Id>-tall.jpg) if one
   // was generated for that show; falls back to the existing image otherwise.
-  // Runs after the href rewiring above so ?art= still points at the regular
-  // (landscape) file show.html expects.
   if (matchMedia('(max-width: 720px)').matches) {
     for (const img of document.querySelectorAll('a.card .art img')) {
       const original = img.getAttribute('src');
