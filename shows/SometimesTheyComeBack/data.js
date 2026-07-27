@@ -11,5 +11,7 @@ window.SHOW = {
   ['sometimes-they-come-back-cbs-tuesday-movie-1991', "SOMETIMES THEY COME BACK - Movie",
     "Sometimes They Come Back (CBS Tuesday Movie, 1991).ia.mp4"],
 ],
-  durations: {},
+  durations: {
+  "sometimes-they-come-back-cbs-tuesday-movie-1991::Sometimes They Come Back (CBS Tuesday Movie, 1991).ia.mp4": 7032,
+},
 };

@@ -11,5 +11,7 @@ window.SHOW = {
   ['Volcano_Fire_on_the_Mountain_ABC_Movie_WOC_1997-02-23', "VOLCANO: FIRE ON THE MOUNTAIN - Movie",
     "Volcano_Fire_on_the_Mountain_ABC_Movie_WOC_1997-02-23.mp4"],
 ],
-  durations: {},
+  durations: {
+  "Volcano_Fire_on_the_Mountain_ABC_Movie_WOC_1997-02-23::Volcano_Fire_on_the_Mountain_ABC_Movie_WOC_1997-02-23.mp4": 7261,
+},
 };

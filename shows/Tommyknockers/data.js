@@ -13,5 +13,8 @@ window.SHOW = {
   ['the-tommyknockers-1993-part-1', "THE TOMMYKNOCKERS - Part 2",
     "The Tommyknockers (1993), Part 2.mp4"],
 ],
-  durations: {},
+  durations: {
+  "the-tommyknockers-1993-part-1::The Tommyknockers (1993), Part 1.mp4": 5333,
+  "the-tommyknockers-1993-part-1::The Tommyknockers (1993), Part 2.mp4": 5468,
+},
 };

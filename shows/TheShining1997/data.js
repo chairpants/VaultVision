@@ -15,5 +15,9 @@ window.SHOW = {
   ['the-shining-e-2', "THE SHINING - Part 3",
     "The Shining E3.mp4"],
 ],
-  durations: {},
+  durations: {
+  "the-shining-e-2::The Shining E1.mp4": 5216,
+  "the-shining-e-2::The Shining E2.mp4": 5209,
+  "the-shining-e-2::The Shining E3.mp4": 5462,
+},
 };

@@ -11,5 +11,7 @@ window.SHOW = {
   ['without-warning-1994_202411', "WITHOUT WARNING - Movie",
     "Without Warning, 1994.mp4"],
 ],
-  durations: {},
+  durations: {
+  "without-warning-1994_202411::Without Warning, 1994.mp4": 5319,
+},
 };

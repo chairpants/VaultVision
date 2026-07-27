@@ -11,5 +11,7 @@ window.SHOW = {
   ['the-stand-1994_202104', "THE STAND - Movie",
     "The Stand(1994).mp4"],
 ],
-  durations: {},
+  durations: {
+  "the-stand-1994_202104::The Stand(1994).mp4": 21543,
+},
 };

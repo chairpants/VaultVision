@@ -11,5 +11,7 @@ window.SHOW = {
   ['Meteorites_USA_Network_WOC_1998-06-03', "METEORITES! - Movie",
     "Meteorites_USA_Network_WOC_1998-06-03.mp4"],
 ],
-  durations: {},
+  durations: {
+  "Meteorites_USA_Network_WOC_1998-06-03::Meteorites_USA_Network_WOC_1998-06-03.mp4": 7091,
+},
 };

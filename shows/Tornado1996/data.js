@@ -11,5 +11,7 @@ window.SHOW = {
   ['tornado-1996', "TORNADO! - Movie",
     "Tornado! (1996).mp4"],
 ],
-  durations: {},
+  durations: {
+  "tornado-1996::Tornado! (1996).mp4": 5222,
+},
 };
