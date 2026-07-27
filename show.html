@@ -101,19 +101,12 @@
   // cache-buster for the viewer.html links below — same reasoning as the
   // guide's own (GitHub Pages caches it for 10min, and a link-navigation
   // won't pick up a fresh copy on its own)
-  const bust = Date.now();
+  const bust = Date.now().toString(36);
   const params = new URLSearchParams(location.search);
   const showId = params.get('show');
   const back = document.getElementById('back');
   back.href = 'index.html';
   if (!showId) { document.getElementById('titleEl').textContent = 'No show specified.'; return; }
-
-  const art = params.get('art');
-  if (art) document.getElementById('artImg').src = 'art/' + art;
-  // threaded through to viewer.html below so its own Back button can hand it
-  // straight back here — without it, arriving here via Back instead of from
-  // the guide leaves #artImg with no src (a blank/white box, not a real image)
-  const artParam = art ? `&art=${encodeURIComponent(art)}` : '';
 
   const s = document.createElement('script');
   s.src = `shows/${showId}/data.js`;
@@ -155,11 +148,7 @@
   }
 
   function init(SHOW) {
-    // fills in the poster when we arrived here without a usable ?art= (Resume
-    // cards skip straight to the viewer with no art param at all, and its Back
-    // button couldn't hand one back here either) — SHOW.art is the fallback
-    // that works no matter how this page was reached.
-    if (!art && SHOW.art) document.getElementById('artImg').src = 'art/' + SHOW.art;
+    if (SHOW.art) document.getElementById('artImg').src = 'art/' + SHOW.art;
     // Mobile-only: prefer the taller portrait art if one was generated for
     // this show; falls back to the regular poster via onerror otherwise —
     // same pattern as the guide page.
@@ -184,10 +173,10 @@
     const playBtn = document.getElementById('playBtn');
     if (progress && episodes[progress.i]) {
       playBtn.textContent = '▶ Resume — ' + codeOf(episodes[progress.i][1]);
-      playBtn.href = `engine/viewer.html?show=${showId}${artParam}&v=${bust}`; // no &ep=: let the viewer resume its own saved time
+      playBtn.href = `engine/viewer.html?show=${showId}&v=${bust}`; // no &ep=: let the viewer resume its own saved time
     } else {
       playBtn.textContent = '▶ Play';
-      playBtn.href = `engine/viewer.html?show=${showId}&ep=0${artParam}&v=${bust}`;
+      playBtn.href = `engine/viewer.html?show=${showId}&ep=0&v=${bust}`;
     }
 
     // group into seasons (single implicit "season" for flat shows)
@@ -226,7 +215,7 @@
         const [, title] = episodes[idx];
         const row = document.createElement('a');
         row.className = 'ep' + (watched.has(epKey(episodes[idx])) ? ' watched' : '');
-        row.href = `engine/viewer.html?show=${showId}&ep=${idx}${artParam}&v=${bust}`;
+        row.href = `engine/viewer.html?show=${showId}&ep=${idx}&v=${bust}`;
         row.innerHTML = `<span class="code">${codeOf(title)}</span><span class="title">${
           title.split(' - ').slice(2).join(' - ') || title}</span>`;
         list.append(row);

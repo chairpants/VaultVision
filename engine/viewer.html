@@ -361,12 +361,8 @@ if (!showId) {
   fatal('No show specified. Use viewer.html?show=<ShowId>');
   throw new Error('missing ?show=');
 }
-// one step back: the show's episode list, not the top-level guide. Carries
-// ?art= along (when we were handed one) so that screen's poster still loads
-// instead of showing a blank box — it has no other way to know the filename.
-const artFile = urlParams.get('art');
-back.href = `../show.html?show=${encodeURIComponent(showId)}` +
-  (artFile ? `&art=${encodeURIComponent(artFile)}` : '');
+// one step back: the show's episode list, not the top-level guide
+back.href = `../show.html?show=${encodeURIComponent(showId)}`;
 let SHOW;
 try {
   // a classic script tag, not import() — unlike ES modules, this loads fine
