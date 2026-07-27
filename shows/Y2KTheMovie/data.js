@@ -11,5 +11,7 @@ window.SHOW = {
   ['Y2K_The_Movie_NBC_WOC_1999-11-21', "Y2K: THE MOVIE - Movie",
     "Y2K_The_Movie_NBC_WOC_1999-11-21.mp4"],
 ],
-  durations: {},
+  durations: {
+  "Y2K_The_Movie_NBC_WOC_1999-11-21::Y2K_The_Movie_NBC_WOC_1999-11-21.mp4": 7026,
+},
 };

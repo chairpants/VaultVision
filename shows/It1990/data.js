@@ -11,5 +11,7 @@ window.SHOW = {
   ['stephen.-kings.-it.-1990.1080-p.-bluray.-x-264-riprg', "IT - Movie",
     "Stephen.Kings.It.1990.1080P.Bluray.X264-Riprg.ia.mp4"],
 ],
-  durations: {},
+  durations: {
+  "stephen.-kings.-it.-1990.1080-p.-bluray.-x-264-riprg::Stephen.Kings.It.1990.1080P.Bluray.X264-Riprg.ia.mp4": 11245,
+},
 };

@@ -11,5 +11,7 @@ window.SHOW = {
   ['Storm_of_The_Century_ABC_WOC_1999-02', "STORM OF THE CENTURY - Movie",
     "Storm_of_The_Century_ABC_WOC_1999-02.mp4"],
 ],
-  durations: {},
+  durations: {
+  "Storm_of_The_Century_ABC_WOC_1999-02::Storm_of_The_Century_ABC_WOC_1999-02.mp4": 20872,
+},
 };

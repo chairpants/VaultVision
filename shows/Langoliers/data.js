@@ -11,5 +11,7 @@ window.SHOW = {
   ['stephen-kings-the-langoliers-1995-hd', "THE LANGOLIERS - Movie",
     "Stephen King's The Langoliers 1995 (HD).mp4"],
 ],
-  durations: {},
+  durations: {
+  "stephen-kings-the-langoliers-1995-hd::Stephen King's The Langoliers 1995 (HD).mp4": 10802,
+},
 };

@@ -11,5 +11,7 @@ window.SHOW = {
   ['Asteroid_NBC_Movie_1997-02-16_and_1997-02-17_WOC', "ASTEROID - Movie",
     "Asteroid_NBC_Movie_1997-02-16_and_1997-02-17_WOC.mp4"],
 ],
-  durations: {},
+  durations: {
+  "Asteroid_NBC_Movie_1997-02-16_and_1997-02-17_WOC::Asteroid_NBC_Movie_1997-02-16_and_1997-02-17_WOC.mp4": 14400,
+},
 };
