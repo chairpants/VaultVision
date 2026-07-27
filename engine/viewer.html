@@ -1,5 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>VaultVision</title>
 <style>
   * { box-sizing: border-box; }
@@ -53,7 +54,7 @@
      outrank this and leave CC visible in 3D mode. */
   body:not(.flat) .flat-only { display: none !important; }
   #label { max-width: 100%; display: flex; align-items: center; gap: 8px;
-    font: 14px VCR, monospace; color: #e8def8; opacity: .85; }
+    font: 16px VCR, monospace; color: #e8def8; opacity: .85; }
   /* flex: 0 1 auto (not 1 1 auto): hugs the text's own width instead of
      stretching to fill the row, so the globe icon sits right after the title
      instead of pinned to the row's far edge. min-width:0 lets it still shrink
@@ -72,7 +73,7 @@
   #sourceLink:hover { color: #e8def8; }
   /* row 1: scrubber, on its own */
   #scrubRow { display: flex; align-items: center; gap: 12px; }
-  #scrubRow .t { font: 12px VCR, monospace; color: #34e0ff; opacity: .9; min-width: 3.5em; }
+  #scrubRow .t { font: 14px VCR, monospace; color: #34e0ff; opacity: .9; min-width: 3.5em; }
   #scrubRow .t.dur { text-align: right; }
   /* row 2: transport (prev/play-pause/next, grouped) + volume + the rest */
   #ctrlRow { display: flex; align-items: center; gap: 18px; }
@@ -99,11 +100,36 @@
   #hudBtns > div svg { width: 24px; height: 24px; display: block; }
   #hudBtns > div:hover { color: #e8def8; }
   #mode3d.on, #mode3d.on:hover { color: #34e0ff; } /* on = currently in 3D mode */
+  /* fullscreenBtn: same two-icon swap pattern as playPause's play/pause pair */
+  #fullscreenBtn .ic-exit { display: none; }
+  #fullscreenBtn.on .ic-enter { display: none; }
+  #fullscreenBtn.on .ic-exit { display: block; }
   #cc.on, #cc.on:hover { color: #34e0ff; }
   body.lit:not(.flat) #lights { color: #34e0ff; }
   /* flat mode, ambient disabled: cross out the lights icon */
   #lights .off-slash { display: none; position: absolute; inset: 0; }
   #lights.off .off-slash { display: block; }
+
+  /* Mobile: prev/next/volume are redundant with the episode list and (on
+     iOS especially) a JS volume slider doesn't even control real output
+     volume — hardware buttons do. They also sit right against the video,
+     making them easy to hit by accident on a touchscreen. pointer:coarse
+     (not a width breakpoint) so a real touch device is what's targeted,
+     landscape included, not just a narrow window. */
+  @media (pointer: coarse) {
+    #prev, #next, #volSlider { display: none; }
+  }
+  /* Portrait phones: the remaining HUD icons are desktop-mouse-sized —
+     give them real touch targets and more breathing room between them. */
+  @media (pointer: coarse) and (orientation: portrait) {
+    #hudBtns { gap: 26px; }
+    #hudBtns > div svg { width: 38px; height: 38px; }
+    #playPause svg { width: 44px; height: 44px; }
+    /* ponytail: avoid pushing viewport with large fixed-height elements in portrait */
+    #hud { max-height: 120px; }
+    #back { width: 52px; height: 52px; top: 14px; left: 14px; }
+    #back svg { width: 26px; height: 26px; }
+  }
 
   /* flat-mode pause icon: neutral gray, centered, replaces the 3D-only green
      corner bars so playback state doesn't lean on the reserved neon color */
@@ -273,6 +299,10 @@
         <svg class="off-slash" viewBox="0 0 24 24"><line x1="3" y1="3" x2="21" y2="21" stroke="currentColor" stroke-width="2"/></svg>
       </div>
       <div id="mode3d" title="3D TV mode"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M21 3H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h5v2h8v-2h5c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 14H3V5h18v12z"/></svg></div>
+      <div id="fullscreenBtn" title="Fullscreen">
+        <svg class="ic-enter" viewBox="0 0 24 24"><path fill="currentColor" d="M7 14H5v5h5v-2H7v-3zM5 10h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+        <svg class="ic-exit" viewBox="0 0 24 24"><path fill="currentColor" d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"/></svg>
+      </div>
     </div>
   </div>
 </div>
@@ -869,6 +899,19 @@ function setFlatMode(on) {
   settings.mode3d = !on; saveSettings();
 }
 mode3d.onclick = () => setFlatMode(!flatMode);
+// explicit button alongside mode3d: double-tap-to-fullscreen is unreliable on
+// touchscreens (easy to miss, easy to trigger by accident), so this is the
+// same toggle the dblclick handler below already does, just tap-friendly.
+function toggleFullscreen() {
+  // .catch(): rejects on some mobile browsers (inconsistent Fullscreen API
+  // support) or a non-trusted call — nothing useful to do but not throw
+  const p = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+  p?.catch(() => {});
+}
+fullscreenBtn.onclick = toggleFullscreen;
+document.addEventListener('fullscreenchange', () => {
+  fullscreenBtn.classList.toggle('on', !!document.fullscreenElement);
+});
 settingsBtn.onclick = toggleSettingsMenu;
 episodesBtn.onclick = toggleList;
 
@@ -1583,8 +1626,7 @@ renderer.domElement.addEventListener('dblclick', () => {
   // season arrows fast, not a fullscreen request — the browser still fires
   // its native dblclick on any two fast clicks regardless of what they hit
   if (osdMode === 'list' || osdMode === 'set') return;
-  document.fullscreenElement ? document.exitFullscreen()
-    : document.documentElement.requestFullscreen();
+  toggleFullscreen();
 });
 
 // press-and-hold state: holding FF/REW scrubs, holding VOL +/- ramps the volume
@@ -1756,10 +1798,10 @@ renderer.domElement.addEventListener('pointerup', e => {
   }
   if (hit.object === screenMesh) {
     const u = hit.uv.x, y = 1 - hit.uv.y;
-    if (u < 0.115) { chunk(-1); if (SEGKIND !== 'none') popup('ch'); }
-    else if (u > 0.885) { chunk(1); if (SEGKIND !== 'none') popup('ch'); }
-    else if (y < 0.115 && u > 0.23 && u < 0.77) { v.volume = Math.min(1, v.volume + 0.1); popup('vol'); }
-    else if (y > 0.885 && u > 0.23 && u < 0.77) { v.volume = Math.max(0, v.volume - 0.1); popup('vol'); }
+    if (!flatMode && u < 0.115) { chunk(-1); if (SEGKIND !== 'none') popup('ch'); }
+    else if (!flatMode && u > 0.885) { chunk(1); if (SEGKIND !== 'none') popup('ch'); }
+    else if (!flatMode && y < 0.115 && u > 0.23 && u < 0.77) { v.volume = Math.min(1, v.volume + 0.1); popup('vol'); }
+    else if (!flatMode && y > 0.885 && u > 0.23 && u < 0.77) { v.volume = Math.max(0, v.volume - 0.1); popup('vol'); }
     else if (performance.now() - listClosedAt > 400) {
       clearTimeout(pauseTimer);
       pauseTimer = setTimeout(() => {
@@ -1813,6 +1855,8 @@ size();
 loadSettings();
 setFlatMode(!settings.mode3d); // restore persisted mode, default flat
 updateScreenFilters();
+v.addEventListener('playing', size);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', size);
 
 // --- TV remote (Tizen) + keyboard control -----------------------------------
 // The player was built for mouse/3D-button input; on a TV the remote drives it
