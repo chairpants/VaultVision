@@ -1,5 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VaultVision</title>
 <style>
   * { box-sizing: border-box; }
@@ -59,6 +60,22 @@
     background: linear-gradient(90deg, #0c0a1fee 30%, #0c0a1f00); }
   .row-arrow.right { right: 0; justify-content: flex-end; padding-right: 4px;
     background: linear-gradient(270deg, #0c0a1fee 30%, #0c0a1f00); }
+
+  /* Mobile: hover-revealed arrows don't work on touch, and small landscape
+     thumbnails read poorly on a phone — go bigger with portrait art instead.
+     Desktop layout above is untouched. */
+  @media (max-width: 720px) {
+    body { padding-top: 20px; }
+    h1 { font-size: 1.7em; margin-bottom: 4px; }
+    .sub { margin-bottom: 24px; }
+    .row-arrow { display: none; }
+    h2 { font-size: 1.3em; margin-bottom: 10px; padding-bottom: 6px; }
+    .row-wrap { margin-bottom: 26px; }
+    a.card { flex-basis: 33vw; padding: 12px 10px; }
+    a.card .art { height: auto; aspect-ratio: 2 / 3; margin: -12px -10px 8px; }
+    a.card .name { font-size: 1.05em; }
+    a.card .count { font-size: .8em; }
+  }
 </style>
 <h1>VaultVision</h1>
 <p class="sub">pick something to watch — every title streams straight from archive.org</p>
@@ -477,5 +494,18 @@
   const bust = Date.now();
   for (const a of document.querySelectorAll('a.card[href*="show.html"], a.card[href*="viewer.html"]'))
     a.href += '&v=' + bust;
+
+  // Mobile-only: prefer the taller portrait art (art/<Id>-tall.jpg) if one
+  // was generated for that show; falls back to the existing image otherwise.
+  // Runs after the href rewiring above so ?art= still points at the regular
+  // (landscape) file show.html expects.
+  if (matchMedia('(max-width: 720px)').matches) {
+    for (const img of document.querySelectorAll('a.card .art img')) {
+      const original = img.getAttribute('src');
+      const tall = original.replace(/(\.[^.\/]+)$/, '-tall$1');
+      img.onerror = () => { img.onerror = null; img.src = original; };
+      img.src = tall;
+    }
+  }
 </script>
 <script src="tv.js"></script>
