@@ -1,5 +1,6 @@
 <!doctype html>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VaultVision — show</title>
 <style>
   * { box-sizing: border-box; }
@@ -59,11 +60,29 @@
     white-space: nowrap; }
   .ep.watched .title::after { content: ' \2713'; opacity: .5; }
 
-  /* locked bottom panel: never scrolls with the list */
-  #desc { flex: 0 0 auto; max-width: 1100px; width: 100%; margin: 0 auto; box-sizing: border-box;
-    padding: 14px 24px; min-height: 24px; font-size: .85em; line-height: 1.5; opacity: .85;
-    border-top: 1px solid #b23bff30; background: #1c0f3a88; }
-  #desc .t { color: #34e0ff; display: block; margin-bottom: 4px; }
+  /* Mobile: back button grows to a real touch target (~finger-tip sized).
+     Header stays a compact row (bigger poster than desktop, but not
+     full-bleed) so the season tabs sit right under the Play button and the
+     episode list — the thing actually being read/tapped — keeps most of the
+     screen, with bigger text and taller rows. Desktop rules above are
+     untouched. */
+  @media (max-width: 720px) {
+    a#back { width: 52px; height: 52px; top: 14px; left: 14px; }
+    a#back svg { width: 26px; height: 26px; }
+    #head { padding: 66px 16px 0; gap: 14px; display: grid; grid-template-columns: 220px 1fr; }
+    #head .art { width: 182px; margin: 0 auto; height: auto; aspect-ratio: 2 / 3; }
+    #head .meta { padding-top: 0; }
+    #head h1 { font-size: 1.5em; }
+    #head .count { font-size: 1em; }
+    a#playBtn { padding: 14px 22px; font-size: 1.05em; min-height: 48px;
+      display: inline-flex; align-items: center; justify-content: center; }
+    #tabs { padding: 10px 16px 0; }
+    #tabs button { font-size: 1em; padding: 12px 18px; }
+    #list { padding: 12px 16px; }
+    .ep { padding: 16px 14px; gap: 14px; }
+    .ep .code { flex-basis: 84px; font-size: 1.05em; }
+    .ep .title { font-size: 1.2em; }
+  }
 </style>
 <a id="back" title="All Shows"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
 <div id="head">
@@ -76,7 +95,6 @@
 </div>
 <div id="tabs"></div>
 <div id="listWrap"><div id="list"></div></div>
-<div id="desc"><span class="t">Hover or select an episode</span>episode descriptions pull from archive.org and may cover a whole recording, not just one episode.</div>
 <script>
 (function () {
   "use strict";
@@ -142,6 +160,18 @@
     // button couldn't hand one back here either) — SHOW.art is the fallback
     // that works no matter how this page was reached.
     if (!art && SHOW.art) document.getElementById('artImg').src = 'art/' + SHOW.art;
+    // Mobile-only: prefer the taller portrait art if one was generated for
+    // this show; falls back to the regular poster via onerror otherwise —
+    // same pattern as the guide page.
+    if (matchMedia('(max-width: 720px)').matches) {
+      const artImg = document.getElementById('artImg');
+      const original = artImg.getAttribute('src');
+      if (original) {
+        const tall = original.replace(/(\.[^.\/]+)$/, '-tall$1');
+        artImg.onerror = () => { artImg.onerror = null; artImg.src = original; };
+        artImg.src = tall;
+      }
+    }
     document.title = SHOW.title + ' — VaultVision';
     document.getElementById('titleEl').textContent = SHOW.title;
     const episodes = episodesOf(SHOW);
@@ -193,44 +223,18 @@
       list.innerHTML = '';
       rows = [playBtn];
       for (const idx of seasons[curSeason].indices) {
-        const [id, title] = episodes[idx];
+        const [, title] = episodes[idx];
         const row = document.createElement('a');
         row.className = 'ep' + (watched.has(epKey(episodes[idx])) ? ' watched' : '');
         row.href = `engine/viewer.html?show=${showId}&ep=${idx}${artParam}&v=${bust}`;
         row.innerHTML = `<span class="code">${codeOf(title)}</span><span class="title">${
           title.split(' - ').slice(2).join(' - ') || title}</span>`;
-        row.addEventListener('mouseenter', () => showDesc(id, title));
-        row.addEventListener('focus', () => showDesc(id, title));
         list.append(row);
         rows.push(row);
       }
       focusRow(0);
     }
     selectSeason(0);
-
-    // description: lazy, on-demand, debounced, cached — one fetch per archive
-    // item even though several episodes can share one (bundled recordings)
-    const descCache = new Map();
-    const descEl = document.getElementById('desc');
-    let descToken = 0;
-    function showDesc(id, title) {
-      const token = ++descToken;
-      descEl.innerHTML = `<span class="t">${title}</span>loading…`;
-      setTimeout(async () => {
-        if (token !== descToken) return; // moved on before the debounce fired
-        if (!descCache.has(id)) {
-          try {
-            const meta = await (await fetch('https://archive.org/metadata/' + id)).json();
-            const raw = meta?.metadata?.description || '';
-            const text = Array.isArray(raw) ? raw.join(' ') : raw;
-            descCache.set(id, text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 320));
-          } catch { descCache.set(id, ''); }
-        }
-        if (token !== descToken) return;
-        const text = descCache.get(id);
-        descEl.innerHTML = `<span class="t">${title}</span>${text || 'No description available.'}`;
-      }, 300);
-    }
 
     // TV remote: up/down the current season's row list, left/right switch season
     // (tabs), OK follows the focused row's link, Back exits to the guide.
