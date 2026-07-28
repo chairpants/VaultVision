@@ -1887,6 +1887,9 @@ scrub.addEventListener('pointermove', e => { if (scrubDragging) scrubSeek(e); })
 scrub.addEventListener('pointerup', () => { scrubDragging = false; });
 size();
 loadSettings();
+// ?bw: same as dragging COLOR to 0 in the settings panel, just one tag
+// instead of opening it — persists the same way every other setting does
+if (urlParams.has('bw')) settings.saturate = 0;
 setFlatMode(!settings.mode3d); // restore persisted mode, default flat
 updateScreenFilters();
 v.addEventListener('playing', size);
