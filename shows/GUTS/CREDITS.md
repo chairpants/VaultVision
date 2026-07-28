@@ -44,14 +44,13 @@ byte-identical, already-web-compatible h.264/AAC (`ffprobe`-verified) — the
 plain filename was used throughout for consistency with Season 4, which has no
 `.ia.mp4` derivative at all.
 
-**Season 2's numbering has one open question.** `Episode 200.mp4` runs ~50
-minutes — roughly double every other episode — matching next-episode.net's
-separately-listed "Special: GUTS All-Stars", so it's filed as `S02E00`. That
-leaves 39 regular files (`201`-`239`) for the 40 regular episodes
-next-episode.net lists. This guide assumes `201`→#1 through `239`→#39 and
-that the season's final episode ("Viet - Mia - Erika") simply isn't in this
-upload — a reasonable read given the clean sequential numbering, but unverified
-against content, so if a title looks off by one late in Season 2, this is why.
+Season 2 is numbered `200`-`239` rather than `201`-`240` — the season counts
+its episodes starting from `00`, not `01`, unlike every other season here. All
+40 files map straight across to next-episode.net's 40 listed episodes
+(`200`→#1 … `239`→#40); no episode is being treated as a special. `Episode
+200.mp4` happens to run about twice as long as the rest of the season, which
+initially looked like a separately-aired special — it isn't; it's just that
+episode.
 
 Season 4's last two entries carry TVMaze's own titles verbatim
 ("The Road to the Extreme Arena" and "Allison vs. Cesar vs. Katie (Special
