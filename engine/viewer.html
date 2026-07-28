@@ -1121,7 +1121,7 @@ function listRow(n) {
 }
 
 let settings = {
-  fxEnabled: true, overlayEnabled: true, captionsEnabled: false, pixelated: false,
+  fxEnabled: true, overlayEnabled: true, captionsEnabled: false, pixelated: false, bw: false,
   brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, sharpen: 0, mode3d: false,
   lit: false, ambientOff: false
 };
@@ -1142,7 +1142,9 @@ function loadSettings() {
 window.onCCChange = on => { settings.captionsEnabled = on; saveSettings(); };
 
 function updateScreenFilters() {
-  const colorStr = `brightness(${settings.brightness}%) contrast(${settings.contrast}%) saturate(${settings.saturate}%) hue-rotate(${settings.hueRotate}deg)`;
+  // bw overrides saturate rather than replacing it, so the COLOR slider keeps
+  // whatever the user had it at and just comes back once bw is switched off
+  const colorStr = `brightness(${settings.brightness}%) contrast(${settings.contrast}%) saturate(${settings.bw ? 0 : settings.saturate}%) hue-rotate(${settings.hueRotate}deg)`;
   // unsharp-mask kernel: lerp from identity (center 1, rest 0 = no-op) to the
   // classic sharpen kernel (center 5, edges -1) by settings.sharpen (0-100%);
   // capped a bit past "classic" strength before it starts looking noisy
@@ -1180,9 +1182,10 @@ let osdMode = null, osdUntil = 0, osdStart = 0, listScroll = 0;
 let listSel = 0, setSel = 0;
 const SETTINGS_ROWS = [
   { k: 'overlayEnabled',  y: 140, type: 'check' },
-  { k: 'fxEnabled',       y: 190, type: 'check' },
-  { k: 'pixelated',       y: 240, type: 'check' },
-  { k: 'captionsEnabled', y: 290, type: 'check' },
+  { k: 'fxEnabled',       y: 180, type: 'check' },
+  { k: 'pixelated',       y: 220, type: 'check' },
+  { k: 'captionsEnabled', y: 260, type: 'check' },
+  { k: 'bw',              y: 300, type: 'check' },
   { k: 'brightness', y: 340, min: 50, max: 150, step: 5 },
   { k: 'contrast',   y: 380, min: 50, max: 150, step: 5 },
   { k: 'saturate',   y: 420, min: 0,  max: 200, step: 5 },
@@ -1198,7 +1201,7 @@ const SETTINGS_ROWS = [
 // other over which settings exist.
 const SETTING_LABELS = {
   overlayEnabled: 'Overlay', fxEnabled: 'FX', pixelated: 'Pixelated',
-  captionsEnabled: 'Captions', brightness: 'Brightness', contrast: 'Contrast',
+  captionsEnabled: 'Captions', bw: 'B&W', brightness: 'Brightness', contrast: 'Contrast',
   saturate: 'Saturate', hueRotate: 'Hue Rotate', sharpen: 'Sharpen',
 };
 const fsInputs = {}; // settings key -> its <input>, for refreshFlatSettingsUI()
@@ -1503,9 +1506,10 @@ function drawOSD() {
     };
 
     drawRow('OVERLAY', 140, settings.overlayEnabled, 0, 1, true);
-    drawRow('SCANLINES', 190, settings.fxEnabled, 0, 1, true);
-    drawRow('PIXELATED', 240, settings.pixelated, 0, 1, true);
-    drawRow('CAPTIONS', 290, settings.captionsEnabled, 0, 1, true);
+    drawRow('SCANLINES', 180, settings.fxEnabled, 0, 1, true);
+    drawRow('PIXELATED', 220, settings.pixelated, 0, 1, true);
+    drawRow('CAPTIONS', 260, settings.captionsEnabled, 0, 1, true);
+    drawRow('B&W', 300, settings.bw, 0, 1, true);
     drawRow('BRIGHTNESS', 340, settings.brightness, 50, 150);
     drawRow('CONTRAST', 380, settings.contrast, 50, 150);
     drawRow('COLOR', 420, settings.saturate, 0, 200);
@@ -1887,9 +1891,9 @@ scrub.addEventListener('pointermove', e => { if (scrubDragging) scrubSeek(e); })
 scrub.addEventListener('pointerup', () => { scrubDragging = false; });
 size();
 loadSettings();
-// ?bw: same as dragging COLOR to 0 in the settings panel, just one tag
+// ?bw: same as flipping the B&W toggle in the settings panel, just one tag
 // instead of opening it — persists the same way every other setting does
-if (urlParams.has('bw')) settings.saturate = 0;
+if (urlParams.has('bw')) settings.bw = true;
 setFlatMode(!settings.mode3d); // restore persisted mode, default flat
 updateScreenFilters();
 v.addEventListener('playing', size);
