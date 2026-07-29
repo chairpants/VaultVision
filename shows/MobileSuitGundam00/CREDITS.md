@@ -34,6 +34,11 @@ matches the broadcast order exactly.
 Card reads "Season 1 only" — add Season 2 as its own entry (or fold it in)
 if that upload ever surfaces.
 
+## Poster
+
+The official Japanese TV broadcast poster, via
+[Wikipedia](https://en.wikipedia.org/wiki/Mobile_Suit_Gundam_00).
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

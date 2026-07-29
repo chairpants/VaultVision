@@ -43,6 +43,13 @@ it's already H.264/AAC, so it streams fine as-is.
 
 None — ordinary single-season OVA, one episode per row.
 
+## Poster
+
+The theatrical poster for the *Mobile Suit Gundam 0083: The Fading Light of
+Zeon* compilation film, via
+[Wikipedia](https://en.wikipedia.org/wiki/Mobile_Suit_Gundam_0083:_Stardust_Memory) —
+same title, cast, and mobile suits as the 13-episode OVA this show streams.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

@@ -35,6 +35,11 @@ calls here — three films, three parts, straightforward.
 `grouping: "flat"` — these are films, not episodes, so the guide reads "3
 parts" and there are no season tabs.
 
+## Poster
+
+The original 1981 Japanese theatrical poster for *Mobile Suit Gundam I*, via
+[TMDB](https://www.themoviedb.org/movie/39228).
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.
