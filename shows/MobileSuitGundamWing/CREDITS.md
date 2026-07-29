@@ -37,6 +37,11 @@ Japanese title; kept what the dub itself uses.
 
 None — ordinary single-season run, one episode per row.
 
+## Poster
+
+The official TV Asahi broadcast poster, via
+[Wikipedia](https://en.wikipedia.org/wiki/Mobile_Suit_Gundam_Wing).
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

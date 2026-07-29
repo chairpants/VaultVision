@@ -34,6 +34,10 @@ project added or can remove.
 
 None — ordinary single-season OVA, one episode per row.
 
+## Poster
+
+The official key visual, via [TMDB](https://www.themoviedb.org/tv/43887-mobile-suit-gundam-the-08th-ms-team).
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

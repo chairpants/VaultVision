@@ -48,6 +48,11 @@ second longer — both cosmetic, not truncation.
 Single-season show; `grouping: "season"` still applies since it's a real
 series, it just never splits into season tabs.
 
+## Poster
+
+The official Japanese TV broadcast poster, via
+[Wikipedia](https://en.wikipedia.org/wiki/Mobile_Suit_Gundam_SEED).
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

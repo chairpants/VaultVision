@@ -36,6 +36,11 @@ the series' full episode count — trusted as broadcast order.
 
 None — ordinary single-season run, one episode per row.
 
+## Poster
+
+Saban's official promotional poster, via
+[TMDB](https://www.themoviedb.org/tv/15839-eagle-riders).
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.
