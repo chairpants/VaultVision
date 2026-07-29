@@ -686,6 +686,16 @@
       if (!wrap.contains(e.relatedTarget)) collapse();
     });
 
+    // iOS Safari doesn't reliably report `relatedTarget` on a touch-driven
+    // blur of a non-form element like a result card, so a tap there read as
+    // "focus left the widget" above — collapse() then wiped the dropdown's
+    // DOM before the tap's own click (opening the show, or the "+" toggle)
+    // had run, so it looked like the tap registered (focus ring flashes)
+    // and then did nothing. Blocking mousedown's default keeps the box
+    // focused through the whole tap, so focusout never fires until after
+    // the click has actually landed.
+    results.addEventListener('mousedown', function (e) { e.preventDefault(); });
+
     box.addEventListener('input', function () {
       const q = box.value.trim().toLowerCase();
       results.innerHTML = '';
