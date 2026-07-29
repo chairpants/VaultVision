@@ -33,6 +33,11 @@ used throughout.
 
 None — ordinary single-season series, one episode per row.
 
+## Poster
+
+The official DVD box art, via
+[TMDB](https://www.themoviedb.org/tv/318-american-gothic).
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.
