@@ -25,7 +25,7 @@
     overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px;
     scrollbar-width: none; }
   .row::-webkit-scrollbar { display: none; }
-  a.card { flex: 0 0 240px; scroll-snap-align: start; display: block;
+  a.card { position: relative; flex: 0 0 240px; scroll-snap-align: start; display: block;
     padding: 18px 16px; border: 1px solid #b23bff40;
     border-radius: 6px; color: #e8def8; text-decoration: none;
     background: linear-gradient(180deg, #21123f88, #0a0618 80%);
@@ -45,21 +45,68 @@
   body::before { content: ''; position: fixed; inset: 0; pointer-events: none;
     background: repeating-linear-gradient(0deg, #0000 0 2px, rgba(0,0,0,.1) 2px 3px);
     z-index: 1; }
-  a.card.resume { position: relative; }
   a.card.resume::after { content: '▶ RESUME'; position: absolute; top: 8px; right: 8px;
     font-size: .65em; letter-spacing: 1px; background: #ff2d95; color: #0a0618;
     padding: 2px 6px; border-radius: 3px; }
+
+  /* Favorites: a plus in the free top-left corner (RESUME's ribbon owns
+     top-right) that flips to a check when toggled on. In search results the
+     card is a horizontal row instead, so it drops out of the corner and
+     becomes a normal flex child pinned to the right via margin-left: auto. */
+  a.card .fav { position: absolute; top: 8px; left: 8px; width: 26px; height: 26px;
+    display: grid; place-items: center; border-radius: 50%; z-index: 3;
+    border: 1px solid #b23bff40; background: #0a0618cc; color: #e8def8;
+    cursor: pointer; font: inherit; font-size: 1em; line-height: 1; padding: 0; }
+  a.card .fav::before { content: '+'; }
+  a.card .fav:hover { border-color: #34e0ff; color: #34e0ff; }
+  a.card .fav[aria-pressed="true"] { background: #ff2d95; border-color: #ff2d95; color: #0a0618; }
+  a.card .fav[aria-pressed="true"]::before { content: '✓'; }
+  #search-results a.card .fav { position: static; margin-left: auto; }
   .row-wrap { position: relative; max-width: 1100px; margin: 0 auto 56px; }
   .row-wrap .row { margin: 0; } /* the wrapper now owns the centering/spacing */
-  .row-arrow { position: absolute; top: 0; bottom: 8px; width: 48px; z-index: 2;
-    border: none; cursor: pointer; font-size: 2em; color: #e8def8;
-    opacity: 0; transition: opacity .15s; display: flex; align-items: center; }
+  /* A small circle centered on the row, not a full-height hover strip — the
+     old edge-to-edge gradient's hover/hit zone overlapped the top-left
+     Favorites button on each row's first card, and the two fighting for
+     :hover as the pointer crossed the boundary made the "+" strobe. */
+  .row-arrow { position: absolute; top: 50%; transform: translateY(-50%);
+    width: 40px; height: 40px; border-radius: 50%; z-index: 2;
+    border: 1px solid #b23bff40; cursor: pointer; font-size: 1.4em; color: #e8def8;
+    background: #0a0618cc; opacity: 0; transition: opacity .15s;
+    display: flex; align-items: center; justify-content: center; }
   .row-wrap:hover .row-arrow { opacity: 1; }
-  .row-arrow:hover { color: #34e0ff; }
-  .row-arrow.left { left: 0; justify-content: flex-start; padding-left: 4px;
-    background: linear-gradient(90deg, #0c0a1fee 30%, #0c0a1f00); }
-  .row-arrow.right { right: 0; justify-content: flex-end; padding-right: 4px;
-    background: linear-gradient(270deg, #0c0a1fee 30%, #0c0a1f00); }
+  .row-arrow:hover { color: #34e0ff; border-color: #34e0ff; }
+  .row-arrow.left { left: 8px; }
+  .row-arrow.right { right: 8px; }
+
+  /* right edge tracks the grid's own right edge (rows are max-width:1100px,
+     centered inside body's 24px side padding) instead of the viewport edge,
+     so the icon never sits further right than the tiles below it. */
+  #search-wrap { position: fixed; top: 20px; right: max(24px, calc(50vw - 550px)); z-index: 10; }
+  #search-toggle { width: 40px; height: 40px; padding: 0; display: grid; place-items: center;
+    border-radius: 50%; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
+    cursor: pointer; }
+  #search-toggle:hover, #search-toggle:focus { border-color: #34e0ff; color: #34e0ff; outline: none; }
+  #search-wrap.open #search-toggle { display: none; }
+  #search-box { display: none; width: 240px; font: inherit; font-size: .95em; letter-spacing: 1px;
+    color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
+    border-radius: 6px; padding: 10px 14px; }
+  #search-wrap.open #search-box { display: block; }
+  #search-box::placeholder { color: #e8def888; }
+  #search-box:focus { outline: none; border-color: #34e0ff; }
+  #search-results { position: absolute; top: calc(100% + 6px); right: 0; z-index: 5;
+    width: min(300px, calc(100vw - 40px)); max-height: 70vh; overflow-y: auto;
+    background: #0d0a1cf5; border: 1px solid #b23bff40;
+    border-radius: 6px; padding: 8px; display: flex; flex-direction: column; gap: 4px; }
+  #search-results[hidden] { display: none; } /* [hidden]'s UA display:none loses to the ID rule above without this */
+  #search-results a.card { display: flex; flex: 0 0 auto; flex-direction: row; align-items: center;
+    gap: 12px; padding: 8px; background: none; border: none; }
+  #search-results a.card:hover, #search-results a.card:focus,
+  #search-results a.card.tv-focus { background: #21123f; outline: 2px solid #ff2d95;
+    transform: none; }
+  #search-results a.card .art { width: 40px; height: 60px; margin: 0; flex: 0 0 auto;
+    aspect-ratio: auto; border-radius: 3px; border: none; }
+  #search-results a.card .count { display: none; }
+  #search-results .empty { padding: 10px; opacity: .6; text-align: center; }
 
   /* Mobile: hover-revealed arrows don't work on touch, and small landscape
      thumbnails read poorly on a phone — go bigger with portrait art instead.
@@ -75,10 +122,28 @@
     a.card .art { height: auto; aspect-ratio: 2 / 3; margin: -12px -10px 8px; }
     a.card .name { font-size: 1.05em; }
     a.card .count { font-size: .8em; }
+    #search-wrap { top: 14px; }
+    #search-box { width: 190px; }
+    #search-results { max-height: 60vh; }
   }
 </style>
 <h1>VaultVision</h1>
 <p class="sub">pick something to watch — every title streams straight from archive.org</p>
+
+<div id="search-wrap">
+  <button id="search-toggle" type="button" aria-label="Search shows" aria-expanded="false">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+  </button>
+  <input id="search-box" type="search" placeholder="Search shows…" autocomplete="off" aria-label="Search shows">
+  <div id="search-results" hidden></div>
+</div>
+
+<div id="favorites-section" style="display:none">
+  <h2>Favorites</h2>
+  <div class="row" id="favorites-row"></div>
+</div>
 
 <div id="resume-section" style="display:none">
   <h2>Resume <span style="opacity:.5; font-weight:normal;">— pick up where you left off</span></h2>
@@ -425,6 +490,62 @@
 
 
 <script>
+  // Favorites: whole shows only (no per-episode granularity), persisted as a
+  // set of show ids in localStorage. The "+" gets appended to every card here,
+  // before the Resume-row clone step below, so a cloneNode(true) picks up a
+  // working button for free — same reason it later shows up on search-result
+  // cards, which are also just clones of these same nodes.
+  const FAV_KEY = 'vv-favorites';
+  let favorites;
+  try { favorites = new Set(JSON.parse(localStorage.getItem(FAV_KEY)) || []); } catch { favorites = new Set(); }
+
+  function getShowId(card) {
+    try { return new URL(card.href, location.href).searchParams.get('show'); } catch { return null; }
+  }
+
+  for (const c of document.querySelectorAll('a.card')) {
+    const id = getShowId(c);
+    if (!id) continue;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'fav';
+    btn.setAttribute('aria-label', 'Toggle favorite');
+    btn.setAttribute('aria-pressed', String(favorites.has(id)));
+    c.appendChild(btn);
+  }
+
+  // Rebuilds from scratch off the live Set rather than patching in/out a
+  // single card — simplest way to keep it de-duped and in one consistent
+  // order without tracking per-id DOM references.
+  function rebuildFavoritesRow() {
+    const row = document.getElementById('favorites-row');
+    const section = document.getElementById('favorites-section');
+    row.innerHTML = '';
+    if (!favorites.size) { section.style.display = 'none'; return; }
+    const seen = new Set();
+    for (const c of document.querySelectorAll('.row:not(#resume-row):not(#favorites-row) a.card')) {
+      const id = getShowId(c);
+      if (!id || !favorites.has(id) || seen.has(id)) continue;
+      seen.add(id);
+      row.appendChild(c.cloneNode(true));
+    }
+    section.style.display = '';
+  }
+
+  document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.fav');
+    if (!btn) return;
+    e.preventDefault(); // it's nested in an <a> — don't navigate to the show
+    const id = getShowId(btn.closest('a.card'));
+    if (!id) return;
+    if (favorites.has(id)) favorites.delete(id); else favorites.add(id);
+    localStorage.setItem(FAV_KEY, JSON.stringify([...favorites]));
+    const pressed = favorites.has(id);
+    for (const b of document.querySelectorAll('a.card .fav'))
+      if (getShowId(b.closest('a.card')) === id) b.setAttribute('aria-pressed', String(pressed));
+    rebuildFavoritesRow();
+  });
+
   // Resume row: the 5 most recently-touched in-progress shows (any saved
   // episode position counts — this is "get back into it quicker", not a
   // binge-tracker). Cards link straight to the viewer, which already reopens
@@ -526,5 +647,87 @@
       img.src = tall;
     }
   }
+
+  // Initial Favorites row build: deferred to here (rather than up where the
+  // "+" buttons are wired) so it clones cards that already have their final
+  // show.html href (+ cache-bust token) and any swapped mobile art.
+  rebuildFavoritesRow();
+
+  // Live search: the genre grid already has every show's name/art/href baked
+  // into its cards, so that's the search index too — no separate data fetch.
+  // Runs last so results link to show.html (+ cache-bust token) like the grid.
+  (function () {
+    const wrap = document.getElementById('search-wrap');
+    const toggle = document.getElementById('search-toggle');
+    const box = document.getElementById('search-box');
+    const results = document.getElementById('search-results');
+    const entries = [].slice.call(document.querySelectorAll('.row:not(#resume-row):not(#favorites-row) a.card')).map(function (c) {
+      return { name: c.querySelector('.name').textContent, card: c };
+    });
+
+    function close() { results.hidden = true; results.innerHTML = ''; }
+
+    // Icon-only until clicked, so it doesn't compete with the guide for space.
+    function collapse() {
+      wrap.classList.remove('open');
+      toggle.setAttribute('aria-expanded', 'false');
+      box.value = '';
+      close();
+    }
+    toggle.addEventListener('click', function () {
+      wrap.classList.add('open');
+      toggle.setAttribute('aria-expanded', 'true');
+      box.focus();
+    });
+    // Covers both tabbing away and clicking outside: either moves focus off
+    // the widget entirely, which a plain document click listener wouldn't
+    // catch for keyboard users.
+    wrap.addEventListener('focusout', function (e) {
+      if (!wrap.contains(e.relatedTarget)) collapse();
+    });
+
+    box.addEventListener('input', function () {
+      const q = box.value.trim().toLowerCase();
+      results.innerHTML = '';
+      if (!q) { close(); return; }
+      const matches = entries.filter(function (e) { return e.name.toLowerCase().includes(q); }).slice(0, 20); // ponytail: soft cap, keeps the dropdown from growing past the screen
+      if (!matches.length) {
+        const empty = document.createElement('div');
+        empty.className = 'empty';
+        empty.textContent = 'No matches';
+        results.appendChild(empty);
+      } else {
+        matches.forEach(function (e) { results.appendChild(e.card.cloneNode(true)); });
+      }
+      results.hidden = false;
+    });
+
+    box.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown' && !results.hidden) {
+        const first = results.querySelector('a.card');
+        if (first) { e.preventDefault(); first.focus(); }
+      } else if (e.key === 'Escape') {
+        collapse();
+        toggle.focus();
+      }
+    });
+
+    results.addEventListener('keydown', function (e) {
+      const items = [].slice.call(results.querySelectorAll('a.card'));
+      const i = items.indexOf(document.activeElement);
+      if (i === -1) return;
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        if (i < items.length - 1) items[i + 1].focus();
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (i === 0) box.focus(); else items[i - 1].focus();
+      } else if (e.key === 'Escape') {
+        e.preventDefault();
+        collapse();
+        toggle.focus();
+      }
+    });
+  })();
 </script>
 <script src="tv.js"></script>

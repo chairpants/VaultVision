@@ -16,14 +16,24 @@
 
   // Each category is its own carousel (one .row = one shelf of cards), so
   // navigation is row/col rather than one flat index: left/right wrap within
-  // the current shelf (round robin), up/down move between shelves.
-  var rows = [].slice.call(document.querySelectorAll(".row")).map(function (row) {
-    return [].slice.call(row.querySelectorAll("a.card"));
-  }).filter(function (r) { return r.length; });
+  // the current shelf (round robin), up/down move between shelves. Queried
+  // fresh each time rather than once at load — the Favorites row can appear
+  // or change shape after load as shows get favorited, and re-scanning ~300
+  // nodes on a keypress is still instant at human typing speed.
+  function getRows() {
+    return [].slice.call(document.querySelectorAll(".row")).map(function (row) {
+      return [].slice.call(row.querySelectorAll("a.card"));
+    }).filter(function (r) { return r.length; });
+  }
+  var rows = getRows();
   if (!rows.length) return;
   var r = 0, c = 0;
 
   function focus() {
+    rows = getRows();
+    if (!rows.length) return;
+    r = Math.min(r, rows.length - 1);
+    c = Math.min(c, rows[r].length - 1);
     rows.forEach(function (row) {
       row.forEach(function (card) { card.classList.remove("tv-focus"); });
     });
@@ -41,6 +51,13 @@
   }
 
   document.addEventListener("keydown", function (e) {
+    // Search box/dropdown has its own arrow-key handling (moving through a
+    // vertical result list, not the row/col grid) — stay out of its way.
+    if (document.activeElement.closest("#search-wrap")) return;
+    rows = getRows();
+    if (!rows.length) return;
+    r = Math.min(r, rows.length - 1);
+    c = Math.min(c, rows[r].length - 1);
     switch (e.keyCode) {
       case 39: c = (c + 1) % rows[r].length; break;                  // right, wraps
       case 37: c = (c - 1 + rows[r].length) % rows[r].length; break; // left, wraps
