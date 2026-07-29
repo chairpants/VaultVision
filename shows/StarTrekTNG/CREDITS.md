@@ -54,9 +54,10 @@ Time's Arrow, Chain of Command, Birthright, Descent) is two separate files/
 rows in this item, one per season as it actually aired, and is listed here
 as two ordinary rows — only the pilot and finale were recorded as one file.
 
-**Deep Space Nine and Voyager are not added as shows yet** — the same
-archive.org item has a complete run of both, filterable the same way
-(`.DS9-` / `.VOY-` in the filename), if wanted later.
+Deep Space Nine and Voyager are also complete in this same archive.org item
+and are added as their own shows — [`StarTrekDS9`](../StarTrekDS9/CREDITS.md)
+and [`StarTrekVoyager`](../StarTrekVoyager/CREDITS.md), filtered the same way
+(`.DS9-` / `.VOY-` in the filename).
 
 ## Format note
 
