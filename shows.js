@@ -138,7 +138,7 @@ Joey,Joey,Sitcoms,png
 Just the Ten of Us,JusttheTenofUs,Classic Sitcoms,jpg
 The King of Queens,KingofQueens,Sitcoms,jpg
 Leave It to Beaver (the Series) [,LeaveIttoBeavertheSeries,Classic Sitcoms,jpg
-Life Goes On,LifeGoesOn,Classic Sitcoms,png
+Life Goes On,LifeGoesOn,Classic Sitcoms,jpg
 M*A*S*H,MASH,Classic Sitcoms,jpg
 Mad About You,MadAboutYou,Sitcoms,jpg
 Malcolm in the Middle,MalcolmInTheMiddle,Sitcoms,jpg
