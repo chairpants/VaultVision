@@ -292,7 +292,6 @@ Volcano: Fire on the Mountain (1997),VolcanoFireOnTheMountain,TV Movies,jpg
 Without Warning (1994),WithoutWarning1994,TV Movies,jpg
 Y2K: The Movie (1999),Y2KTheMovie,TV Movies,jpg
 Fox Kids Saturday Morning,FoxKids,Broadcast Blocks,png
-Horror and Sci-Fi #4,HorrorSciFi4,Broadcast Blocks,jpg
 MonsterVision,MonsterVision,Broadcast Blocks,jpg
 Nick at Nite,NickAtNite,Broadcast Blocks,png
 Saturday Morning (ABC/NBC/CBS),SatMorning,Broadcast Blocks,jpg
