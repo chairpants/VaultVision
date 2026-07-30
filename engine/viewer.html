@@ -1876,6 +1876,11 @@ addEventListener('resize', size);
 let lastMoveTime = performance.now();
 addEventListener('mousemove', () => { lastMoveTime = performance.now(); });
 addEventListener('keydown', () => { lastMoveTime = performance.now(); }); // remote input wakes the HUD too
+// touch has no mousemove before a tap lands, so without this the HUD can be
+// mid-fade (pointer-events: none) when a finger comes down, and the tap falls
+// through to the canvas underneath instead of hitting the intended button
+addEventListener('touchstart', () => { lastMoveTime = performance.now(); }, { passive: true });
+addEventListener('pointerdown', () => { lastMoveTime = performance.now(); });
 
 // scrubber: click or drag anywhere on the bar to seek immediately (unlike the
 // mouse hold-to-scrub on the 3D screen edges, a literal progress bar is
