@@ -741,9 +741,9 @@ Notes:
   intentional.
 * **ShowId** must match the folder name exactly.
 * **Genre** must be one of the existing genres (case-sensitive, exact text) —
-  `Animation` · `Sitcoms` · `Drama & Adventure` · `Horror & Anthology` ·
-  `Sketch Comedy & Late Night` · `Kids & Educational` · `Reality TV` ·
-  `TV Movies` · `Broadcast Blocks` — or a new one, which the guide will render
+  `Animation` · `Anime` · `Sitcoms` · `Classic Sitcoms` · `Drama & Adventure` ·
+  `Horror & Anthology` · `Sketch Comedy & Late Night` · `Kids & Educational` ·
+  `Reality TV` · `TV Movies` · `Broadcast Blocks` — or a new one, which the guide will render
   as a new section automatically (it doesn't need registering anywhere else).
 * **Extension** is just the file extension of `art/<ShowId>.<ext>`, no dot
   (`jpg`, `png`, `svg`, `webp`, `gif`).

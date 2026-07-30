@@ -4,20 +4,20 @@ Aeon Flux,AeonFlux,Animation,jpg
 Alvin and the Chipmunks,AlvinandtheChipmunks,Animation,jpg
 Animaniacs,Animaniacs,Animation,jpg
 Archie's Weird Mysteries,ArchiesWeirdMysteries,Animation,jpg
-Attack on Titan,AttackonTitan,Animation,jpg
+Attack on Titan,AttackonTitan,Anime,jpg
 Batman Beyond,BatmanBeyond,Animation,jpg
 Batman: The Animated Series,BatmanTAS,Animation,png
 Beast Wars: Transformers,BeastWarsTransformers,Animation,jpg
 Beavis and Butt-Head,BeavisButthead,Animation,png
 Beetlejuice,Beetlejuice,Animation,svg
-Berserk (1997),Berserk1997,Animation,jpg
+Berserk (1997),Berserk1997,Anime,jpg
 Big Mouth,BigMouth,Animation,jpg
 Biker Mice from Mars,BikerMiceFromMars,Animation,jpg
 Bob and Margaret,BobandMargaret,Animation,jpg
 Bobby's World,BobbysWorld,Animation,png
 The Boondocks,Boondocks,Animation,jpg
 the Brak Show Series,BrakShowSeries,Animation,png
-Bubblegum Crisis the Series (Dual Audio) (HD),BubblegumCrisistheSeriesDualAudioHD,Animation,jpg
+Bubblegum Crisis the Series (Dual Audio) (HD),BubblegumCrisistheSeriesDualAudioHD,Anime,jpg
 Buzz Lightyear of Star Command,BuzzLightyearofStarCommand,Animation,jpg
 Camp Candy,CampCandy,Animation,jpg
 Camp Lakebottom,CampLakebottom,Animation,jpg
@@ -29,13 +29,13 @@ Celebrity's Comicolor,CelebritysComicolor,Animation,png
 Courage the Cowardly Dog,CouragetheCowardlyDog,Animation,jpg
 Darkwing Duck the Series,DarkwingDucktheSeries,Animation,png
 Dexter's Laboratory the Series,DextersLaboratorytheSeries,Animation,png
-Digimon: Digital Monsters,Digimon,Animation,jpg
-Dragon Ball,DragonBall,Animation,jpg
-Dragon Ball GT,DragonBallGT,Animation,jpg
-Dragon Ball Super,DragonBallSuper,Animation,jpg
-Dragon Ball Z,DragonBallZ,Animation,jpg
-Dragon Ball Z Kai,DragonBallZKai,Animation,jpg
-Dragon Ball Z Movies & Specials,DragonBallZMovies,Animation,jpg
+Digimon: Digital Monsters,Digimon,Anime,jpg
+Dragon Ball,DragonBall,Anime,jpg
+Dragon Ball GT,DragonBallGT,Anime,jpg
+Dragon Ball Super,DragonBallSuper,Anime,jpg
+Dragon Ball Z,DragonBallZ,Anime,jpg
+Dragon Ball Z Kai,DragonBallZKai,Anime,jpg
+Dragon Ball Z Movies & Specials,DragonBallZMovies,Anime,jpg
 Duck Dodgers,DuckDodgers,Animation,jpg
 Duckman,Duckman,Animation,jpg
 DuckTales Series Work in Progress,DuckTalesSeriesWorkinProgress,Animation,jpg
@@ -57,29 +57,29 @@ KaBlam,KaBlam,Animation,png
 The Karate Kid,KarateKid,Animation,jpg
 the Land Before Time,LandBeforeTime,Animation,jpg
 Lippy the Lion and Hardy Har Har,LippytheLionandHardyHarHar,Animation,jpg
-Lodoss War ( Series) English Dub,LodossWarSeriesEnglishDub,Animation,jpg
+Lodoss War ( Series) English Dub,LodossWarSeriesEnglishDub,Anime,jpg
 LOONEY TUNES SERIES,LOONEYTUNESSERIES,Animation,png
 Mighty Max,MightyMax,Animation,jpg
 Mighty Mouse: The New Adventures,MightyMousetheNewAdventures,Animation,jpg
-Mobile Suit Gundam 00,MobileSuitGundam00,Animation,jpg
-Mobile Suit Gundam 0083: Stardust Memory,MobileSuitGundam0083,Animation,jpg
-Mobile Suit Gundam: The 08th MS Team,MobileSuitGundam08thMSTeam,Animation,jpg
-Mobile Suit Gundam Movies,MobileSuitGundamMovies,Animation,jpg
-Mobile Suit Gundam SEED,MobileSuitGundamSEED,Animation,jpg
-Mobile Suit Gundam Wing,MobileSuitGundamWing,Animation,jpg
-Monster Rancher,MonsterRancher,Animation,jpg
+Mobile Suit Gundam 00,MobileSuitGundam00,Anime,jpg
+Mobile Suit Gundam 0083: Stardust Memory,MobileSuitGundam0083,Anime,jpg
+Mobile Suit Gundam: The 08th MS Team,MobileSuitGundam08thMSTeam,Anime,jpg
+Mobile Suit Gundam Movies,MobileSuitGundamMovies,Anime,jpg
+Mobile Suit Gundam SEED,MobileSuitGundamSEED,Anime,jpg
+Mobile Suit Gundam Wing,MobileSuitGundamWing,Anime,jpg
+Monster Rancher,MonsterRancher,Anime,jpg
 Moral Orel,MoralOrel,Animation,jpg
 The Morph Files,MorphFiles,Animation,jpg
 Motormouse and Autocat,MotormouseandAutocat,Animation,jpg
 Muppet Babies,MuppetBabies,Animation,png
 Mutant League,MutantLeague,Animation,jpg
-Neon Genesis Evangelion,NeonGenesisEvangelion,Animation,jpg
+Neon Genesis Evangelion,NeonGenesisEvangelion,Anime,jpg
 the Oblongs,Oblongs,Animation,png
 Peabody's Improbable History,PeabodysImprobableHistory,Animation,png
 The PJs,PJs,Animation,jpg
-Pokémon Chronicles,PokmonChronicles,Animation,jpg
-Pokémon: Adventures on the Orange Islands,PokemonOrangeIslands,Animation,jpg
-Pokémon: Indigo League,PokemonIndigoLeague,Animation,jpg
+Pokémon Chronicles,PokmonChronicles,Anime,jpg
+Pokémon: Adventures on the Orange Islands,PokemonOrangeIslands,Anime,jpg
+Pokémon: Indigo League,PokemonIndigoLeague,Anime,jpg
 Pole Position,PolePosition,Animation,jpg
 Police Academy: The Animated Series,PoliceAcademyTheAnimatedSeries,Animation,jpg
 Popeye the Sailor Man,PopeyetheSailorMan,Animation,png
@@ -103,70 +103,70 @@ TheMask Animated Series,TheMaskAnimatedSeries,Animation,png
 The Tick,TheTick,Animation,png
 Tiny Toon Adventures,TinyToonAdventures,Animation,jpg
 Transformers: Prime,TransformersPrime,Animation,jpg
-Ultimate Muscle Series,UltimateMuscleSeries,Animation,jpg
+Ultimate Muscle Series,UltimateMuscleSeries,Anime,jpg
 Undergrads,Undergrads,Animation,jpg
 WackyRaces Series,WackyRacesSeries,Animation,jpg
 Wally Gator,WallyGator,Animation,jpg
 X-Men: The Animated Series,XMen,Animation,jpg
 Action,Action,Sitcoms,jpg
-ALF the Series,ALFtheSeries,Sitcoms,jpg
-All in the Family,AllInTheFamily,Sitcoms,jpg
-Archie Bunker's Place,ArchieBunkersPlace,Sitcoms,jpg
+ALF the Series,ALFtheSeries,Classic Sitcoms,jpg
+All in the Family,AllInTheFamily,Classic Sitcoms,jpg
+Archie Bunker's Place,ArchieBunkersPlace,Classic Sitcoms,jpg
 Are We There Yet?,AreWeThereYet,Sitcoms,jpg
 Back to You,BacktoYou,Sitcoms,jpg
 "Bakersfield, P.D.",BakersfieldPD,Sitcoms,jpg
 The Bernie Mac Show,BernieMacShow,Sitcoms,jpg
-Bless This House,BlessThisHouse,Sitcoms,jpg
+Bless This House,BlessThisHouse,Classic Sitcoms,jpg
 Cavemen,CavemenSeriesSlightlyBetterQuality,Sitcoms,jpg
-The Cosby Show,CosbyShow,Sitcoms,jpg
-Designing Women,DesigningWomen,Sitcoms,jpg
+The Cosby Show,CosbyShow,Classic Sitcoms,jpg
+Designing Women,DesigningWomen,Classic Sitcoms,jpg
 Dharma & Greg,DharmaAndGreg,Sitcoms,jpg
-The Dick Van Dyke Show,DickVanDyke,Sitcoms,jpg
+The Dick Van Dyke Show,DickVanDyke,Classic Sitcoms,jpg
 The Drew Carey Show,DrewCareyShow,Sitcoms,jpg
 Everybody Loves Raymond,EverybodyLovesRaymond,Sitcoms,png
-The Facts of Life,FactsofLife,Sitcoms,jpg
-Family Matters,FamilyMatters,Sitcoms,jpg
-Get Smart,GetSmart,Sitcoms,gif
-Green Acres,GreenAcres,Sitcoms,jpg
-Growing Pains,GrowingPains,Sitcoms,jpg
+The Facts of Life,FactsofLife,Classic Sitcoms,jpg
+Family Matters,FamilyMatters,Classic Sitcoms,jpg
+Get Smart,GetSmart,Classic Sitcoms,gif
+Green Acres,GreenAcres,Classic Sitcoms,jpg
+Growing Pains,GrowingPains,Classic Sitcoms,jpg
 Harry and the Hendersons,HarryandtheHendersons,Sitcoms,jpg
-Hey Dude,HeyDude,Sitcoms,webp
-It's Your Move,ItsYourMove,Sitcoms,jpg
+Hey Dude,HeyDude,Classic Sitcoms,webp
+It's Your Move,ItsYourMove,Classic Sitcoms,jpg
 The Jeff Foxworthy Show,JeffFoxworthyShow,Sitcoms,jpg
-The Jeffersons,Jeffersons,Sitcoms,jpg
+The Jeffersons,Jeffersons,Classic Sitcoms,jpg
 Joey,Joey,Sitcoms,png
-Just the Ten of Us,JusttheTenofUs,Sitcoms,jpg
+Just the Ten of Us,JusttheTenofUs,Classic Sitcoms,jpg
 The King of Queens,KingofQueens,Sitcoms,jpg
-Leave It to Beaver (the Series) [,LeaveIttoBeavertheSeries,Sitcoms,jpg
-Life Goes On,LifeGoesOn,Sitcoms,png
-M*A*S*H,MASH,Sitcoms,jpg
+Leave It to Beaver (the Series) [,LeaveIttoBeavertheSeries,Classic Sitcoms,jpg
+Life Goes On,LifeGoesOn,Classic Sitcoms,png
+M*A*S*H,MASH,Classic Sitcoms,jpg
 Mad About You,MadAboutYou,Sitcoms,jpg
 Malcolm in the Middle,MalcolmInTheMiddle,Sitcoms,jpg
-Mama's Family,MamasFamily,Sitcoms,jpg
-Married... with Children,MarriedWithChildren,Sitcoms,jpg
-The Mary Tyler Moore Show,MaryTylerMooreShow,Sitcoms,jpg
-McHale's Navy Series,McHalesNavySeries,Sitcoms,jpg
-Mister Ed,MisterEd,Sitcoms,jpg
+Mama's Family,MamasFamily,Classic Sitcoms,jpg
+Married... with Children,MarriedWithChildren,Classic Sitcoms,jpg
+The Mary Tyler Moore Show,MaryTylerMooreShow,Classic Sitcoms,jpg
+McHale's Navy Series,McHalesNavySeries,Classic Sitcoms,jpg
+Mister Ed,MisterEd,Classic Sitcoms,jpg
 Mulaney,Mulaney,Sitcoms,jpg
 The Nanny,Nanny,Sitcoms,jpg
 Ned and Stacey,NedAndStacey,Sitcoms,jpg
-Newhart,Newhart,Sitcoms,jpg
+Newhart,Newhart,Classic Sitcoms,jpg
 NewsRadio,NewsRadio,Sitcoms,jpg
 Parker Lewis Can't Lose,ParkerLewis,Sitcoms,jpg
-Petticoat Junction,PetticoatJunction,Sitcoms,jpg
+Petticoat Junction,PetticoatJunction,Classic Sitcoms,jpg
 Popular,Popular,Sitcoms,svg
-Punky Brewster,PunkyBrewster,Sitcoms,jpg
+Punky Brewster,PunkyBrewster,Classic Sitcoms,jpg
 Reba,Reba,Sitcoms,jpg
-Roseanne,Roseanne,Sitcoms,jpg
+Roseanne,Roseanne,Classic Sitcoms,jpg
 Salute Your Shorts,SaluteYourShorts,Sitcoms,png
-Saved by the Bell,SavedByTheBell,Sitcoms,png
+Saved by the Bell,SavedByTheBell,Classic Sitcoms,png
 The Secret World of Alex Mack,AlexMack,Sitcoms,jpg
 Seinfeld,Seinfeld,Sitcoms,jpg
 Shasta McNasty,ShastaMcNasty,Sitcoms,jpg
 Soul Man,SoulMan,Sitcoms,jpg
 Step by Step,StepByStep,Sitcoms,jpg
 Still Standing,StillStanding,Sitcoms,jpg
-Taxi,Taxi1978,Sitcoms,jpg
+Taxi,Taxi1978,Classic Sitcoms,jpg
 Ted,Ted,Sitcoms,jpg
 Teen Angel,TeenAngel,Sitcoms,jpg
 Tucker,Tucker,Sitcoms,jpg
@@ -174,7 +174,7 @@ Unhappily Ever After,UnhappilyEverAfter,Sitcoms,jpg
 Veronica's Closet,VeronicasCloset,Sitcoms,jpg
 The Weber Show,WeberShow,Sitcoms,jpg
 What I Like About You,WhatILikeAboutYou,Sitcoms,jpg
-Wkrp in Cincinnati,WkrpinCincinnati,Sitcoms,jpg
+Wkrp in Cincinnati,WkrpinCincinnati,Classic Sitcoms,jpg
 Woops!,Woops,Sitcoms,jpg
 You Wish,YouWish,Sitcoms,jpg
 "Zoe, Duncan, Jack and Jane",ZoeDuncanJackJane,Sitcoms,jpg
