@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "LifeGoesOn",
   title: "Life Goes On",
-  art: "LifeGoesOn.png",
+  art: "LifeGoesOn.jpg",
   storageProgressKey: "lifegoeson-progress",
   storageSettingsKey: "lifegoeson-settings",
   nestedPaths: true,
