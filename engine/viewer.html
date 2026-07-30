@@ -39,6 +39,21 @@
   #back.idle { opacity: 0; }
   body:not(.flat) #back.idle { opacity: .95; pointer-events: auto; }
 
+  /* mobile: hand off to the browser's native <video controls> entirely (see
+     the mobileNative const up top for why) — hide every bit of the custom
+     HUD/CRT chrome it replaces. #back stays (it's the only way out of the
+     page) and gets a twin on the opposite corner for the episode list, the
+     one piece of app-specific navigation native controls have no room for. */
+  body.mobile-native #hud, body.mobile-native #pauseIcon,
+  body.mobile-native #bufferSpin, body.mobile-native #amb,
+  body.mobile-native #fx { display: none !important; }
+  #episodesBtnMobile { display: none; }
+  body.mobile-native #episodesBtnMobile { position: fixed; top: 16px; right: 16px;
+    width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%;
+    color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40; cursor: pointer;
+    z-index: 3; user-select: none; opacity: .95; touch-action: manipulation; }
+  #episodesBtnMobile svg { width: 20px; height: 20px; display: block; }
+
   /* bottom HUD: title + scrubber + timestamps + transport + volume + buttons,
      one semi-transparent pane pinned to the bottom ~10% of the viewport, on
      top of the video — flat mode only. In 3D mode the pane chrome and every
@@ -260,6 +275,15 @@
   #flatScreen { position: fixed; inset: 0; z-index: 0; display: flex;
     align-items: center; justify-content: center;
     pointer-events: none; } /* canvas above still gets all input, same as 3D mode */
+  /* mobile-native: that canvas is disabled (see mobileNative up top), so the
+     video itself needs to be clickable again for its native controls to work.
+     The OSD canvas stacked above it (#screen canvas, z-index 1) was always
+     shadowed by the full-viewport WebGL canvas catching every tap first via
+     raycasting — nothing ever binds to it directly — so disabling that canvas
+     newly exposes it as a plain, unintentionally hit-testable layer sitting
+     right on top of the video; give it pointer-events:none too. */
+  body.mobile-native #flatScreen { pointer-events: auto; }
+  body.mobile-native #screen canvas { pointer-events: none; }
     /* no background here: body's own black shows through the letterbox
        bars so the ambient glow (behind, z-index -1) isn't blocked */
   body:not(.flat) #flatScreen { display: none; }
@@ -307,6 +331,9 @@
   </filter>
 </svg>
 <a id="back" href="../index.html" title="Back"><svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg></a>
+<!-- mobile-native only: the one custom control that survives handing the
+     rest off to <video controls> — see the mobileNative const up top -->
+<div id="episodesBtnMobile" title="Episodes"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M4 10h4v4H4zm0-6h4v4H4zm0 12h4v4H4zm6-6h10v4H10zm0-6h10v4H10zm0 12h10v4H10z"/></svg></div>
 <div id="hud">
   <div id="label" class="flat-only">
     <span id="labelTextWrap"><span id="labelText"></span></span>
@@ -390,6 +417,19 @@ import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { CSS3DRenderer, CSS3DObject } from 'three/addons/renderers/CSS3DRenderer.js';
 import { DecalGeometry } from 'three/addons/geometries/DecalGeometry.js';
+
+// touch has no reliable way to distinguish "revealing the controls" from
+// "pressing a control" and no hover state to wake a faded HUD ahead of an
+// intentional tap — after burning a whole session chasing HUD idle-fade,
+// tap-delay, and fullscreen edge cases on real phones, it's just not worth
+// it: hand touch devices the browser's own native <video controls>, which
+// gets touch/fullscreen/buffering/captions right for free. Desktop/TV keep
+// the full custom HUD + 3D cabinet experience untouched.
+const mobileNative = matchMedia('(pointer: coarse)').matches;
+if (mobileNative) {
+  document.body.classList.add('mobile-native');
+  v.controls = true;
+}
 
 // ---- load this show's data (?show=<ShowFolderName>, matching shows/<id>/) ----
 // on-page fatal-error display: body's own background is black, so an unstyled
@@ -851,6 +891,10 @@ renderer.setPixelRatio(devicePixelRatio);
 renderer.domElement.style.position = 'absolute';
 renderer.domElement.style.inset = '0';
 renderer.domElement.style.zIndex = '1'; // above #flatScreen, below #hud/#back
+// mobile-native: this canvas exists purely to catch tap-to-pause/seek/volume
+// gestures for the custom HUD, none of which apply once <video controls>
+// owns input — let touches fall straight through to the real video element
+if (mobileNative) renderer.domElement.style.pointerEvents = 'none';
 stage.append(renderer.domElement);
 
 const scene = new THREE.Scene();
@@ -1011,6 +1055,7 @@ v.addEventListener('webkitbeginfullscreen', () => fullscreenBtn.classList.add('o
 v.addEventListener('webkitendfullscreen', () => { fullscreenBtn.classList.remove('on'); resumeIfPaused(); });
 settingsBtn.onclick = toggleSettingsMenu;
 episodesBtn.onclick = toggleList;
+episodesBtnMobile.onclick = toggleList;
 
 // on-screen display: DOM canvas stacked on the video inside the same 3D element
 const osd = Object.assign(document.createElement('canvas'), { width: 800, height: 600 });
@@ -1231,7 +1276,12 @@ function updateScreenFilters() {
   // forces a resolution change. At default settings there's nothing for the
   // filter to actually do, so skip it entirely rather than apply a no-op
   // brightness/contrast/saturate/hue-rotate chain that still costs a layer.
-  const screenFilter = colorStr + sharpStr + (!flatMode ? ' url(#bulge)' : '');
+  // mobile-native drops the CRT/filter look entirely (see mobileNative up
+  // top) — there's no settings panel to reach these sliders from there
+  // anyway, so any leftover saved values from a prior desktop session
+  // shouldn't silently re-impose the compositing cost this was all about
+  // avoiding.
+  const screenFilter = mobileNative ? '' : colorStr + sharpStr + (!flatMode ? ' url(#bulge)' : '');
   v.style.filter = screenFilter || 'none';
   osd.style.filter = screenFilter || 'none';
   document.getElementById('fx').style.display = settings.fxEnabled ? 'block' : 'none';
@@ -1988,7 +2038,7 @@ loadSettings();
 // ?bw: same as flipping the B&W toggle in the settings panel, just one tag
 // instead of opening it — persists the same way every other setting does
 if (urlParams.has('bw')) settings.bw = true;
-setFlatMode(!settings.mode3d); // restore persisted mode, default flat
+setFlatMode(mobileNative || !settings.mode3d); // restore persisted mode, default flat; mobile-native is always flat, no 3D toggle to reach it from
 updateScreenFilters();
 v.addEventListener('playing', size);
 if (window.visualViewport) window.visualViewport.addEventListener('resize', queueSize);
