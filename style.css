@@ -1,0 +1,31 @@
+/* Shared base styles for VaultVision's three pages (index.html, show.html,
+   engine/viewer.html): the neon palette, the CRT scanline overlay, and the
+   VCR display font. Everything page-specific (search widget, episode list,
+   player HUD, 3D mode, etc.) stays in each page's own inline <style> block —
+   see that block for any local overrides of the rules below. */
+
+* { box-sizing: border-box; }
+
+@font-face {
+  font-family: VCR;
+  src: url('fonts/VCR_OSD_MONO.woff') format('woff');
+}
+
+body {
+  margin: 0;
+  color: #e8def8;
+  background: linear-gradient(160deg, #0c0a1f 0%, #1c0f3a 45%, #06040f 100%);
+  font-family: VCR, monospace;
+}
+
+/* CRT scanlines: a fixed, full-viewport repeating gradient over everything.
+   engine/viewer.html opts out of this in its own <style> block — the player
+   has its own scanline+vignette treatment (#fx) scoped to just the video. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, #0000 0 2px, rgba(0,0,0,.1) 2px 3px);
+  z-index: 1;
+}

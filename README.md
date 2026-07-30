@@ -73,7 +73,7 @@ it's self-contained — clone and serve, no other dependencies.
 
 ## Caveats
 
-- **CDN dependencies.** three.js and the VCR font load from CDNs, and video comes
-  from archive.org.
+- **CDN dependencies.** three.js loads from a CDN, and video comes from
+  archive.org.
 - **Ambilight = a 2nd `<video>`.** Some devices have a single hardware video
   decoder; the blurred ambilight twin may not play everywhere.

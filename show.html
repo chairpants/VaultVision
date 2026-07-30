@@ -2,17 +2,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VaultVision — show</title>
+<link rel="stylesheet" href="style.css">
 <style>
-  * { box-sizing: border-box; }
   html, body { height: 100%; }
-  body { margin: 0; color: #e8def8; display: flex; flex-direction: column; overflow: hidden;
-    background: linear-gradient(160deg, #0c0a1f 0%, #1c0f3a 45%, #06040f 100%);
-    font-family: VCR, monospace; }
-  @font-face { font-family: VCR;
-    src: url('https://fonts.cdnfonts.com/s/14798/VCR_OSD_MONO_1.001[1].woff') format('woff'); }
-  body::before { content: ''; position: fixed; inset: 0; pointer-events: none;
-    background: repeating-linear-gradient(0deg, #0000 0 2px, rgba(0,0,0,.1) 2px 3px);
-    z-index: 1; }
+  body { display: flex; flex-direction: column; overflow: hidden; }
   a#back { position: fixed; top: 20px; left: 20px; width: 40px; height: 40px;
     display: grid; place-items: center; border-radius: 50%; color: #e8def8;
     background: #1c0f3a; border: 1px solid #b23bff40; text-decoration: none; z-index: 3; }
@@ -151,14 +144,24 @@
     if (SHOW.art) document.getElementById('artImg').src = 'art/' + SHOW.art;
     // Mobile-only: prefer the taller portrait art if one was generated for
     // this show; falls back to the regular poster via onerror otherwise —
-    // same pattern as the guide page.
+    // same pattern as the guide page. Tries the base extension first, then
+    // every other extension in use in art/ — the tall variant doesn't always
+    // share its base poster's extension (different export passes).
     if (matchMedia('(max-width: 720px)').matches) {
+      const TALL_EXTS = ['jpg', 'png', 'webp', 'gif', 'svg'];
       const artImg = document.getElementById('artImg');
       const original = artImg.getAttribute('src');
       if (original) {
-        const tall = original.replace(/(\.[^.\/]+)$/, '-tall$1');
-        artImg.onerror = () => { artImg.onerror = null; artImg.src = original; };
-        artImg.src = tall;
+        const stem = original.replace(/\.[^.\/]+$/, '');
+        const baseExt = original.slice(stem.length + 1);
+        const candidates = [baseExt, ...TALL_EXTS.filter(e => e !== baseExt)];
+        let i = 0;
+        const tryNext = () => {
+          if (i >= candidates.length) { artImg.onerror = null; artImg.src = original; return; }
+          artImg.src = `${stem}-tall.${candidates[i++]}`;
+        };
+        artImg.onerror = tryNext;
+        tryNext();
       }
     }
     document.title = SHOW.title + ' — VaultVision';
@@ -216,8 +219,13 @@
         const row = document.createElement('a');
         row.className = 'ep' + (watched.has(epKey(episodes[idx])) ? ' watched' : '');
         row.href = `engine/viewer.html?show=${showId}&ep=${idx}&v=${bust}`;
-        row.innerHTML = `<span class="code">${codeOf(title)}</span><span class="title">${
-          title.split(' - ').slice(2).join(' - ') || title}</span>`;
+        const codeSpan = document.createElement('span');
+        codeSpan.className = 'code';
+        codeSpan.textContent = codeOf(title);
+        const titleSpan = document.createElement('span');
+        titleSpan.className = 'title';
+        titleSpan.textContent = title.split(' - ').slice(2).join(' - ') || title;
+        row.append(codeSpan, titleSpan);
         list.append(row);
         rows.push(row);
       }
