@@ -90,7 +90,7 @@
     background: linear-gradient(180deg, #21123f, #0a0618 80%);
     border: 1px solid #b23bff40; box-shadow: 0 0 40px #00000080;
     display: flex; flex-direction: column; align-items: center; gap: 14px; }
-  #kids-pin-hint { margin: 0; color: #e8def888; font: 13px VCR, monospace;
+  #kids-pin-hint { margin: 0; color: #fff; font: 18px VCR, monospace;
     letter-spacing: 3px; }
   #kids-pin-input { width: 100%; box-sizing: border-box; text-align: center;
     font: 22px VCR, monospace; letter-spacing: 10px; color: #34e0ff;
@@ -335,12 +335,22 @@
     const btn = e.target.closest('button');
     if (!btn) return;
     if (btn.dataset.digit !== undefined) pinDigit(btn.dataset.digit);
-    else if (btn.id === 'kids-pin-back') { pinBuffer = pinBuffer.slice(0, -1); renderPin(); }
+    else if (btn.id === 'kids-pin-back') pinBackspace();
   });
   document.getElementById('kids-pin-cancel').addEventListener('click', closeKidsPin);
   pinOverlay.addEventListener('click', (e) => { if (e.target === pinOverlay) closeKidsPin(); });
+
+  function pinBackspace() { pinBuffer = pinBuffer.slice(0, -1); renderPin(); }
+
+  // A real keyboard works too, not just clicking the on-screen pad — the
+  // input itself stays readonly (no OS virtual keyboard popping up on
+  // mobile), this just also listens for digit/Backspace/Escape presses
+  // anywhere while the modal is open.
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && pinOverlay.classList.contains('open')) closeKidsPin();
+    if (!pinOverlay.classList.contains('open')) return;
+    if (e.key === 'Escape') closeKidsPin();
+    else if (e.key === 'Backspace') { e.preventDefault(); pinBackspace(); }
+    else if (/^[0-9]$/.test(e.key)) { e.preventDefault(); pinDigit(e.key); }
   });
 
   async function renderGuide() {
