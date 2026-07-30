@@ -160,6 +160,16 @@
   #pauseIcon.show { display: block; }
   #pauseIcon svg { width: 64px; height: 64px; display: block;
     filter: drop-shadow(0 2px 10px #00000090); }
+  /* mobile autoplay policy forces a muted start; this tells the viewer why
+     it's silent and that tapping (anywhere) turns sound on, instead of them
+     assuming audio is just broken/lagging */
+  #muteHint { position: fixed; top: 16px; left: 50%; transform: translateX(-50%);
+    z-index: 2; display: none; align-items: center; gap: 8px; padding: 8px 14px;
+    border-radius: 20px; background: #1c0f3aeb; border: 1px solid #b23bff40;
+    color: #e8def8; font: 13px system-ui, sans-serif; pointer-events: none;
+    white-space: nowrap; }
+  #muteHint.show { display: flex; }
+  #muteHint svg { width: 18px; height: 18px; display: block; flex: 0 0 auto; }
   /* buffering spinner: same in both modes, intentionally subtle */
   #bufferSpin { position: fixed; top: 50%; left: 50%; width: 26px; height: 26px;
     margin: -13px 0 0 -13px; z-index: 2; display: none; pointer-events: none;
@@ -335,6 +345,10 @@
 <!-- buffering: a small, barely-there spinner — same in both modes, see the
      'waiting' listener above for why this needs to exist (archive.org cold-starts) -->
 <div id="bufferSpin"></div>
+
+<!-- shown only while a strict mobile autoplay policy has forced muted
+     playback — see the NotAllowedError fallback in load() -->
+<div id="muteHint"><svg viewBox="0 0 24 24"><path fill="currentColor" d="M16.5 12A4.5 4.5 0 0 0 14 8v1.18l2.45 2.45c.03-.2.05-.42.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12h-2zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.11V21c1.38-.31 2.63-.95 3.69-1.79L19.73 21 21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>Tap for sound</div>
 
 <!-- flat-mode-only settings panel: real DOM controls skinned to match the
      HUD, sized/positioned to sit above it instead of getting cut off by it.
@@ -656,8 +670,14 @@ async function load() {
       if (playErr.name !== 'NotAllowedError') throw playErr;
       v.muted = true;
       await v.play();
-      addEventListener('pointerdown', () => v.muted = false, { once: true });
-      addEventListener('keydown', () => v.muted = false, { once: true });
+      muteHint.classList.add('show');
+      const unmute = () => {
+        v.muted = false;
+        muteHint.classList.remove('show');
+        suppressNextPause = true; // the tap that grants sound shouldn't also toggle playback
+      };
+      addEventListener('pointerdown', unmute, { once: true });
+      addEventListener('keydown', unmute, { once: true });
     }
     if (seekLocal > 0) v.currentTime = seekLocal; // resume, within the mapped part
     else if (partIndex === 0 && introSkipFor(epIndex)) v.currentTime = introSkipFor(epIndex); // intro skip: first part only
@@ -1783,6 +1803,7 @@ function getVolDir(e) {
   return 0;
 }
 let downX, downY; // pointer-down spot, to tell clicks from orbit drags
+let suppressNextPause = false; // set by the mute-fallback's unmute tap, see load()
 renderer.domElement.addEventListener('pointerdown', e => {
   downX = e.clientX; downY = e.clientY;
   const dir = getDir(e);
@@ -1798,6 +1819,7 @@ renderer.domElement.addEventListener('pointerdown', e => {
 });
 renderer.domElement.addEventListener('pointerup', e => {
   if (e.button !== 0) return;
+  const skipPause = suppressNextPause; suppressNextPause = false;
   clearTimeout(holdTimer);
   clearTimeout(volTimer);
   if (isHolding) {
@@ -1871,7 +1893,7 @@ renderer.domElement.addEventListener('pointerup', e => {
     else if (!flatMode && u > 0.885) { chunk(1); if (SEGKIND !== 'none') popup('ch'); }
     else if (!flatMode && y < 0.115 && u > 0.23 && u < 0.77) { v.volume = Math.min(1, v.volume + 0.1); popup('vol'); }
     else if (!flatMode && y > 0.885 && u > 0.23 && u < 0.77) { v.volume = Math.max(0, v.volume - 0.1); popup('vol'); }
-    else if (performance.now() - listClosedAt > 400) {
+    else if (!skipPause && performance.now() - listClosedAt > 400) {
       clearTimeout(pauseTimer);
       pauseTimer = setTimeout(() => {
         if (osdMode !== 'list') v.paused ? v.play() : v.pause();
