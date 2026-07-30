@@ -81,6 +81,34 @@
   #kids-mode-toggle svg { width: 18px; height: 18px; flex: 0 0 auto; }
   #kids-mode-toggle[aria-pressed="true"] { background: #ff2d95; border-color: #ff2d95; color: #0a0618; }
 
+  /* PIN gate shown only when turning Kids Mode OFF — turning it on is the
+     safe direction and stays a plain instant toggle, no gate needed there. */
+  #kids-pin-overlay { position: fixed; inset: 0; z-index: 20; display: none;
+    align-items: center; justify-content: center; background: #000a; }
+  #kids-pin-overlay.open { display: flex; }
+  #kids-pin-modal { width: 260px; padding: 24px; border-radius: 18px;
+    background: linear-gradient(180deg, #21123f, #0a0618 80%);
+    border: 1px solid #b23bff40; box-shadow: 0 0 40px #00000080;
+    display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  #kids-pin-hint { margin: 0; color: #e8def888; font: 13px VCR, monospace;
+    letter-spacing: 3px; }
+  #kids-pin-input { width: 100%; box-sizing: border-box; text-align: center;
+    font: 22px VCR, monospace; letter-spacing: 10px; color: #34e0ff;
+    background: #0a0618; border: 1px solid #b23bff40; border-radius: 8px;
+    padding: 10px 0 10px 10px; caret-color: transparent; }
+  #kids-pin-input:focus { outline: none; border-color: #34e0ff; }
+  #kids-pin-modal.shake { animation: kidsPinShake .35s; }
+  #kids-pin-modal.shake #kids-pin-input { border-color: #ff2d95; }
+  @keyframes kidsPinShake {
+    25% { transform: translateX(-8px); } 75% { transform: translateX(8px); }
+  }
+  #kids-pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+  #kids-pin-pad button { height: 52px; border-radius: 10px; color: #e8def8;
+    background: #1c0f3a; border: 1px solid #b23bff40; cursor: pointer;
+    font: inherit; font-size: 1.1em; }
+  #kids-pin-pad button:hover, #kids-pin-pad button:focus { border-color: #34e0ff; color: #34e0ff; outline: none; }
+  #kids-pin-cancel, #kids-pin-back { font-size: .9em; opacity: .8; }
+
   /* right edge tracks the grid's own right edge (rows are max-width:1100px,
      centered inside body's 24px side padding) instead of the viewport edge,
      so the icon never sits further right than the tiles below it. */
@@ -141,6 +169,27 @@
     <path d="M20 21a8 8 0 0 0-16 0"></path></svg>
   <span>Kids Mode</span>
 </button>
+
+<div id="kids-pin-overlay">
+  <div id="kids-pin-modal" role="dialog" aria-modal="true" aria-label="Enter code to turn off Kids Mode">
+    <p id="kids-pin-hint">867-5___</p>
+    <input id="kids-pin-input" type="text" inputmode="none" readonly aria-label="Code">
+    <div id="kids-pin-pad">
+      <button type="button" data-digit="1">1</button>
+      <button type="button" data-digit="2">2</button>
+      <button type="button" data-digit="3">3</button>
+      <button type="button" data-digit="4">4</button>
+      <button type="button" data-digit="5">5</button>
+      <button type="button" data-digit="6">6</button>
+      <button type="button" data-digit="7">7</button>
+      <button type="button" data-digit="8">8</button>
+      <button type="button" data-digit="9">9</button>
+      <button id="kids-pin-cancel" type="button" aria-label="Cancel">✕</button>
+      <button type="button" data-digit="0">0</button>
+      <button id="kids-pin-back" type="button" aria-label="Backspace">⌫</button>
+    </div>
+  </div>
+</div>
 
 <div id="search-wrap">
   <button id="search-toggle" type="button" aria-label="Search shows" aria-expanded="false">
@@ -237,8 +286,61 @@
   const kidsToggle = document.getElementById('kids-mode-toggle');
   kidsToggle.setAttribute('aria-pressed', String(kidsMode));
   kidsToggle.addEventListener('click', () => {
-    localStorage.setItem(KIDS_KEY, kidsMode ? '0' : '1');
-    location.reload();
+    if (kidsMode) openKidsPin(); // turning off needs the code; turning on doesn't
+    else { localStorage.setItem(KIDS_KEY, '1'); location.reload(); }
+  });
+
+  // Turning Kids Mode off is gated behind a little "phone keypad" PIN prompt
+  // (867-5309 style joke — the hint reads "867-5___", the code is just 309)
+  // so it isn't a single accidental/curious tap away for a kid using the
+  // toggle itself. Digits only ever come from clicking this on-screen pad,
+  // not a real keyboard, so there's no OS virtual keyboard to fight with.
+  const pinOverlay = document.getElementById('kids-pin-overlay');
+  const pinModal = document.getElementById('kids-pin-modal');
+  const pinInput = document.getElementById('kids-pin-input');
+  const PIN_CODE = '309';
+  let pinBuffer = '';
+
+  function renderPin() { pinInput.value = '•'.repeat(pinBuffer.length); }
+
+  function openKidsPin() {
+    pinBuffer = '';
+    renderPin();
+    pinOverlay.classList.add('open');
+  }
+  function closeKidsPin() {
+    pinOverlay.classList.remove('open');
+    pinBuffer = '';
+  }
+
+  function pinDigit(d) {
+    if (pinBuffer.length >= 3) return;
+    pinBuffer += d;
+    renderPin();
+    if (pinBuffer.length < 3) return;
+    if (pinBuffer === PIN_CODE) {
+      localStorage.setItem(KIDS_KEY, '0');
+      location.reload();
+      return;
+    }
+    pinModal.classList.add('shake');
+    setTimeout(() => {
+      pinModal.classList.remove('shake');
+      pinBuffer = '';
+      renderPin();
+    }, 350);
+  }
+
+  document.getElementById('kids-pin-pad').addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    if (btn.dataset.digit !== undefined) pinDigit(btn.dataset.digit);
+    else if (btn.id === 'kids-pin-back') { pinBuffer = pinBuffer.slice(0, -1); renderPin(); }
+  });
+  document.getElementById('kids-pin-cancel').addEventListener('click', closeKidsPin);
+  pinOverlay.addEventListener('click', (e) => { if (e.target === pinOverlay) closeKidsPin(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && pinOverlay.classList.contains('open')) closeKidsPin();
   });
 
   async function renderGuide() {
