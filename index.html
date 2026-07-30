@@ -232,6 +232,7 @@
       guide.append(h2);
       const row = document.createElement('div');
       row.className = 'row';
+      row.dataset.genre = genre; // scroll-position restore below keys rows by this
       for (const s of shows) {
         const a = document.createElement('a');
         a.className = 'card';
@@ -252,6 +253,26 @@
     }
   }
   await renderGuide();
+
+  // Remember scroll position (page + each row's own horizontal scroll) so
+  // clicking a show, then coming back, lands exactly where you left off
+  // instead of resetting to the top. sessionStorage rather than localStorage
+  // — it's "where you were this browsing session," not something that should
+  // still apply if you close the tab and come back next week. Saved on
+  // pagehide (fires for both a link click and the back/forward button,
+  // unlike beforeunload which mobile browsers don't reliably fire) and
+  // restored once at the very end of this script, after every row (including
+  // Favorites/Resume, built further down) exists.
+  const SCROLL_KEY = 'vv-guide-scroll';
+  window.addEventListener('pagehide', () => {
+    const rowScroll = {};
+    for (const row of document.querySelectorAll('.row[id], .row[data-genre]')) {
+      const key = row.id || 'genre:' + row.dataset.genre;
+      if (row.scrollLeft) rowScroll[key] = row.scrollLeft;
+    }
+    try { sessionStorage.setItem(SCROLL_KEY, JSON.stringify({ y: window.scrollY, rowScroll })); }
+    catch {}
+  });
 
   // tv.js's keyboard nav bails out at load if it finds zero cards, so it's
   // loaded here (after the guide exists) instead of as a static <script> tag.
@@ -527,5 +548,35 @@
         toggle.focus();
       }
     });
+  })();
+
+  // Restore the scroll position saved by the pagehide listener above. Last
+  // thing in the script so every row (Favorites/Resume included) already
+  // exists — restoring scrollLeft on a row is a no-op if it isn't there yet.
+  //
+  // .row has scroll-snap-type: x mandatory, which corrects an arbitrary
+  // scrollLeft to the nearest card boundary — toggling the existing .no-snap
+  // class off and back on (the hold-to-scroll arrows' trick) turned out not
+  // to win the race: the browser re-snaps as soon as .no-snap comes back off,
+  // regardless of how the value got there. The actual fix is to not fight
+  // it — round the saved offset to the nearest card-width increment
+  // (card + gap, read from the card itself rather than hard-coded, since
+  // #search-results/mobile layouts use different sizes) so the value we set
+  // already *is* a valid snap point and there's nothing to correct.
+  (function () {
+    let state;
+    try { state = JSON.parse(sessionStorage.getItem(SCROLL_KEY)); } catch { return; }
+    if (!state) return;
+    for (const row of document.querySelectorAll('.row[id], .row[data-genre]')) {
+      const key = row.id || 'genre:' + row.dataset.genre;
+      if (!state.rowScroll[key]) continue;
+      const card = row.querySelector('a.card');
+      if (!card) continue;
+      const style = getComputedStyle(row);
+      const unit = card.getBoundingClientRect().width + parseFloat(style.columnGap || style.gap || 0);
+      if (!unit) continue;
+      row.scrollLeft = Math.round(state.rowScroll[key] / unit) * unit;
+    }
+    window.scrollTo(0, state.y || 0);
   })();
 </script>
