@@ -71,6 +71,16 @@
   .row-arrow.left { left: 8px; }
   .row-arrow.right { right: 8px; }
 
+  /* left edge mirrors #search-wrap's right-edge formula below, same reason:
+     tracks the grid's own edge rather than the viewport's. */
+  #kids-mode-toggle { position: fixed; top: 20px; left: max(24px, calc(50vw - 550px)); z-index: 10;
+    display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 40px;
+    border-radius: 20px; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
+    cursor: pointer; font: inherit; font-size: .85em; letter-spacing: .5px; }
+  #kids-mode-toggle:hover, #kids-mode-toggle:focus { border-color: #34e0ff; color: #34e0ff; outline: none; }
+  #kids-mode-toggle svg { width: 18px; height: 18px; flex: 0 0 auto; }
+  #kids-mode-toggle[aria-pressed="true"] { background: #ff2d95; border-color: #ff2d95; color: #0a0618; }
+
   /* right edge tracks the grid's own right edge (rows are max-width:1100px,
      centered inside body's 24px side padding) instead of the viewport edge,
      so the icon never sits further right than the tiles below it. */
@@ -117,11 +127,20 @@
     a.card .count { font-size: .8em; }
     #search-wrap { top: 14px; }
     #search-box { width: 190px; }
+    #kids-mode-toggle { top: 14px; padding: 0 10px; font-size: .75em; }
+    #kids-mode-toggle span { display: none; } /* icon only — no room next to the title on a phone */
     #search-results { max-height: 60vh; }
   }
 </style>
 <h1>VaultVision</h1>
 <p class="sub">pick something to watch — every title streams straight from archive.org</p>
+
+<button id="kids-mode-toggle" type="button" aria-pressed="false">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"></circle>
+    <path d="M20 21a8 8 0 0 0-16 0"></path></svg>
+  <span>Kids Mode</span>
+</button>
 
 <div id="search-wrap">
   <button id="search-toggle" type="button" aria-label="Search shows" aria-expanded="false">
@@ -204,16 +223,44 @@
   // guide already used when it was hand-maintained (see ADDING_A_SHOW.md).
   function sortKey(title) { return title.replace(/^(the|a|an)\s+/i, '').toLowerCase(); }
 
+  // Kids Mode: a hand-reviewed allowlist (kids-safe.js) of which shows are
+  // appropriate for children, filtered in right here before any card exists —
+  // Favorites/Resume/search all build off the cards already in the DOM, so
+  // filtering at this one source point keeps everything downstream consistent
+  // for free instead of re-filtering each of those separately.
+  const KIDS_KEY = 'vv-kids-mode';
+  const kidsMode = localStorage.getItem(KIDS_KEY) === '1';
+  // A reload rather than a live re-filter: Favorites/Resume/search are all
+  // built once from whatever cards exist at load, so flipping the mode
+  // cleanly restarts the whole pipeline instead of needing three separate
+  // re-filter code paths to stay in sync with each other.
+  const kidsToggle = document.getElementById('kids-mode-toggle');
+  kidsToggle.setAttribute('aria-pressed', String(kidsMode));
+  kidsToggle.addEventListener('click', () => {
+    localStorage.setItem(KIDS_KEY, kidsMode ? '0' : '1');
+    location.reload();
+  });
+
   async function renderGuide() {
-    await new Promise((resolve, reject) => {
-      const s = document.createElement('script');
-      s.src = 'shows.js';
-      s.onload = resolve;
-      s.onerror = () => reject(new Error('shows.js failed to load'));
-      document.head.append(s);
-    });
+    await Promise.all([
+      new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'shows.js';
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('shows.js failed to load'));
+        document.head.append(s);
+      }),
+      new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = 'kids-safe.js';
+        s.onload = resolve;
+        s.onerror = () => reject(new Error('kids-safe.js failed to load'));
+        document.head.append(s);
+      }),
+    ]);
     const byGenre = new Map();
     for (const [title, id, genre, ext] of parseCSV(window.SHOWS_CSV)) {
+      if (kidsMode && !window.KIDS_SAFE_SHOWS.has(id)) continue;
       if (!byGenre.has(genre)) byGenre.set(genre, []);
       byGenre.get(genre).push({ title, id, ext });
     }
