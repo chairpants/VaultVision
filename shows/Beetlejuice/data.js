@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "Beetlejuice",
   title: "Beetlejuice",
-  art: "Beetlejuice.svg",
+  art: "Beetlejuice.jpg",
   storageProgressKey: "beetlejuice-progress",
   storageSettingsKey: "beetlejuice-settings",
   nestedPaths: true,

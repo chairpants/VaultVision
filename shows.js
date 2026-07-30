@@ -9,7 +9,7 @@ Batman Beyond,BatmanBeyond,Animation,jpg
 Batman: The Animated Series,BatmanTAS,Animation,png
 Beast Wars: Transformers,BeastWarsTransformers,Animation,jpg
 Beavis and Butt-Head,BeavisButthead,Animation,png
-Beetlejuice,Beetlejuice,Animation,svg
+Beetlejuice,Beetlejuice,Animation,jpg
 Berserk (1997),Berserk1997,Anime,jpg
 Big Mouth,BigMouth,Animation,jpg
 Biker Mice from Mars,BikerMiceFromMars,Animation,jpg
@@ -154,7 +154,7 @@ Newhart,Newhart,Classic Sitcoms,jpg
 NewsRadio,NewsRadio,Sitcoms,jpg
 Parker Lewis Can't Lose,ParkerLewis,Sitcoms,jpg
 Petticoat Junction,PetticoatJunction,Classic Sitcoms,jpg
-Popular,Popular,Sitcoms,svg
+Popular,Popular,Sitcoms,jpg
 Punky Brewster,PunkyBrewster,Classic Sitcoms,jpg
 Reba,Reba,Sitcoms,jpg
 Roseanne,Roseanne,Classic Sitcoms,jpg
@@ -208,7 +208,7 @@ Max Headroom,MaxHeadroom,Drama & Adventure,jpg
 The Middleman,Middleman,Drama & Adventure,jpg
 Mortal Kombat: Conquest,MortalKombatConquest,Drama & Adventure,jpg
 Northern Exposure,NorthernExposure,Drama & Adventure,jpg
-NYPD Blue,NYPDBlue,Drama & Adventure,svg
+NYPD Blue,NYPDBlue,Drama & Adventure,jpg
 The O.C.,TheOC,Drama & Adventure,jpg
 Party of Five,PartyOfFive,Drama & Adventure,jpg
 The Persuaders,Persuaders,Drama & Adventure,jpg
@@ -220,7 +220,7 @@ Star Trek: The Next Generation,StarTrekTNG,Drama & Adventure,jpg
 Star Trek: Voyager,StarTrekVoyager,Drama & Adventure,jpg
 Switched at Birth,SwitchedatBirth,Drama & Adventure,jpg
 The Tick (2001),Tick,Drama & Adventure,jpg
-Twin Peaks,TwinPeaks,Drama & Adventure,svg
+Twin Peaks,TwinPeaks,Drama & Adventure,jpg
 V (1983),V1983,Drama & Adventure,jpg
 The Wonder Years,WonderYears,Drama & Adventure,png
 Xena: Warrior Princess,Xena,Drama & Adventure,jpg
