@@ -74,15 +74,37 @@
   /* left edge mirrors #search-wrap's right-edge formula below, same reason:
      tracks the grid's own edge rather than the viewport's. */
   #kids-mode-toggle { position: fixed; top: 20px; left: max(24px, calc(50vw - 550px)); z-index: 10;
-    display: flex; align-items: center; gap: 8px; padding: 0 14px; height: 40px;
-    border-radius: 20px; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
-    cursor: pointer; font: inherit; font-size: .85em; letter-spacing: .5px; }
+    width: 40px; height: 40px; padding: 0; display: grid; place-items: center;
+    border-radius: 50%; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
+    cursor: pointer; }
   #kids-mode-toggle:hover, #kids-mode-toggle:focus { border-color: #34e0ff; color: #34e0ff; outline: none; }
-  #kids-mode-toggle svg { width: 18px; height: 18px; flex: 0 0 auto; }
+  #kids-mode-toggle svg { width: 20px; height: 20px; display: block; }
   #kids-mode-toggle[aria-pressed="true"] { background: #ff2d95; border-color: #ff2d95; color: #0a0618; }
 
-  /* PIN gate shown only when turning Kids Mode OFF — turning it on is the
-     safe direction and stays a plain instant toggle, no gate needed there. */
+  /* Confirmation shown when turning Kids Mode ON — a deliberate speed bump
+     before hiding content, with a "don't ask again" opt-out once it's a
+     familiar, intentional action rather than a stray tap. */
+  #kids-confirm-overlay { position: fixed; inset: 0; z-index: 20; display: none;
+    align-items: center; justify-content: center; background: #000a; }
+  #kids-confirm-overlay.open { display: flex; }
+  #kids-confirm-modal { width: 320px; padding: 24px; border-radius: 18px;
+    background: linear-gradient(180deg, #21123f, #0a0618 80%);
+    border: 1px solid #b23bff40; box-shadow: 0 0 40px #00000080;
+    display: flex; flex-direction: column; gap: 16px; }
+  #kids-confirm-text { margin: 0; color: #e8def8; font-size: .95em; line-height: 1.5; }
+  #kids-confirm-remember { display: flex; align-items: center; gap: 8px;
+    color: #e8def8cc; font-size: .85em; cursor: pointer; }
+  #kids-confirm-buttons { display: flex; gap: 10px; }
+  #kids-confirm-buttons button { flex: 1; height: 42px; border-radius: 8px;
+    font: inherit; font-size: .9em; cursor: pointer; border: 1px solid #b23bff40; }
+  #kids-confirm-cancel { background: #1c0f3a; color: #e8def8; }
+  #kids-confirm-cancel:hover, #kids-confirm-cancel:focus { border-color: #34e0ff; color: #34e0ff; outline: none; }
+  #kids-confirm-yes { background: #ff2d95; color: #0a0618; border-color: #ff2d95; }
+  #kids-confirm-yes:hover, #kids-confirm-yes:focus { background: #ff54ab; outline: none; }
+
+  /* PIN gate shown only when turning Kids Mode OFF — turning it on only
+     needs the confirm dialog above, since re-enabling it is the safe
+     direction and doesn't need to be as hard to get past. */
   #kids-pin-overlay { position: fixed; inset: 0; z-index: 20; display: none;
     align-items: center; justify-content: center; background: #000a; }
   #kids-pin-overlay.open { display: flex; }
@@ -155,20 +177,36 @@
     a.card .count { font-size: .8em; }
     #search-wrap { top: 14px; }
     #search-box { width: 190px; }
-    #kids-mode-toggle { top: 14px; padding: 0 10px; font-size: .75em; }
-    #kids-mode-toggle span { display: none; } /* icon only — no room next to the title on a phone */
+    #kids-mode-toggle { top: 14px; }
     #search-results { max-height: 60vh; }
   }
 </style>
 <h1>VaultVision</h1>
 <p class="sub">pick something to watch — every title streams straight from archive.org</p>
 
-<button id="kids-mode-toggle" type="button" aria-pressed="false">
+<button id="kids-mode-toggle" type="button" aria-pressed="false" title="Kids Mode" aria-label="Kids Mode">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"></circle>
-    <path d="M20 21a8 8 0 0 0-16 0"></path></svg>
-  <span>Kids Mode</span>
+    stroke-linecap="round" stroke-linejoin="round">
+    <rect x="3" y="14" width="7" height="7"></rect>
+    <rect x="14" y="14" width="7" height="7"></rect>
+    <rect x="8.5" y="3" width="7" height="7"></rect>
+  </svg>
 </button>
+
+<div id="kids-confirm-overlay">
+  <div id="kids-confirm-modal" role="dialog" aria-modal="true" aria-label="Enable Kids Mode">
+    <p id="kids-confirm-text">This will turn on Kids Mode, hiding any shows that aren't marked
+      kid-appropriate from the browse grid and search results. You can turn it back off anytime
+      by entering the code on this same button. Are you sure you want to continue?</p>
+    <label id="kids-confirm-remember">
+      <input type="checkbox" id="kids-confirm-checkbox"> Don't ask again
+    </label>
+    <div id="kids-confirm-buttons">
+      <button id="kids-confirm-cancel" type="button">Cancel</button>
+      <button id="kids-confirm-yes" type="button">Yes, Enable</button>
+    </div>
+  </div>
+</div>
 
 <div id="kids-pin-overlay">
   <div id="kids-pin-modal" role="dialog" aria-modal="true" aria-label="Enter code to turn off Kids Mode">
@@ -286,9 +324,37 @@
   const kidsToggle = document.getElementById('kids-mode-toggle');
   kidsToggle.setAttribute('aria-pressed', String(kidsMode));
   kidsToggle.addEventListener('click', () => {
-    if (kidsMode) openKidsPin(); // turning off needs the code; turning on doesn't
-    else { localStorage.setItem(KIDS_KEY, '1'); location.reload(); }
+    if (kidsMode) openKidsPin(); // turning off needs the code
+    else if (localStorage.getItem(KIDS_SKIP_CONFIRM_KEY) === '1') enableKidsMode();
+    else openKidsConfirm(); // turning on just needs a "you sure?" speed bump
   });
+
+  function enableKidsMode() {
+    localStorage.setItem(KIDS_KEY, '1');
+    location.reload();
+  }
+
+  // Confirmation before turning Kids Mode ON: cheap to reverse (no PIN
+  // needed to undo it if you back out), but still worth a deliberate "yes,
+  // I meant to hide stuff" step rather than one accidental tap silently
+  // filtering the grid. "Don't ask again" persists past this point once
+  // it's a familiar, intentional action.
+  const KIDS_SKIP_CONFIRM_KEY = 'vv-kids-mode-skip-confirm';
+  const confirmOverlay = document.getElementById('kids-confirm-overlay');
+  const confirmCheckbox = document.getElementById('kids-confirm-checkbox');
+
+  function openKidsConfirm() {
+    confirmCheckbox.checked = false;
+    confirmOverlay.classList.add('open');
+  }
+  function closeKidsConfirm() { confirmOverlay.classList.remove('open'); }
+
+  document.getElementById('kids-confirm-yes').addEventListener('click', () => {
+    if (confirmCheckbox.checked) localStorage.setItem(KIDS_SKIP_CONFIRM_KEY, '1');
+    enableKidsMode();
+  });
+  document.getElementById('kids-confirm-cancel').addEventListener('click', closeKidsConfirm);
+  confirmOverlay.addEventListener('click', (e) => { if (e.target === confirmOverlay) closeKidsConfirm(); });
 
   // Turning Kids Mode off is gated behind a little "phone keypad" PIN prompt
   // (867-5309 style joke — the hint reads "867-5___", the code is just 309)
@@ -347,6 +413,7 @@
   // mobile), this just also listens for digit/Backspace/Escape presses
   // anywhere while the modal is open.
   document.addEventListener('keydown', (e) => {
+    if (confirmOverlay.classList.contains('open') && e.key === 'Escape') closeKidsConfirm();
     if (!pinOverlay.classList.contains('open')) return;
     if (e.key === 'Escape') closeKidsPin();
     else if (e.key === 'Backspace') { e.preventDefault(); pinBackspace(); }
