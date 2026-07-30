@@ -1354,6 +1354,7 @@ function openFlatEpisodes() {
 function closeFlatEpisodes() {
   flatEpisodesOpen = false;
   flatEpisodes.classList.remove('open');
+  listClosedAt = performance.now(); // same grace window toggleList()'s 3D-mode close gets, so the next tap doesn't immediately re-trigger tap-to-pause
 }
 // canvas is 800 wide; 60px left margin to match where text starts, 40px
 // right margin — same width budget the "ch" popup and the corner label
@@ -1895,7 +1896,19 @@ function size() {
   setZoomLimits();
   layoutFlat();
 }
-addEventListener('resize', size);
+// mobile browsers fire a burst of resize/visualViewport-resize events during
+// things like the address bar hiding/showing (which happens on every
+// fullscreen enter/exit) — each one forces a real WebGL framebuffer
+// reallocation via renderer.setSize, so running size() synchronously per
+// event stalls the main thread for the whole burst. Coalesce to one call
+// per animation frame instead.
+let sizeQueued = false;
+function queueSize() {
+  if (sizeQueued) return;
+  sizeQueued = true;
+  requestAnimationFrame(() => { sizeQueued = false; size(); });
+}
+addEventListener('resize', queueSize);
 // corner label fades out after 5s with no mouse movement; window-level (not
 // renderer.domElement) so it still resets even when the mouse is sitting
 // over a UI element like a corner button that's on top of the canvas
@@ -1932,7 +1945,7 @@ if (urlParams.has('bw')) settings.bw = true;
 setFlatMode(!settings.mode3d); // restore persisted mode, default flat
 updateScreenFilters();
 v.addEventListener('playing', size);
-if (window.visualViewport) window.visualViewport.addEventListener('resize', size);
+if (window.visualViewport) window.visualViewport.addEventListener('resize', queueSize);
 
 // --- TV remote (Tizen) + keyboard control -----------------------------------
 // The player was built for mouse/3D-button input; on a TV the remote drives it
