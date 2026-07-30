@@ -407,17 +407,20 @@
   for (const a of document.querySelectorAll('a.card[href*="show.html"], a.card[href*="viewer.html"]'))
     a.href += '&v=' + bust;
 
-  // Mobile-only: prefer the taller portrait art (art/<Id>-tall.<ext>) if one
-  // was generated for that show; falls back to the existing image otherwise.
-  // Runs after the href rewiring above so ?art= still points at the regular
-  // (landscape) file show.html expects.
+  // Always prefer the taller portrait art (art/<Id>-tall.<ext>) if one was
+  // generated for that show, on every screen size — the card's art box is a
+  // 2:3 portrait shape already (see style.css), so the tall boxart variants
+  // fill it properly instead of letterboxing a landscape still inside it.
+  // Falls back to the existing image otherwise. Must run before the
+  // Favorites row build below, which clones these same <img> nodes — if it
+  // ran after, favorited cards would keep the landscape src forever.
   //
   // The tall variant's extension doesn't always match its base poster's (e.g.
   // base art/Foo.png, tall art/Foo-tall.jpg — different export passes), so
   // guessing "same extension as the base" 404s for those and silently falls
   // back to landscape. Try the base extension first (right most of the time),
   // then every other extension actually in use in art/, before giving up.
-  if (matchMedia('(max-width: 720px)').matches) {
+  {
     const TALL_EXTS = ['jpg', 'png', 'webp', 'gif', 'svg'];
     for (const img of document.querySelectorAll('a.card .art img')) {
       const original = img.getAttribute('src');
@@ -436,7 +439,7 @@
 
   // Initial Favorites row build: deferred to here (rather than up where the
   // "+" buttons are wired) so it clones cards that already have their final
-  // show.html href (+ cache-bust token) and any swapped mobile art.
+  // show.html href (+ cache-bust token) and any swapped tall art.
   rebuildFavoritesRow();
 
   // Live search: the genre grid already has every show's name/art/href baked
