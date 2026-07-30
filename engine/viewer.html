@@ -29,8 +29,14 @@
     opacity: .95; transition: opacity .4s; }
   #back:hover { border-color: #34e0ff; color: #34e0ff; }
   /* fades with the HUD (same idle timer); 3D mode never hides it, matching
-     the settings/lights/3D-toggle buttons that also stay on there */
-  #back.idle { opacity: 0; pointer-events: none; }
+     the settings/lights/3D-toggle buttons that also stay on there.
+     pointer-events stays auto even while faded: on touch, a tap's whole
+     gesture (touchstart -> click) locks to whatever's hit-tested at the very
+     first instant of contact (implicit pointer capture), before our idle
+     timer's un-fade on touchstart can take effect a frame later — so if this
+     went pointer-events:none while idle, the tap would fall through to the
+     canvas underneath instead of ever reaching this button. */
+  #back.idle { opacity: 0; }
   body:not(.flat) #back.idle { opacity: .95; pointer-events: auto; }
 
   /* bottom HUD: title + scrubber + timestamps + transport + volume + buttons,
@@ -50,7 +56,13 @@
     opacity: .95; transition: opacity .4s; }
   body.flat #hud { background: rgba(12, 10, 31, .82); backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px); border-top: 1px solid #b23bff40; }
-  #hud.idle { opacity: 0; pointer-events: none; }
+  /* pointer-events stays auto here too, same reasoning as #back.idle above:
+     touch locks a tap's whole gesture to the element hit-tested at first
+     contact, so this strip must stay hit-testable even while visually faded
+     or every real-world tap (which is nearly always a "cold" tap, since
+     people pause longer than the idle delay between interactions) falls
+     through to the canvas underneath instead of reaching the real button. */
+  #hud.idle { opacity: 0; }
   /* 3D mode: ignore idle-fade entirely, the surviving buttons always stay on */
   body:not(.flat) #hud.idle { opacity: .95; pointer-events: auto; }
   /* everything except #hudBtns is flat-mode-only chrome. !important: #cc's
