@@ -65,6 +65,13 @@
   #hud.idle { opacity: 0; }
   /* 3D mode: ignore idle-fade entirely, the surviving buttons always stay on */
   body:not(.flat) #hud.idle { opacity: .95; pointer-events: auto; }
+  /* touch has no hover/mousemove to "wake" the HUD ahead of an intentional
+     tap, so the reveal tap and a real button tap are indistinguishable —
+     that ambiguity is what was making buttons feel unreliable. Simplest
+     fix: never fade on a touch device, flat mode included. */
+  @media (pointer: coarse) {
+    #hud.idle, #back.idle { opacity: .95; }
+  }
   /* everything except #hudBtns is flat-mode-only chrome. !important: #cc's
      caption-loaded JS sets an inline display:block, which would otherwise
      outrank this and leave CC visible in 3D mode. */
@@ -991,11 +998,17 @@ function toggleFullscreen() {
   else v.webkitEnterFullscreen?.();
 }
 fullscreenBtn.onclick = toggleFullscreen;
+// leaving fullscreen (either API) can leave playback paused as a side effect
+// of the browser tearing down its fullscreen chrome, not a deliberate pause —
+// resume rather than leave the viewer wondering why exiting killed playback
+const resumeIfPaused = () => { if (v.paused && !v.ended) v.play().catch(() => {}); };
 document.addEventListener('fullscreenchange', () => {
-  fullscreenBtn.classList.toggle('on', !!document.fullscreenElement);
+  const on = !!document.fullscreenElement;
+  fullscreenBtn.classList.toggle('on', on);
+  if (!on) resumeIfPaused();
 });
 v.addEventListener('webkitbeginfullscreen', () => fullscreenBtn.classList.add('on'));
-v.addEventListener('webkitendfullscreen', () => fullscreenBtn.classList.remove('on'));
+v.addEventListener('webkitendfullscreen', () => { fullscreenBtn.classList.remove('on'); resumeIfPaused(); });
 settingsBtn.onclick = toggleSettingsMenu;
 episodesBtn.onclick = toggleList;
 
