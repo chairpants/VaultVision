@@ -322,7 +322,10 @@
       const id = getShowId(c);
       if (!id || !favorites.has(id) || seen.has(id)) continue;
       seen.add(id);
-      row.appendChild(c.cloneNode(true));
+      const clone = c.cloneNode(true);
+      row.appendChild(clone);
+      const img = clone.querySelector('.art img');
+      if (img) applyTallArt(img);
     }
     section.style.display = '';
   }
@@ -434,31 +437,44 @@
   // generated for that show, on every screen size — the card's art box is a
   // 2:3 portrait shape already (see style.css), so the tall boxart variants
   // fill it properly instead of letterboxing a landscape still inside it.
-  // Falls back to the existing image otherwise. Must run before the
-  // Favorites row build below, which clones these same <img> nodes — if it
-  // ran after, favorited cards would keep the landscape src forever.
+  // Falls back to the existing image otherwise.
   //
   // The tall variant's extension doesn't always match its base poster's (e.g.
   // base art/Foo.png, tall art/Foo-tall.jpg — different export passes), so
   // guessing "same extension as the base" 404s for those and silently falls
   // back to landscape. Try the base extension first (right most of the time),
   // then every other extension actually in use in art/, before giving up.
-  {
-    const TALL_EXTS = ['jpg', 'png', 'webp', 'gif', 'svg'];
-    for (const img of document.querySelectorAll('a.card .art img')) {
-      const original = img.getAttribute('src');
-      const stem = original.replace(/\.[^.\/]+$/, '');
-      const baseExt = original.slice(stem.length + 1);
-      const candidates = [baseExt, ...TALL_EXTS.filter(e => e !== baseExt)];
-      let i = 0;
-      const tryNext = () => {
-        if (i >= candidates.length) { img.onerror = null; img.src = original; return; }
-        img.src = `${stem}-tall.${candidates[i++]}`;
-      };
-      img.onerror = tryNext;
-      tryNext();
-    }
+  //
+  // Exposed as a function (not an inline loop) because the Favorites row
+  // below clones these <img> nodes, and cloneNode(true) does NOT copy a JS
+  // property like `img.onerror = fn` (only real HTML attributes survive a
+  // clone). A card whose tall variant needed a retry — like the one above,
+  // svg -> jpg — could get cloned mid-retry, before the real extension had
+  // been found, and the clone would be stuck on a broken src forever with no
+  // handler left to recover it. So every image, including clones, resolves
+  // its own art independently by calling this again rather than trusting
+  // whatever `src` it happened to inherit. data-orig-src (a real attribute,
+  // unlike `src` once swapped) is what makes that math re-derivable from a
+  // clone that may already be showing a -tall path, not the original base one.
+  const TALL_EXTS = ['jpg', 'png', 'webp', 'gif', 'svg'];
+  function applyTallArt(img) {
+    if (!img.dataset.origSrc) img.dataset.origSrc = img.getAttribute('src');
+    const original = img.dataset.origSrc;
+    const stem = original.replace(/\.[^.\/]+$/, '');
+    const baseExt = original.slice(stem.length + 1);
+    const candidates = [baseExt, ...TALL_EXTS.filter(e => e !== baseExt)];
+    let i = 0;
+    const tryNext = () => {
+      if (i >= candidates.length) { img.onerror = null; img.src = original; return; }
+      img.src = `${stem}-tall.${candidates[i++]}`;
+    };
+    img.onerror = tryNext;
+    tryNext();
   }
+  // Must run before the Favorites row build below, which clones these same
+  // <img> nodes — harmless if a clone re-resolves anyway, but this way most
+  // clones inherit an already-correct src and never need to retry at all.
+  document.querySelectorAll('a.card .art img').forEach(applyTallArt);
 
   // Initial Favorites row build: deferred to here (rather than up where the
   // "+" buttons are wired) so it clones cards that already have their final
