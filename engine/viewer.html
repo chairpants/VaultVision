@@ -94,6 +94,12 @@
   /* row 2: transport (prev/play-pause/next, grouped) + volume + the rest */
   #ctrlRow { display: flex; align-items: center; gap: 18px; }
   #transportGroup { display: flex; align-items: center; gap: 14px; flex: 0 0 auto; }
+  /* touch-action: manipulation tells the browser this element only pans/taps,
+     never pinch-zooms — without it, iOS Safari (which ignores the
+     user-scalable=no meta tag for accessibility) waits ~300ms after every tap
+     to see if a second tap is coming before firing click, which read as a
+     "massive" and inconsistent delay on real button presses. */
+  #back, .transport, #hudBtns > div { touch-action: manipulation; }
   .transport { color: #e8def8; cursor: pointer; user-select: none; position: relative; }
   .transport svg { width: 28px; height: 28px; display: block; }
   .transport:hover { color: #34e0ff; }
@@ -953,15 +959,23 @@ mode3d.onclick = () => setFlatMode(!flatMode);
 // touchscreens (easy to miss, easy to trigger by accident), so this is the
 // same toggle the dblclick handler below already does, just tap-friendly.
 function toggleFullscreen() {
-  // .catch(): rejects on some mobile browsers (inconsistent Fullscreen API
-  // support) or a non-trusted call — nothing useful to do but not throw
-  const p = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
-  p?.catch(() => {});
+  if (document.fullscreenElement) { document.exitFullscreen(); return; }
+  // iOS Safari on iPhone has no Fullscreen API for arbitrary elements at all
+  // (document.documentElement.requestFullscreen either doesn't exist or
+  // silently rejects there) — the only way to get real, chrome-hiding
+  // fullscreen on that browser is the video element's own native player via
+  // webkitEnterFullscreen(), so fall back to that when the standard API
+  // isn't there or refuses.
+  const p = document.documentElement.requestFullscreen?.();
+  if (p) p.catch(() => v.webkitEnterFullscreen?.());
+  else v.webkitEnterFullscreen?.();
 }
 fullscreenBtn.onclick = toggleFullscreen;
 document.addEventListener('fullscreenchange', () => {
   fullscreenBtn.classList.toggle('on', !!document.fullscreenElement);
 });
+v.addEventListener('webkitbeginfullscreen', () => fullscreenBtn.classList.add('on'));
+v.addEventListener('webkitendfullscreen', () => fullscreenBtn.classList.remove('on'));
 settingsBtn.onclick = toggleSettingsMenu;
 episodesBtn.onclick = toggleList;
 
