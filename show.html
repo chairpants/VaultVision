@@ -14,7 +14,7 @@
   /* locked top section: art/title/count/play — never scrolls */
   #head { flex: 0 0 auto; max-width: 1100px; width: 100%; margin: 0 auto; box-sizing: border-box;
     padding: 32px 24px 0; display: flex; gap: 28px; flex-wrap: wrap; }
-  #head .art { width: 220px; height: 165px; flex: 0 0 auto; border-radius: 8px;
+  #head .art { width: 220px; height: auto; aspect-ratio: 2 / 3; flex: 0 0 auto; border-radius: 8px;
     overflow: hidden; background: #eee; border: 1px solid #b23bff40; }
   #head .art img { width: 100%; height: 100%; object-fit: contain; background: #eee; }
   #head .meta { flex: 1 1 260px; min-width: 0; padding-top: 4px; }
@@ -63,7 +63,7 @@
     a#back { width: 52px; height: 52px; top: 14px; left: 14px; }
     a#back svg { width: 26px; height: 26px; }
     #head { padding: 66px 16px 0; gap: 14px; display: grid; grid-template-columns: 220px 1fr; }
-    #head .art { width: 182px; margin: 0 auto; height: auto; aspect-ratio: 2 / 3; }
+    #head .art { width: 182px; margin: 0 auto; }
     #head .meta { padding-top: 0; }
     #head h1 { font-size: 1.5em; }
     #head .count { font-size: 1em; }
@@ -142,12 +142,14 @@
 
   function init(SHOW) {
     if (SHOW.art) document.getElementById('artImg').src = 'art/' + SHOW.art;
-    // Mobile-only: prefer the taller portrait art if one was generated for
-    // this show; falls back to the regular poster via onerror otherwise —
-    // same pattern as the guide page. Tries the base extension first, then
-    // every other extension in use in art/ — the tall variant doesn't always
-    // share its base poster's extension (different export passes).
-    if (matchMedia('(max-width: 720px)').matches) {
+    // Always prefer the taller portrait art if one was generated for this
+    // show, on every screen size — same as the guide page, and the same
+    // reason: the art box is a 2:3 portrait shape, so boxart fills it better
+    // than a landscape still. Falls back to the regular poster via onerror
+    // otherwise. Tries the base extension first, then every other extension
+    // in use in art/ — the tall variant doesn't always share its base
+    // poster's extension (different export passes).
+    {
       const TALL_EXTS = ['jpg', 'png', 'webp', 'gif', 'svg'];
       const artImg = document.getElementById('artImg');
       const original = artImg.getAttribute('src');
