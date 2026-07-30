@@ -2,10 +2,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <title>VaultVision</title>
+<link rel="stylesheet" href="../style.css">
 <style>
-  * { box-sizing: border-box; }
-  body { margin: 0; height: 100vh; overflow: hidden; background: #000;
+  body { height: 100vh; overflow: hidden; background: #000;
     transition: background .5s; }
+  /* the shared scanline overlay from ../style.css doesn't apply to the player —
+     #fx (inside #screen) below provides its own scanline+vignette treatment
+     scoped to just the video, not the whole viewport */
+  body::before { content: none; }
   /* lights on: bright 3D room. Scoped off in flat mode — there the same
      button/icon means something else (ambient on/off), see #hud below.
      #label no longer needs a color flip here: it now sits on #hud's own
@@ -953,7 +957,7 @@ episodesBtn.onclick = toggleList;
 const osd = Object.assign(document.createElement('canvas'), { width: 800, height: 600 });
 document.getElementById('screen').append(osd);
 const octx = osd.getContext('2d');
-new FontFace('VCR', "url('https://fonts.cdnfonts.com/s/14798/VCR_OSD_MONO_1.001[1].woff')")
+new FontFace('VCR', "url('../fonts/VCR_OSD_MONO.woff')")
   .load().then(f => document.fonts.add(f)).catch(() => {});
 
 new GLTFLoader().load(GLB, g => {
