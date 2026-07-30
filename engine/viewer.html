@@ -1207,7 +1207,10 @@ window.onCCChange = on => { settings.captionsEnabled = on; saveSettings(); };
 function updateScreenFilters() {
   // bw overrides saturate rather than replacing it, so the COLOR slider keeps
   // whatever the user had it at and just comes back once bw is switched off
-  const colorStr = `brightness(${settings.brightness}%) contrast(${settings.contrast}%) saturate(${settings.bw ? 0 : settings.saturate}%) hue-rotate(${settings.hueRotate}deg)`;
+  const colorIsNoOp = settings.brightness === 100 && settings.contrast === 100 &&
+    !settings.bw && settings.saturate === 100 && settings.hueRotate === 0;
+  const colorStr = colorIsNoOp ? '' :
+    `brightness(${settings.brightness}%) contrast(${settings.contrast}%) saturate(${settings.bw ? 0 : settings.saturate}%) hue-rotate(${settings.hueRotate}deg)`;
   // unsharp-mask kernel: lerp from identity (center 1, rest 0 = no-op) to the
   // classic sharpen kernel (center 5, edges -1) by settings.sharpen (0-100%);
   // capped a bit past "classic" strength before it starts looking noisy
@@ -1220,9 +1223,17 @@ function updateScreenFilters() {
   // sharpen applies in both modes — it's a picture-quality fix, not a look.
   // applied to the video + OSD canvas, not #screen as a whole — bulging
   // #fx's scanlines with them warps their regular repeat into moire/banding
+  //
+  // any non-'none' CSS filter forces the browser to promote the live <video>
+  // into its own filter-compositing layer and keep reprocessing it every
+  // frame — real cost on mobile GPUs, and exactly what has to be
+  // re-rasterized (visibly, as a flash of unfiltered video) when fullscreen
+  // forces a resolution change. At default settings there's nothing for the
+  // filter to actually do, so skip it entirely rather than apply a no-op
+  // brightness/contrast/saturate/hue-rotate chain that still costs a layer.
   const screenFilter = colorStr + sharpStr + (!flatMode ? ' url(#bulge)' : '');
-  v.style.filter = screenFilter;
-  osd.style.filter = screenFilter;
+  v.style.filter = screenFilter || 'none';
+  osd.style.filter = screenFilter || 'none';
   document.getElementById('fx').style.display = settings.fxEnabled ? 'block' : 'none';
   // no sharpen here: #amb is already blurred 100px, any edge contrast the
   // kernel adds would be immediately washed back out
