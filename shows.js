@@ -36,6 +36,7 @@ Dragon Ball Super,DragonBallSuper,Anime,jpg
 Dragon Ball Z,DragonBallZ,Anime,jpg
 Dragon Ball Z Kai,DragonBallZKai,Anime,jpg
 Dragon Ball Z Movies & Specials,DragonBallZMovies,Anime,jpg
+Drawn Together,DrawnTogether,Animation,jpg
 Duck Dodgers,DuckDodgers,Animation,jpg
 Duckman,Duckman,Animation,jpg
 DuckTales Series Work in Progress,DuckTalesSeriesWorkinProgress,Animation,jpg
@@ -107,6 +108,7 @@ Ultimate Muscle Series,UltimateMuscleSeries,Anime,jpg
 Undergrads,Undergrads,Animation,jpg
 WackyRaces Series,WackyRacesSeries,Animation,jpg
 Wally Gator,WallyGator,Animation,jpg
+The World of David the Gnome,TheWorldofDavidtheGnome,Animation,jpg
 X-Men: The Animated Series,XMen,Animation,jpg
 Action,Action,Sitcoms,jpg
 ALF the Series,ALFtheSeries,Classic Sitcoms,jpg
@@ -130,7 +132,9 @@ Get Smart,GetSmart,Classic Sitcoms,gif
 Green Acres,GreenAcres,Classic Sitcoms,jpg
 Growing Pains,GrowingPains,Classic Sitcoms,jpg
 Harry and the Hendersons,HarryandtheHendersons,Sitcoms,jpg
+Here's Lucy,HeresLucy,Classic Sitcoms,jpg
 Hey Dude,HeyDude,Classic Sitcoms,webp
+The Hogan Family,TheHoganFamily,Classic Sitcoms,jpg
 It's Your Move,ItsYourMove,Classic Sitcoms,jpg
 The Jeff Foxworthy Show,JeffFoxworthyShow,Sitcoms,jpg
 The Jeffersons,Jeffersons,Classic Sitcoms,jpg
@@ -139,6 +143,7 @@ Just the Ten of Us,JusttheTenofUs,Classic Sitcoms,jpg
 The King of Queens,KingofQueens,Sitcoms,jpg
 Leave It to Beaver (the Series) [,LeaveIttoBeavertheSeries,Classic Sitcoms,jpg
 Life Goes On,LifeGoesOn,Classic Sitcoms,jpg
+The Lucy Show,TheLucyShow,Classic Sitcoms,jpg
 M*A*S*H,MASH,Classic Sitcoms,jpg
 Mad About You,MadAboutYou,Sitcoms,jpg
 Malcolm in the Middle,MalcolmInTheMiddle,Sitcoms,jpg
@@ -147,6 +152,7 @@ Married... with Children,MarriedWithChildren,Classic Sitcoms,jpg
 The Mary Tyler Moore Show,MaryTylerMooreShow,Classic Sitcoms,jpg
 McHale's Navy Series,McHalesNavySeries,Classic Sitcoms,jpg
 Mister Ed,MisterEd,Classic Sitcoms,jpg
+Murphy Brown,MurphyBrown,Classic Sitcoms,jpg
 Mulaney,Mulaney,Sitcoms,jpg
 The Nanny,Nanny,Sitcoms,jpg
 Ned and Stacey,NedAndStacey,Sitcoms,jpg
@@ -158,6 +164,7 @@ Popular,Popular,Sitcoms,jpg
 Punky Brewster,PunkyBrewster,Classic Sitcoms,jpg
 Reba,Reba,Sitcoms,jpg
 Roseanne,Roseanne,Classic Sitcoms,jpg
+Rude Awakening,RudeAwakening,Sitcoms,jpg
 Salute Your Shorts,SaluteYourShorts,Sitcoms,png
 Saved by the Bell,SavedByTheBell,Classic Sitcoms,png
 The Secret World of Alex Mack,AlexMack,Sitcoms,jpg
@@ -190,13 +197,16 @@ Brooklyn South,BrooklynSouth,Drama & Adventure,jpg
 Buck Rogers in the 25th Century,BuckRogers,Drama & Adventure,jpg
 Charmed the Series,CharmedtheSeries,Drama & Adventure,jpg
 Chase,Chase,Drama & Adventure,jpg
+Cop Rock,CopRock,Drama & Adventure,jpg
 Dallas (the Series),DallastheSeries,Drama & Adventure,jpg
 Doctor Who,DoctorWho,Drama & Adventure,jpg
+"Doogie Howser, M.D.",DoogieHowserMD,Drama & Adventure,jpg
 Due South,DueSouth,Drama & Adventure,jpg
 Everwood,Everwood,Drama & Adventure,jpg
 Firefly Series,FireflySeries,Drama & Adventure,jpg
 Gene Roddenberry's Andromeda,GeneRoddenberrysAndromeda,Drama & Adventure,jpg
 the Handmaid's Tale Series,HandmaidsTaleSeries,Drama & Adventure,png
+Highway to Heaven,HighwayToHeaven,Drama & Adventure,jpg
 The Hitchhiker's Guide to the Galaxy,HitchhikersGuidetotheGalaxy,Drama & Adventure,jpg
 Into the Badlands,IntotheBadlands,Drama & Adventure,jpg
 Jericho,Jericho,Drama & Adventure,jpg
@@ -219,6 +229,7 @@ Star Trek: Deep Space Nine,StarTrekDS9,Drama & Adventure,jpg
 Star Trek: The Next Generation,StarTrekTNG,Drama & Adventure,jpg
 Star Trek: Voyager,StarTrekVoyager,Drama & Adventure,jpg
 Switched at Birth,SwitchedatBirth,Drama & Adventure,jpg
+TekWar,TekWar,Drama & Adventure,jpg
 The Tick (2001),Tick,Drama & Adventure,jpg
 Twin Peaks,TwinPeaks,Drama & Adventure,jpg
 V (1983),V1983,Drama & Adventure,jpg
@@ -252,6 +263,7 @@ MADtv,MADtv,Sketch Comedy & Late Night,png
 Monty Python's Flying Circus,MontyPythonsFlyingCircus,Sketch Comedy & Late Night,jpg
 The Whitest Kids U'Know,WhitestKidsUKnow,Sketch Comedy & Late Night,jpg
 Adventures in Wonderland,AdventuresinWonderland,Kids & Educational,jpg
+Adventures of the Gummi Bears,GummiBears,Kids & Educational,jpg
 Allegra's Window,AllegrasWindow,Kids & Educational,jpg
 the Berenstain Bears,BerenstainBears,Kids & Educational,jpg
 Bert and Ernie's Great Adventures,BertandErniesGreatAdventures,Kids & Educational,jpg
