@@ -43,3 +43,6 @@ credentials.json
 *.log
 .tmp/
 tmp/
+
+# Personal dev tools (not part of the shipped repo)
+tools/
