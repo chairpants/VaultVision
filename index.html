@@ -4,6 +4,10 @@
 <title>VaultVision</title>
 <link rel="stylesheet" href="style.css">
 <style>
+  /* --card-w is recalculated on load/resize by the script near the end of
+     the page — this value is just the pre-JS/no-JS fallback, and doubles as
+     the size the calculation settles on at a typical desktop window width. */
+  :root { --card-w: 240px; }
   body { min-height: 100vh; padding: 0 24px 80px; }
   h1 { text-align: center; font-size: 2.2em; margin: 0 0 6px; letter-spacing: 4px;
     background: linear-gradient(90deg, #ff2d95, #b23bff, #34e0ff);
@@ -12,13 +16,14 @@
   .sub { text-align: center; opacity: .6; margin: 0; font-size: .85em; }
 
   /* Pinned title bar: bleeds edge-to-edge past body's side padding via the
-     negative margin, then adds the same amount back as padding (still using
-     the max() formula below so the title/icons line up with the 1100px
-     content grid, not the raw viewport edge). Dark glass rather than a flat
-     panel color, since a flat neutral bar was the one element on the page
-     that didn't read as part of the neon/VHS palette everywhere else. */
+     negative margin, then adds the same 24px back as padding, matching the
+     plain gutter every row now uses below (no more centered 1100px column
+     to track — see the note on .row-wrap for why that went away). Dark
+     glass rather than a flat panel color, since a flat neutral bar was the
+     one element on the page that didn't read as part of the neon/VHS
+     palette everywhere else. */
   #top-bar { position: sticky; top: 0; z-index: 15;
-    margin: 0 -24px; padding: 22px max(24px, calc(50vw - 550px)) 16px;
+    margin: 0 -24px; padding: 22px 24px 16px;
     background: rgba(10, 6, 24, .85);
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
   /* Hairline gradient edge instead of a hard border — echoes the h1 text
@@ -29,18 +34,27 @@
      Resume, or straight to the genre guide) — lives here instead of on
      .sub's margin now that .sub is inside the bar itself. */
   #favorites-section, #resume-section, #guide { margin-top: 40px; }
-  h2 { max-width: 1100px; margin: 0 auto 20px; padding-left: 4px;
+  h2 { margin: 0 0 20px; padding-left: 4px;
     font-size: 1.3em; letter-spacing: 2px; color: #ff6fc7;
     border-bottom: 1px solid #b23bff40; padding-bottom: 8px; }
   /* .no-snap: while an arrow button is held, mandatory snap fights the tiny
      per-frame scrollLeft writes (it keeps trying to snap back to the nearest
      card), which made the hold-to-scroll silently do nothing */
   .row.no-snap { scroll-snap-type: none; }
-  .row { max-width: 1100px; margin: 0 auto 56px; display: flex; gap: 20px;
+  /* Rows used to be capped at max-width:1100px and centered, which left big
+     dead margins on wide monitors. Now a row is just body's full padded
+     width — genre shelves span the window, and #recalcCardWidth (near the
+     end of the page) picks a card size in [--card-min, --card-max] on every
+     resize so a whole number of cards fill that width with no partial one
+     clipped at the edge (beyond that, the shelf still scrolls sideways for
+     more, same as before). Vertical rhythm between shelves is clamp()'d to
+     viewport height for the same reason: a short window fits more shelves
+     before you have to scroll the page, a tall one gets breathing room. */
+  .row { margin: 0 0 clamp(24px, 5vh, 56px); display: flex; gap: 20px;
     overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 8px;
     scrollbar-width: none; }
   .row::-webkit-scrollbar { display: none; }
-  a.card { position: relative; flex: 0 0 240px; scroll-snap-align: start; display: block;
+  a.card { position: relative; flex: 0 0 var(--card-w); scroll-snap-align: start; display: block;
     padding: 18px 16px; border: 1px solid #b23bff40;
     border-radius: 6px; color: #e8def8; text-decoration: none;
     background: linear-gradient(180deg, #21123f88, #0a0618 80%);
@@ -74,8 +88,8 @@
   a.card .fav[aria-pressed="true"] { background: #ff2d95; border-color: #ff2d95; color: #0a0618; }
   a.card .fav[aria-pressed="true"]::before { content: '✓'; }
   #search-results a.card .fav { position: static; margin-left: auto; }
-  .row-wrap { position: relative; max-width: 1100px; margin: 0 auto 56px; }
-  .row-wrap .row { margin: 0; } /* the wrapper now owns the centering/spacing */
+  .row-wrap { position: relative; margin: 0 0 clamp(24px, 5vh, 56px); }
+  .row-wrap .row { margin: 0; } /* the wrapper now owns the spacing */
   /* A small circle centered on the row, not a full-height hover strip — the
      old edge-to-edge gradient's hover/hit zone overlapped the top-left
      Favorites button on each row's first card, and the two fighting for
@@ -90,12 +104,12 @@
   .row-arrow.left { left: 8px; }
   .row-arrow.right { right: 8px; }
 
-  /* left edge mirrors #search-wrap's right-edge formula below, same reason:
-     tracks the grid's own edge rather than the viewport's. Positioned
-     against #top-bar (sticky counts as a positioned ancestor) instead of
-     the viewport now that both icons live inside the pinned bar. */
+  /* Positioned against #top-bar (sticky counts as a positioned ancestor,
+     and its containing block is the padding edge — #top-bar itself bleeds
+     to the viewport edge via negative margin, so 24px here lands at the
+     same gutter every row uses below, same as #search-wrap's right edge. */
   #kids-mode-toggle { position: absolute; top: 50%; transform: translateY(-50%);
-    left: max(24px, calc(50vw - 550px)); z-index: 10;
+    left: 24px; z-index: 10;
     width: 40px; height: 40px; padding: 0; display: grid; place-items: center;
     border-radius: 50%; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
     cursor: pointer; }
@@ -153,11 +167,11 @@
   #kids-pin-pad button:hover, #kids-pin-pad button:focus { border-color: #34e0ff; color: #34e0ff; outline: none; }
   #kids-pin-cancel, #kids-pin-back { font-size: .9em; opacity: .8; }
 
-  /* right edge tracks the grid's own right edge (rows are max-width:1100px,
-     centered inside body's 24px side padding) instead of the viewport edge,
-     so the icon never sits further right than the tiles below it. */
+  /* Same 24px gutter as #kids-mode-toggle's left edge, and as every row
+     below — rows are full-width now, so this just tracks the viewport
+     edge (minus the gutter) rather than a centered column's edge. */
   #search-wrap { position: absolute; top: 50%; transform: translateY(-50%);
-    right: max(24px, calc(50vw - 550px)); z-index: 10; }
+    right: 24px; z-index: 10; }
   #search-toggle { width: 40px; height: 40px; padding: 0; display: grid; place-items: center;
     border-radius: 50%; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
     cursor: pointer; }
@@ -274,6 +288,41 @@
 
 <div id="guide"></div>
 
+<script>
+  // Card width recalculation: how many cards land in CARD_PREFERRED's
+  // neighborhood determines the count (rounded, so a window that's just
+  // shy of fitting one more card grows into it rather than leaving a gap);
+  // that count then divides the row's actual width evenly, clamped to
+  // [CARD_MIN, CARD_MAX]. Packing toward CARD_MIN instead (as many cards
+  // as technically fit) would keep shrinking cards on every wider window
+  // instead of mostly adding more of them at roughly the size already in
+  // use — anchoring on the size instead keeps a wide monitor looking like
+  // more of the same shelf rather than a denser one.
+  // GAP/GUTTER must match .row's `gap` and the 24px side padding used
+  // throughout the page — not read from computed styles since this runs
+  // before any row necessarily exists in the DOM (Favorites/Resume start
+  // display:none, and the genre guide below is still rendering).
+  (() => {
+    const CARD_MIN = 180, CARD_PREFERRED = 240, CARD_MAX = 280;
+    const GAP = 20, GUTTER = 24, MOBILE_BREAKPOINT = 720;
+
+    function recalcCardWidth() {
+      if (window.innerWidth <= MOBILE_BREAKPOINT) return; // mobile sizes cards by its own vw-based rule
+      const containerWidth = document.documentElement.clientWidth - GUTTER * 2;
+      const count = Math.max(1, Math.round((containerWidth + GAP) / (CARD_PREFERRED + GAP)));
+      const evenWidth = (containerWidth - GAP * (count - 1)) / count;
+      const width = Math.min(CARD_MAX, Math.max(CARD_MIN, evenWidth));
+      document.documentElement.style.setProperty('--card-w', width.toFixed(1) + 'px');
+    }
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(recalcCardWidth, 100);
+    });
+    recalcCardWidth();
+  })();
+</script>
 
 <script type="module">
   // The guide used to be ~300 hand-written <a class="card"> entries baked
