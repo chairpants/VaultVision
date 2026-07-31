@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Two chunky V's leaning toward each other; the gradient runs light at
+       the seam where they nearly touch and dark toward each outer arm, so
+       the two lobes + bottom point read as a heart through shading rather
+       than a drawn outline. See tools/ favicon design session for the other
+       variants this was picked over. -->
+  <defs>
+    <linearGradient id="blue" x1="8" y1="32" x2="29" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1f6fff" />
+      <stop offset="1" stop-color="#8fe8ff" />
+    </linearGradient>
+    <linearGradient id="purple" x1="56" y1="32" x2="36" y2="32" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6a1fd9" />
+      <stop offset="1" stop-color="#e0b3ff" />
+    </linearGradient>
+  </defs>
+  <polyline points="8,22 29,52 28,14" fill="none" stroke="url(#blue)"
+    stroke-width="13" stroke-linecap="round" stroke-linejoin="round" />
+  <polyline points="56,22 35,52 36,14" fill="none" stroke="url(#purple)"
+    stroke-width="13" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
