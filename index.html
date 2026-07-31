@@ -4,12 +4,31 @@
 <title>VaultVision</title>
 <link rel="stylesheet" href="style.css">
 <style>
-  body { min-height: 100vh; padding: 48px 24px 80px; }
-  h1 { text-align: center; font-size: 2.6em; margin: 0 0 8px; letter-spacing: 4px;
+  body { min-height: 100vh; padding: 0 24px 80px; }
+  h1 { text-align: center; font-size: 2.2em; margin: 0 0 6px; letter-spacing: 4px;
     background: linear-gradient(90deg, #ff2d95, #b23bff, #34e0ff);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     filter: drop-shadow(0 0 14px #b23bff77); }
-  .sub { text-align: center; opacity: .6; margin: 0 0 56px; font-size: .95em; }
+  .sub { text-align: center; opacity: .6; margin: 0; font-size: .85em; }
+
+  /* Pinned title bar: bleeds edge-to-edge past body's side padding via the
+     negative margin, then adds the same amount back as padding (still using
+     the max() formula below so the title/icons line up with the 1100px
+     content grid, not the raw viewport edge). Dark glass rather than a flat
+     panel color, since a flat neutral bar was the one element on the page
+     that didn't read as part of the neon/VHS palette everywhere else. */
+  #top-bar { position: sticky; top: 0; z-index: 15;
+    margin: 0 -24px; padding: 22px max(24px, calc(50vw - 550px)) 16px;
+    background: rgba(10, 6, 24, .85);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  /* Hairline gradient edge instead of a hard border — echoes the h1 text
+     gradient rather than introducing a new color. */
+  #top-bar::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px;
+    height: 2px; background: linear-gradient(90deg, #ff2d95, #b23bff, #34e0ff); opacity: .35; }
+  /* Space between the bar and whichever section renders first (Favorites,
+     Resume, or straight to the genre guide) — lives here instead of on
+     .sub's margin now that .sub is inside the bar itself. */
+  #favorites-section, #resume-section, #guide { margin-top: 40px; }
   h2 { max-width: 1100px; margin: 0 auto 20px; padding-left: 4px;
     font-size: 1.3em; letter-spacing: 2px; color: #ff6fc7;
     border-bottom: 1px solid #b23bff40; padding-bottom: 8px; }
@@ -72,8 +91,11 @@
   .row-arrow.right { right: 8px; }
 
   /* left edge mirrors #search-wrap's right-edge formula below, same reason:
-     tracks the grid's own edge rather than the viewport's. */
-  #kids-mode-toggle { position: fixed; top: 20px; left: max(24px, calc(50vw - 550px)); z-index: 10;
+     tracks the grid's own edge rather than the viewport's. Positioned
+     against #top-bar (sticky counts as a positioned ancestor) instead of
+     the viewport now that both icons live inside the pinned bar. */
+  #kids-mode-toggle { position: absolute; top: 50%; transform: translateY(-50%);
+    left: max(24px, calc(50vw - 550px)); z-index: 10;
     width: 40px; height: 40px; padding: 0; display: grid; place-items: center;
     border-radius: 50%; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
     cursor: pointer; }
@@ -134,7 +156,8 @@
   /* right edge tracks the grid's own right edge (rows are max-width:1100px,
      centered inside body's 24px side padding) instead of the viewport edge,
      so the icon never sits further right than the tiles below it. */
-  #search-wrap { position: fixed; top: 20px; right: max(24px, calc(50vw - 550px)); z-index: 10; }
+  #search-wrap { position: absolute; top: 50%; transform: translateY(-50%);
+    right: max(24px, calc(50vw - 550px)); z-index: 10; }
   #search-toggle { width: 40px; height: 40px; padding: 0; display: grid; place-items: center;
     border-radius: 50%; color: #e8def8; background: #1c0f3a; border: 1px solid #b23bff40;
     cursor: pointer; }
@@ -165,9 +188,9 @@
      thumbnails read poorly on a phone — go bigger with portrait art instead.
      Desktop layout above is untouched. */
   @media (max-width: 720px) {
-    body { padding-top: 20px; }
-    h1 { font-size: 1.7em; margin-bottom: 4px; }
-    .sub { margin-bottom: 24px; }
+    #top-bar { padding-top: 14px; padding-bottom: 12px; }
+    h1 { font-size: 1.45em; margin-bottom: 3px; }
+    #favorites-section, #resume-section, #guide { margin-top: 24px; }
     .row-arrow { display: none; }
     h2 { font-size: 1.3em; margin-bottom: 10px; padding-bottom: 6px; }
     .row-wrap { margin-bottom: 26px; }
@@ -175,23 +198,33 @@
     a.card .art { height: auto; aspect-ratio: 2 / 3; margin: -12px -10px 8px; }
     a.card .name { font-size: 1.05em; }
     a.card .count { font-size: .8em; }
-    #search-wrap { top: 14px; }
     #search-box { width: 190px; }
-    #kids-mode-toggle { top: 14px; }
     #search-results { max-height: 60vh; }
   }
 </style>
-<h1>VaultVision</h1>
-<p class="sub">pick something to watch — every title streams straight from archive.org</p>
+<header id="top-bar">
+  <h1>VaultVision</h1>
+  <p class="sub">Archive.org Audiovisual Aggregator</p>
 
-<button id="kids-mode-toggle" type="button" aria-pressed="false" title="Kids Mode" aria-label="Kids Mode">
-  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-    stroke-linecap="round" stroke-linejoin="round">
-    <rect x="3" y="14" width="7" height="7"></rect>
-    <circle cx="17.5" cy="17.5" r="3.5"></circle>
-    <path d="M12 3 15.5 10 8.5 10 Z"></path>
-  </svg>
-</button>
+  <button id="kids-mode-toggle" type="button" aria-pressed="false" title="Kids Mode" aria-label="Kids Mode">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+      stroke-linecap="round" stroke-linejoin="round">
+      <rect x="3" y="14" width="7" height="7"></rect>
+      <circle cx="17.5" cy="17.5" r="3.5"></circle>
+      <path d="M12 3 15.5 10 8.5 10 Z"></path>
+    </svg>
+  </button>
+
+  <div id="search-wrap">
+    <button id="search-toggle" type="button" aria-label="Search shows" aria-expanded="false">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+    </button>
+    <input id="search-box" type="search" placeholder="Search shows…" autocomplete="off" aria-label="Search shows">
+    <div id="search-results" hidden></div>
+  </div>
+</header>
 
 <div id="kids-confirm-overlay">
   <div id="kids-confirm-modal" role="dialog" aria-modal="true" aria-label="Enable Kids Mode">
@@ -227,16 +260,6 @@
       <button id="kids-pin-back" type="button" aria-label="Backspace">⌫</button>
     </div>
   </div>
-</div>
-
-<div id="search-wrap">
-  <button id="search-toggle" type="button" aria-label="Search shows" aria-expanded="false">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-      stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-  </button>
-  <input id="search-box" type="search" placeholder="Search shows…" autocomplete="off" aria-label="Search shows">
-  <div id="search-results" hidden></div>
 </div>
 
 <div id="favorites-section" style="display:none">
