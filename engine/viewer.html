@@ -74,6 +74,15 @@
     opacity: .95; transition: opacity .4s; }
   body.flat #hud { background: rgba(12, 10, 31, .82); backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px); border-top: 1px solid #b23bff40; }
+  /* 3D mode: almost everything in this box is .flat-only and display:none,
+     but the empty <div> still claims its full fixed left:0/right:0 bottom
+     strip for hit-testing (pointer-events defaults to auto), which sits
+     above the canvas (z-index 2 vs 1) and silently ate every click meant for
+     the physical control-strip buttons the WebGL scene draws underneath it.
+     Let clicks fall through here; #hudBtns re-enables them on just its own
+     (still-visible: settings/lights/3D-toggle/fullscreen) icons below. */
+  body:not(.flat) #hud { pointer-events: none; }
+  body:not(.flat) #hudBtns > div { pointer-events: auto; }
   /* pointer-events stays auto here too, same reasoning as #back.idle above:
      touch locks a tap's whole gesture to the element hit-tested at first
      contact, so this strip must stay hit-testable even while visually faded
@@ -81,8 +90,10 @@
      people pause longer than the idle delay between interactions) falls
      through to the canvas underneath instead of reaching the real button. */
   #hud.idle { opacity: 0; }
-  /* 3D mode: ignore idle-fade entirely, the surviving buttons always stay on */
-  body:not(.flat) #hud.idle { opacity: .95; pointer-events: auto; }
+  /* 3D mode: ignore idle-fade entirely, the surviving buttons always stay on
+     (pointer-events stays none here — see the body:not(.flat) #hud rule
+     above — so this is opacity-only, unlike #back.idle's version) */
+  body:not(.flat) #hud.idle { opacity: .95; }
   /* touch has no hover/mousemove to "wake" the HUD ahead of an intentional
      tap, so the reveal tap and a real button tap are indistinguishable —
      that ambiguity is what was making buttons feel unreliable. Simplest
