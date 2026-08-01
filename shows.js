@@ -22,6 +22,7 @@ Buzz Lightyear of Star Command,BuzzLightyearofStarCommand,Animation,jpg
 Camp Candy,CampCandy,Animation,jpg
 Camp Lakebottom,CampLakebottom,Animation,jpg
 Captain N,CaptainN,Animation,jpg
+Captain Planet,CaptainPlanet,Animation,jpg
 Casper the Friendly Ghost,CaspertheFriendlyGhost,Animation,jpg
 Casper's Scare School,CaspersScareSchool,Animation,jpg
 Cattanooga Cats (the Series),CattanoogaCatstheSeries,Animation,jpg
@@ -54,6 +55,7 @@ Home Movies,HomeMovies,Animation,jpg
 The Houndcats,Houndcats,Animation,jpg
 Inspector Gadget,InspectorGadget,Animation,jpg
 Invader ZIM,InvaderZIM,Animation,jpg
+Josie and the Pussycats (TV series),JosieandthePussycatsTVseries,Animation,jpg
 KaBlam,KaBlam,Animation,png
 The Karate Kid,KarateKid,Animation,jpg
 the Land Before Time,LandBeforeTime,Animation,jpg
@@ -71,6 +73,7 @@ Mobile Suit Gundam Wing,MobileSuitGundamWing,Anime,jpg
 Monster Rancher,MonsterRancher,Anime,jpg
 Moral Orel,MoralOrel,Animation,jpg
 The Morph Files,MorphFiles,Animation,jpg
+Motorcity (TV series),MotorcityTVseries,Animation,jpg
 Motormouse and Autocat,MotormouseandAutocat,Animation,jpg
 Muppet Babies,MuppetBabies,Animation,png
 Mutant League,MutantLeague,Animation,jpg
@@ -120,6 +123,7 @@ Back to You,BacktoYou,Sitcoms,jpg
 The Bernie Mac Show,BernieMacShow,Sitcoms,jpg
 Bless This House,BlessThisHouse,Classic Sitcoms,jpg
 Cavemen,CavemenSeriesSlightlyBetterQuality,Sitcoms,jpg
+Bosom Buddies,BosomBuddies,Classic Sitcoms,jpg
 The Cosby Show,CosbyShow,Classic Sitcoms,jpg
 Designing Women,DesigningWomen,Classic Sitcoms,jpg
 Dharma & Greg,DharmaAndGreg,Sitcoms,jpg
@@ -136,6 +140,7 @@ Here's Lucy,HeresLucy,Classic Sitcoms,jpg
 Hey Dude,HeyDude,Classic Sitcoms,webp
 The Hogan Family,TheHoganFamily,Classic Sitcoms,jpg
 It's Your Move,ItsYourMove,Classic Sitcoms,jpg
+Home Improvement,HomeImprovement,Sitcoms,jpg
 The Jeff Foxworthy Show,JeffFoxworthyShow,Sitcoms,jpg
 The Jeffersons,Jeffersons,Classic Sitcoms,jpg
 Joey,Joey,Sitcoms,png
@@ -152,6 +157,7 @@ Married... with Children,MarriedWithChildren,Classic Sitcoms,jpg
 The Mary Tyler Moore Show,MaryTylerMooreShow,Classic Sitcoms,jpg
 McHale's Navy Series,McHalesNavySeries,Classic Sitcoms,jpg
 Mister Ed,MisterEd,Classic Sitcoms,jpg
+The Monkees,TheMonkees,Classic Sitcoms,jpg
 Murphy Brown,MurphyBrown,Classic Sitcoms,jpg
 Mulaney,Mulaney,Sitcoms,jpg
 The Nanny,Nanny,Sitcoms,jpg
@@ -159,6 +165,7 @@ Ned and Stacey,NedAndStacey,Sitcoms,jpg
 Newhart,Newhart,Classic Sitcoms,jpg
 NewsRadio,NewsRadio,Sitcoms,jpg
 Parker Lewis Can't Lose,ParkerLewis,Sitcoms,jpg
+Night Court,NightCourt,Classic Sitcoms,jpg
 Petticoat Junction,PetticoatJunction,Classic Sitcoms,jpg
 Popular,Popular,Sitcoms,jpg
 Punky Brewster,PunkyBrewster,Classic Sitcoms,jpg
@@ -209,6 +216,7 @@ the Handmaid's Tale Series,HandmaidsTaleSeries,Drama & Adventure,png
 Highway to Heaven,HighwayToHeaven,Drama & Adventure,jpg
 The Hitchhiker's Guide to the Galaxy,HitchhikersGuidetotheGalaxy,Drama & Adventure,jpg
 Into the Badlands,IntotheBadlands,Drama & Adventure,jpg
+Jack of All Trades (TV series),JackofAllTradesTVseries,Drama & Adventure,jpg
 Jericho,Jericho,Drama & Adventure,jpg
 Knight Rider,KnightRider,Drama & Adventure,jpg
 Life As We Know It,LifeAsWeKnowIt,Drama & Adventure,jpg
@@ -217,12 +225,14 @@ The Lone Gunmen,LoneGunmen,Drama & Adventure,jpg
 Max Headroom,MaxHeadroom,Drama & Adventure,jpg
 The Middleman,Middleman,Drama & Adventure,jpg
 Mortal Kombat: Conquest,MortalKombatConquest,Drama & Adventure,jpg
+The Net (American TV series),TheNetAmericanTVseries,Drama & Adventure,jpg
 Northern Exposure,NorthernExposure,Drama & Adventure,jpg
 NYPD Blue,NYPDBlue,Drama & Adventure,jpg
 The O.C.,TheOC,Drama & Adventure,jpg
 Party of Five,PartyOfFive,Drama & Adventure,jpg
 The Persuaders,Persuaders,Drama & Adventure,jpg
 Power Rangers,PowerRangers,Drama & Adventure,jpg
+RoboCop (live-action TV series),RoboCopliveactionTVseries,Drama & Adventure,jpg
 The Rookies,Rookies,Drama & Adventure,jpg
 Space: 1999,Space1999,Drama & Adventure,jpg
 Star Trek: Deep Space Nine,StarTrekDS9,Drama & Adventure,jpg
