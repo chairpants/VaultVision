@@ -16,27 +16,39 @@ Used as the player's TV set, embedded as glTF for web rendering.
 
 Like Newhart, this player draws on a separate archive.org item per season
 rather than one item for the series:
+[1](https://archive.org/details/coach-season-1_202311),
 [2](https://archive.org/details/coach-season-2_202311),
+[3](https://archive.org/details/coach-season-3_202311),
 [4](https://archive.org/details/coach-season-4),
 [5](https://archive.org/details/coach-season-5),
 [6](https://archive.org/details/coach-season-6),
 [7](https://archive.org/details/coach-season-7),
 [8](https://archive.org/details/coach-season-8),
 [9](https://archive.org/details/coach-season-9).
-The guide stitches them into one run of 163 episodes (ABC, 1989-97) covering
-seasons 2 and 4-9. Thanks to whoever uploaded them. Support the Archive:
-https://archive.org/donate
+The guide stitches them into one run of 198 episodes (ABC, 1989-97) — all nine
+seasons, complete but for two episodes of season 5. Thanks to whoever uploaded
+them. Support the Archive: https://archive.org/donate
 
 *Coach* is the property of its respective rights holders; this project streams
 a publicly hosted recording and hosts no video content itself.
 
 ## Source notes
 
-Seasons 1 and 3 aren't on the Archive as far as this search found, so the guide
-starts at season 2 and jumps from 4 to 5. Nothing is renumbered to hide the
-gaps — the episode codes are the real broadcast ones, so S04E22 is followed by
-S05E01. Season 5 is also missing E12 and E13, so E11 is followed by E14, "The
-Commercial (2)", whose part 1 isn't in the item.
+Season 5 is missing E12 and E13, so E11 is followed by E14, "The Commercial:
+Part 2", whose part 1 isn't in the item. Nothing is renumbered to hide that —
+the episode codes are the real broadcast ones. Every other season is complete.
+
+Seasons 1 and 3 come from `_202311` items that a first pass didn't turn up;
+they were added later. Both carry each episode twice, as an uploaded `.mp4`
+and an Archive-derived `.ia.mp4`, and the rows point at the `.ia.mp4`
+derivatives (`format: "h.264 IA"`) to match how seasons 2 and 5 already
+reference their files.
+
+Episode titles come from Wikipedia's episode list rather than the filenames,
+which drop apostrophes and commas ("Kelly Meet Christine" for "Kelly, Meet
+Christine", "2 Brs Mtn Vw" for "2 BRs, MTN VW"). One correction on top of
+that: Wikipedia lists the first episode as "Pliot", which is a typo for
+"Pilot" and is spelled correctly here.
 
 Note on `coach-season-5`: for a while its metadata endpoint answered
 `{"error": "item metadata may be invalid"}` and its download directory 404'd,
