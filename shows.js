@@ -170,12 +170,10 @@ Petticoat Junction,PetticoatJunction,Classic Sitcoms,jpg
 Popular,Popular,Sitcoms,jpg
 Punky Brewster,PunkyBrewster,Classic Sitcoms,jpg
 Reba,Reba,Sitcoms,jpg
-Roseanne,Roseanne,Classic Sitcoms,jpg
 Rude Awakening,RudeAwakening,Sitcoms,jpg
 Salute Your Shorts,SaluteYourShorts,Sitcoms,png
 Saved by the Bell,SavedByTheBell,Classic Sitcoms,png
 The Secret World of Alex Mack,AlexMack,Sitcoms,jpg
-Seinfeld,Seinfeld,Sitcoms,jpg
 Shasta McNasty,ShastaMcNasty,Sitcoms,jpg
 Soul Man,SoulMan,Sitcoms,jpg
 Step by Step,StepByStep,Sitcoms,jpg
