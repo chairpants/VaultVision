@@ -122,6 +122,7 @@ Back to You,BacktoYou,Sitcoms,jpg
 "Bakersfield, P.D.",BakersfieldPD,Sitcoms,jpg
 The Bernie Mac Show,BernieMacShow,Sitcoms,jpg
 Bless This House,BlessThisHouse,Classic Sitcoms,jpg
+Caroline in the City,CarolineInTheCity,Sitcoms,jpg
 Cavemen,CavemenSeriesSlightlyBetterQuality,Sitcoms,jpg
 Bosom Buddies,BosomBuddies,Classic Sitcoms,jpg
 Coach,Coach,Classic Sitcoms,jpg
