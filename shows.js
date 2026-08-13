@@ -28,6 +28,7 @@ Casper's Scare School,CaspersScareSchool,Animation,jpg
 Cattanooga Cats (the Series),CattanoogaCatstheSeries,Animation,jpg
 Celebrity's Comicolor,CelebritysComicolor,Animation,png
 Courage the Cowardly Dog,CouragetheCowardlyDog,Animation,jpg
+Daria,Daria,Animation,jpg
 Darkwing Duck the Series,DarkwingDucktheSeries,Animation,png
 Dexter's Laboratory the Series,DextersLaboratorytheSeries,Animation,png
 Digimon: Digital Monsters,Digimon,Anime,jpg
