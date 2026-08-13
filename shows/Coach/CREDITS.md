@@ -25,24 +25,41 @@ rather than one item for the series:
 [7](https://archive.org/details/coach-season-7),
 [8](https://archive.org/details/coach-season-8),
 [9](https://archive.org/details/coach-season-9).
-The guide stitches them into one run of 198 episodes (ABC, 1989-97) — all nine
-seasons, complete but for two episodes of season 5. Thanks to whoever uploaded
-them. Support the Archive: https://archive.org/donate
+plus [S05E07](https://archive.org/details/coach-season-5-episode-7-love-tender-commerical-version),
+which is missing from the season 5 item and posted on its own. The guide
+stitches them into one run of the complete series — all 200 episodes across
+nine seasons (ABC, 1989-97). Thanks to whoever uploaded them. Support the
+Archive: https://archive.org/donate
 
 *Coach* is the property of its respective rights holders; this project streams
 a publicly hosted recording and hosts no video content itself.
 
 ## Source notes
 
-Season 5 is missing E12 and E13, so E11 is followed by E14, "The Commercial:
-Part 2", whose part 1 isn't in the item. Nothing is renumbered to hide that —
-the episode codes are the real broadcast ones. Every other season is complete.
+**Season 5's filenames are not its episode numbers.** The item skips "Love Me
+Tender" (posted separately, see above) but keeps counting, so from "The
+Bachelor Party" onward every file is numbered one behind broadcast: the file
+called `S05E12` is really E13, `S05E13` is E14, and so on to `S05E21`, which is
+E22. The rows here are keyed to the *titles*, matched against Wikipedia's
+episode list, so the codes in the guide are the broadcast ones and the file
+numbers are ignored. Anyone re-deriving this season from filenames alone will
+mislabel sixteen episodes.
+
+Two episodes appear twice in the item. "My True Love Gave to Me..." has both an
+uploaded `.mp4` and an Archive-derived `.ia.mp4` — the derivative is used, as
+elsewhere. "Why So Happy, Hayden?" is uploaded twice under two numbers,
+`S05E21` and `S05E22` (the latter with a double space in the name); the guide
+lists `S05E21` once and ignores the duplicate.
 
 Seasons 1 and 3 come from `_202311` items that a first pass didn't turn up;
 they were added later. Both carry each episode twice, as an uploaded `.mp4`
 and an Archive-derived `.ia.mp4`, and the rows point at the `.ia.mp4`
 derivatives (`format: "h.264 IA"`) to match how seasons 2 and 5 already
 reference their files.
+
+S05E07 is the only episode sourced from a one-off item, and it's a
+with-commercials recording — 26 minutes against the usual 21-22, so it runs
+noticeably longer than its neighbours.
 
 Episode titles come from Wikipedia's episode list rather than the filenames,
 which drop apostrophes and commas ("Kelly Meet Christine" for "Kelly, Meet
