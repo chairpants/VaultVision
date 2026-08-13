@@ -124,6 +124,7 @@ The Bernie Mac Show,BernieMacShow,Sitcoms,jpg
 Bless This House,BlessThisHouse,Classic Sitcoms,jpg
 Cavemen,CavemenSeriesSlightlyBetterQuality,Sitcoms,jpg
 Bosom Buddies,BosomBuddies,Classic Sitcoms,jpg
+Coach,Coach,Classic Sitcoms,jpg
 The Cosby Show,CosbyShow,Classic Sitcoms,jpg
 Designing Women,DesigningWomen,Classic Sitcoms,jpg
 Dharma & Greg,DharmaAndGreg,Sitcoms,jpg
