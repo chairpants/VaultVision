@@ -187,6 +187,7 @@ Unhappily Ever After,UnhappilyEverAfter,Sitcoms,jpg
 Veronica's Closet,VeronicasCloset,Sitcoms,jpg
 The Weber Show,WeberShow,Sitcoms,jpg
 What I Like About You,WhatILikeAboutYou,Sitcoms,jpg
+Wings,Wings,Sitcoms,jpg
 Wkrp in Cincinnati,WkrpinCincinnati,Classic Sitcoms,jpg
 Woops!,Woops,Sitcoms,jpg
 You Wish,YouWish,Sitcoms,jpg
