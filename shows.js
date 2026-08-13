@@ -320,4 +320,57 @@ Saturday Morning (ABC/NBC/CBS),SatMorning,Broadcast Blocks,jpg
 Sci-Fi Saturday Anime,SciFiAnime,Broadcast Blocks,png
 SNICK,SNICK,Broadcast Blocks,png
 TGIF,TGIF,Broadcast Blocks,png
-USA Up All Night,USAUpAllNight,Broadcast Blocks,jpg`;
+USA Up All Night,USAUpAllNight,Broadcast Blocks,jpg
+Good Will Hunting,GoodWillHunting,TV Movies,jpg
+Brave New World,BraveNewWorld,TV Movies,jpg
+Arabian Nights,ArabianNights,TV Movies,jpg
+The Odyssey,TheOdyssey,TV Movies,jpg
+The Beast,TheBeast,TV Movies,jpg
+The Texas Chainsaw Massacre 2,TheTexasChainsawMassacre2,TV Movies,jpg
+A Christmas Story,AChristmasStory,TV Movies,jpg
+How The Grinch Stole Christmas!,HowTheGrinchStoleChristmas,TV Movies,jpg
+Muppets Treasure Island,MuppetsTreasureIsland,TV Movies,jpg
+The Rescuers,TheRescuers,TV Movies,jpg
+Schindlers List,SchindlersList,TV Movies,jpg
+Grumpy Old Men,GrumpyOldMen,TV Movies,jpg
+Baby Day Out,BabyDayOut,TV Movies,jpg
+The Usual Suspects,TheUsualSuspects,TV Movies,jpg
+Frosty Returns,FrostyReturns,TV Movies,jpg
+The Story Of Santa Claus,TheStoryOfSantaClaus,TV Movies,jpg
+Curse of the Blair Witch,CurseOfTheBlairWitch,TV Movies,jpg
+Theres Something About Mary,TheresSomethingAboutMary,TV Movies,jpg
+Animal Farm,AnimalFarm,TV Movies,jpg
+20000 Leagues Under The Sea,20000LeaguesUnderTheSea,TV Movies,jpg
+The Dead Zone,TheDeadZone,TV Movies,jpg
+Santa Claus: The Movie,SantaClausTheMovie,TV Movies,jpg
+Rapture,Rapture,TV Movies,jpg
+Batman and Robin,BatmanAndRobin,TV Movies,jpg
+Rumble In The Bronx,RumbleInTheBronx,TV Movies,jpg
+Ernest Saves Christmas,ErnestSavesChristmas,TV Movies,jpg
+Disney Geppetto,DisneyGeppetto,TV Movies,jpg
+Bill Teds Excellent Adventure,BillTedsExcellentAdventure,TV Movies,jpg
+Muppet Family Christmas,MuppetFamilyChristmas,TV Movies,jpg
+The Wizard of Oz,TheWizardOfOz,TV Movies,jpg
+Mickey Christmas Carol,MickeyChristmasCarol,TV Movies,jpg
+American Werewolf In London,AmericanWerewolfInLondon,TV Movies,jpg
+Deep Impact,DeepImpact,TV Movies,jpg
+Assault on Devils Island,AssaultOnDevilsIsland,TV Movies,jpg
+Invasion,Invasion,TV Movies,jpg
+Medicine Man,MedicineMan,TV Movies,jpg
+Pride and Prejudice,PrideAndPrejudice,TV Movies,jpg
+LA Confidential,LaConfidential,TV Movies,jpg
+Project ALF,ProjectAlf,TV Movies,jpg
+The Specialist,TheSpecialist,TV Movies,jpg
+Sleeping Beauty,SleepingBeauty,TV Movies,jpg
+Dead Presidents,DeadPresidents,TV Movies,jpg
+Noah Ark,NoahArk,TV Movies,jpg
+Memoirs Of An Invisible Man,MemoirsOfAnInvisibleMan,TV Movies,jpg
+Armageddon,Armageddon,TV Movies,jpg
+Trucks,Trucks,TV Movies,jpg
+Shallow Grave,ShallowGrave,TV Movies,jpg
+Y2K,Y2k,TV Movies,jpg
+The Exorcist,TheExorcist,TV Movies,jpg
+"O Brother, Where Art Thou?",OBrotherWhereArtThou,TV Movies,jpg
+Judge Dredd,JudgeDredd,TV Movies,jpg
+Speed 2,Speed2,TV Movies,jpg
+Single White Female,SingleWhiteFemale,TV Movies,jpg`;
