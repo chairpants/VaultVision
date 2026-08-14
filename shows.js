@@ -27,6 +27,7 @@ Casper the Friendly Ghost,CaspertheFriendlyGhost,Animation,jpg
 Casper's Scare School,CaspersScareSchool,Animation,jpg
 Cattanooga Cats (the Series),CattanoogaCatstheSeries,Animation,jpg
 Celebrity's Comicolor,CelebritysComicolor,Animation,png
+Common Side Effects,CommonSideEffects,Animation,jpg
 Courage the Cowardly Dog,CouragetheCowardlyDog,Animation,jpg
 Daria,Daria,Animation,jpg
 Darkwing Duck the Series,DarkwingDucktheSeries,Animation,png
@@ -235,6 +236,7 @@ The O.C.,TheOC,Drama & Adventure,jpg
 Party of Five,PartyOfFive,Drama & Adventure,jpg
 The Persuaders,Persuaders,Drama & Adventure,jpg
 Power Rangers,PowerRangers,Drama & Adventure,jpg
+Quantum Leap,QuantumLeap,Drama & Adventure,jpg
 RoboCop (live-action TV series),RoboCopliveactionTVseries,Drama & Adventure,jpg
 The Rookies,Rookies,Drama & Adventure,jpg
 Space: 1999,Space1999,Drama & Adventure,jpg
