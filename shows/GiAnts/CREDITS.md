@@ -24,8 +24,9 @@ streams a publicly hosted recording and hosts no video content itself.
 
 ## Poster art
 
-`art/GiAnts.jpg` is a frame grabbed from the source file itself (the
-Archive's own generated thumbnail), not official key art.
+`art/GiAnts.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/movie/501389). TMDB dates it 2007 where the
+source file says 2008.
 
 ## Captions
 
