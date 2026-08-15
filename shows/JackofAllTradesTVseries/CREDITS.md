@@ -38,6 +38,12 @@ Flagged for a human to double-check:
 
 Via [the URL provided in the tool](https://upload.wikimedia.org/wikipedia/en/9/95/JackOfAllTrades_Complete.jpg).
 
+## Poster art
+
+`art/JackofAllTradesTVseries.jpg` is the show's key art, via
+[TMDB](https://www.themoviedb.org/tv/4162). Already a 2:3 portrait, which is
+the shape the guide's card art box wants.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.
