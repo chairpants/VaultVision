@@ -15,14 +15,19 @@ Used as the player's TV set, embedded as glTF for web rendering.
 **The Internet Archive** — https://archive.org
 
 This player streams
-[a single archive.org item](https://archive.org/details/Bill_Teds_Excellent_Adventure_WB39_WOC_2000-08)
-— an off-air recording with the original commercials intact (WOC). Real
-off-air tape, not a clean rip, so expect the picture and the ad breaks that
-come with that. Deep gratitude to the VHS-hoarder who kept it. Support the
-Archive: https://archive.org/donate
+[a single archive.org item](https://archive.org/details/bill-teds-excellent-adventure_202404)
+— a clean 90-minute rip of the uncut film.
 
-*Bill Teds Excellent Adventure* is the property of its respective rights holders; this project
-streams a publicly hosted recording and hosts no video content itself.
+This entry previously pointed at
+[a WB39 off-air recording](https://archive.org/details/Bill_Teds_Excellent_Adventure_WB39_WOC_2000-08),
+a 119-minute WOC tape (broadcast-edited, commercials intact). That copy is
+still on the Archive if you want the ad breaks; this one is the film as
+released. Deep gratitude to both uploaders. Support the Archive:
+https://archive.org/donate
+
+*Bill & Ted's Excellent Adventure* is the property of its respective rights
+holders; this project streams a publicly hosted recording and hosts no video
+content itself.
 
 ## Captions
 
