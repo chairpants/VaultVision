@@ -207,7 +207,7 @@ window.SHOW = {
   ['animaniacs-1993-1998-movie_202601', "ANIMANIACS - S05E09 - Birds on a Wire, The Scoring Session, The Animaniacs Suite",
     "Animaniacs (1993-1998) + Movie/Animaniacs S05 (360p re-dvdrip)/Animaniacs S05E09 Birds on a Wire, The Scoring Session, The Animaniacs Suite.mp4"],
   ['animaniacs-1993-1998-movie_202601', "ANIMANIACS - S06E01 - Wakko’s Wish (Movie)",
-    "Animaniacs S05M01 Wakko's Wish (1999 360p re-dvdrip).mp4"],
+    "Animaniacs (1993-1998) + Movie/Animaniacs S05M01 Wakko's Wish (1999 360p re-dvdrip).mp4"],
 ],
   durations: {
   "animaniacs-1993-1998-movie_202601::Animaniacs (1993-1998) + Movie/Animaniacs S01 (360p re-dvdrip)/Animaniacs S01E01 De-Zanitized, The Monkey Song, Nighty-Night Toon.mp4": 1276,
@@ -309,6 +309,6 @@ window.SHOW = {
   "animaniacs-1993-1998-movie_202601::Animaniacs (1993-1998) + Movie/Animaniacs S05 (360p re-dvdrip)/Animaniacs S05E07 The Carpool, The Sunshine Squirrels.mp4": 1293,
   "animaniacs-1993-1998-movie_202601::Animaniacs (1993-1998) + Movie/Animaniacs S05 (360p re-dvdrip)/Animaniacs S05E08 The Christmas Tree, Punchline Pt 1, Prom Night, Punchline Pt 2.mp4": 1298,
   "animaniacs-1993-1998-movie_202601::Animaniacs (1993-1998) + Movie/Animaniacs S05 (360p re-dvdrip)/Animaniacs S05E09 Birds on a Wire, The Scoring Session, The Animaniacs Suite.mp4": 1299,
-  "animaniacs-1993-1998-movie_202601::Animaniacs S05M01 Wakko's Wish (1999 360p re-dvdrip).mp4": 4774,
+  "animaniacs-1993-1998-movie_202601::Animaniacs (1993-1998) + Movie/Animaniacs S05M01 Wakko's Wish (1999 360p re-dvdrip).mp4": 4774,
 },
 };
