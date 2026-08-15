@@ -24,6 +24,12 @@ Archive: https://archive.org/donate
 *Schindlers List* is the property of its respective rights holders; this project
 streams a publicly hosted recording and hosts no video content itself.
 
+## Poster art
+
+`art/SchindlersList.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/movie/424). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

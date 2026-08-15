@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "PrideAndPrejudice",
   title: "Pride and Prejudice",
-  art: "",
+  art: "PrideAndPrejudice.jpg",
   storageProgressKey: "prideandprejudice-progress",
   storageSettingsKey: "prideandprejudice-settings",
   nestedPaths: false,

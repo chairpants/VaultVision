@@ -24,8 +24,9 @@ streams a publicly hosted recording and hosts no video content itself.
 
 ## Poster art
 
-`art/AreWeThereYet2005.jpg` is a frame grabbed from the source file itself (the
-Archive's own generated thumbnail), not official key art.
+`art/AreWeThereYet2005.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/movie/11637). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
 
 ## Captions
 

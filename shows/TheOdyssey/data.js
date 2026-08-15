@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheOdyssey",
   title: "The Odyssey",
-  art: "",
+  art: "TheOdyssey.jpg",
   storageProgressKey: "theodyssey-progress",
   storageSettingsKey: "theodyssey-settings",
   nestedPaths: false,

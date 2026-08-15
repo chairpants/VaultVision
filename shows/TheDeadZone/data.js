@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheDeadZone",
   title: "The Dead Zone",
-  art: "",
+  art: "TheDeadZone.jpg",
   storageProgressKey: "thedeadzone-progress",
   storageSettingsKey: "thedeadzone-settings",
   nestedPaths: false,

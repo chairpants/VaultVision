@@ -24,6 +24,12 @@ Archive: https://archive.org/donate
 *Grumpy Old Men* is the property of its respective rights holders; this project
 streams a publicly hosted recording and hosts no video content itself.
 
+## Poster art
+
+`art/GrumpyOldMen.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/movie/11520). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

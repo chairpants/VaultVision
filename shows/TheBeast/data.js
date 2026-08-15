@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheBeast",
   title: "The Beast",
-  art: "",
+  art: "TheBeast.jpg",
   storageProgressKey: "thebeast-progress",
   storageSettingsKey: "thebeast-settings",
   nestedPaths: false,

@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "Speed2",
   title: "Speed 2",
-  art: "",
+  art: "Speed2.jpg",
   storageProgressKey: "speed2-progress",
   storageSettingsKey: "speed2-settings",
   nestedPaths: false,

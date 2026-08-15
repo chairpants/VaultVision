@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "MemoirsOfAnInvisibleMan",
   title: "Memoirs Of An Invisible Man",
-  art: "",
+  art: "MemoirsOfAnInvisibleMan.jpg",
   storageProgressKey: "memoirsofaninvisibleman-progress",
   storageSettingsKey: "memoirsofaninvisibleman-settings",
   nestedPaths: false,

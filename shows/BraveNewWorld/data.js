@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "BraveNewWorld",
   title: "Brave New World",
-  art: "",
+  art: "BraveNewWorld.jpg",
   storageProgressKey: "bravenewworld-progress",
   storageSettingsKey: "bravenewworld-settings",
   nestedPaths: false,

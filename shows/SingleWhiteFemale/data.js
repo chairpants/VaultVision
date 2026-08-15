@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "SingleWhiteFemale",
   title: "Single White Female",
-  art: "",
+  art: "SingleWhiteFemale.jpg",
   storageProgressKey: "singlewhitefemale-progress",
   storageSettingsKey: "singlewhitefemale-settings",
   nestedPaths: false,

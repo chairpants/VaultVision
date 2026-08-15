@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "GoodWillHunting",
   title: "Good Will Hunting",
-  art: "",
+  art: "GoodWillHunting.jpg",
   storageProgressKey: "goodwillhunting-progress",
   storageSettingsKey: "goodwillhunting-settings",
   nestedPaths: false,

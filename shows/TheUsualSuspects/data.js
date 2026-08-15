@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheUsualSuspects",
   title: "The Usual Suspects",
-  art: "",
+  art: "TheUsualSuspects.jpg",
   storageProgressKey: "theusualsuspects-progress",
   storageSettingsKey: "theusualsuspects-settings",
   nestedPaths: false,

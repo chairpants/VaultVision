@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheExorcist",
   title: "The Exorcist",
-  art: "",
+  art: "TheExorcist.jpg",
   storageProgressKey: "theexorcist-progress",
   storageSettingsKey: "theexorcist-settings",
   nestedPaths: false,

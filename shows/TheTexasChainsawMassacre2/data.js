@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheTexasChainsawMassacre2",
   title: "The Texas Chainsaw Massacre 2",
-  art: "",
+  art: "TheTexasChainsawMassacre2.jpg",
   storageProgressKey: "thetexaschainsawmassacre2-progress",
   storageSettingsKey: "thetexaschainsawmassacre2-settings",
   nestedPaths: false,

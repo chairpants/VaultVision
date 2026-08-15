@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "AmericanWerewolfInLondon",
   title: "American Werewolf In London",
-  art: "",
+  art: "AmericanWerewolfInLondon.jpg",
   storageProgressKey: "americanwerewolfinlondon-progress",
   storageSettingsKey: "americanwerewolfinlondon-settings",
   nestedPaths: false,

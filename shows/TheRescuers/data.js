@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheRescuers",
   title: "The Rescuers",
-  art: "",
+  art: "TheRescuers.jpg",
   storageProgressKey: "therescuers-progress",
   storageSettingsKey: "therescuers-settings",
   nestedPaths: false,

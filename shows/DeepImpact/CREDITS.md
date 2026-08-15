@@ -24,6 +24,12 @@ Archive: https://archive.org/donate
 *Deep Impact* is the property of its respective rights holders; this project
 streams a publicly hosted recording and hosts no video content itself.
 
+## Poster art
+
+`art/DeepImpact.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/movie/8656). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

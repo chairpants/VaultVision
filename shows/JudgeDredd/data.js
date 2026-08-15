@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "JudgeDredd",
   title: "Judge Dredd",
-  art: "",
+  art: "JudgeDredd.jpg",
   storageProgressKey: "judgedredd-progress",
   storageSettingsKey: "judgedredd-settings",
   nestedPaths: false,

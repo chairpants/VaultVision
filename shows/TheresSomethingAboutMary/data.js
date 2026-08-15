@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheresSomethingAboutMary",
   title: "Theres Something About Mary",
-  art: "",
+  art: "TheresSomethingAboutMary.jpg",
   storageProgressKey: "theressomethingaboutmary-progress",
   storageSettingsKey: "theressomethingaboutmary-settings",
   nestedPaths: false,

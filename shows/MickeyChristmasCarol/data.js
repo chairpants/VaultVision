@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "MickeyChristmasCarol",
   title: "Mickey Christmas Carol",
-  art: "",
+  art: "MickeyChristmasCarol.jpg",
   storageProgressKey: "mickeychristmascarol-progress",
   storageSettingsKey: "mickeychristmascarol-settings",
   nestedPaths: false,

@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "AssaultOnDevilsIsland",
   title: "Assault on Devils Island",
-  art: "",
+  art: "AssaultOnDevilsIsland.jpg",
   storageProgressKey: "assaultondevilsisland-progress",
   storageSettingsKey: "assaultondevilsisland-settings",
   nestedPaths: false,

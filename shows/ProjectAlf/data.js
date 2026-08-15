@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "ProjectAlf",
   title: "Project ALF",
-  art: "",
+  art: "ProjectAlf.jpg",
   storageProgressKey: "projectalf-progress",
   storageSettingsKey: "projectalf-settings",
   nestedPaths: false,

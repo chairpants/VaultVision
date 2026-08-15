@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "BatmanAndRobin",
   title: "Batman and Robin",
-  art: "",
+  art: "BatmanAndRobin.jpg",
   storageProgressKey: "batmanandrobin-progress",
   storageSettingsKey: "batmanandrobin-settings",
   nestedPaths: false,

@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheStoryOfSantaClaus",
   title: "The Story Of Santa Claus",
-  art: "",
+  art: "TheStoryOfSantaClaus.jpg",
   storageProgressKey: "thestoryofsantaclaus-progress",
   storageSettingsKey: "thestoryofsantaclaus-settings",
   nestedPaths: false,

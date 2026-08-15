@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "AnimalFarm",
   title: "Animal Farm",
-  art: "",
+  art: "AnimalFarm.jpg",
   storageProgressKey: "animalfarm-progress",
   storageSettingsKey: "animalfarm-settings",
   nestedPaths: false,

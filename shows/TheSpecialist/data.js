@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheSpecialist",
   title: "The Specialist",
-  art: "",
+  art: "TheSpecialist.jpg",
   storageProgressKey: "thespecialist-progress",
   storageSettingsKey: "thespecialist-settings",
   nestedPaths: false,

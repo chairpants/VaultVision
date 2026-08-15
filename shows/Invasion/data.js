@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "Invasion",
   title: "Invasion",
-  art: "",
+  art: "Invasion.jpg",
   storageProgressKey: "invasion-progress",
   storageSettingsKey: "invasion-settings",
   nestedPaths: false,

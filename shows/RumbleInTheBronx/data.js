@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "RumbleInTheBronx",
   title: "Rumble In The Bronx",
-  art: "",
+  art: "RumbleInTheBronx.jpg",
   storageProgressKey: "rumbleinthebronx-progress",
   storageSettingsKey: "rumbleinthebronx-settings",
   nestedPaths: false,

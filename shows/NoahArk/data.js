@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "NoahArk",
   title: "Noah Ark",
-  art: "",
+  art: "NoahArk.jpg",
   storageProgressKey: "noahark-progress",
   storageSettingsKey: "noahark-settings",
   nestedPaths: false,

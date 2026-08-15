@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "Trucks",
   title: "Trucks",
-  art: "",
+  art: "Trucks.jpg",
   storageProgressKey: "trucks-progress",
   storageSettingsKey: "trucks-settings",
   nestedPaths: false,

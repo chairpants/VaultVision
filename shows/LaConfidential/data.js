@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "LaConfidential",
   title: "LA Confidential",
-  art: "",
+  art: "LaConfidential.jpg",
   storageProgressKey: "laconfidential-progress",
   storageSettingsKey: "laconfidential-settings",
   nestedPaths: false,
