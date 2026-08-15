@@ -115,6 +115,7 @@ WackyRaces Series,WackyRacesSeries,Animation,jpg
 Wally Gator,WallyGator,Animation,jpg
 The World of David the Gnome,TheWorldofDavidtheGnome,Animation,jpg
 X-Men: The Animated Series,XMen,Animation,jpg
+The Jetsons,TheJetsons,Animation,jpg
 Action,Action,Sitcoms,jpg
 ALF the Series,ALFtheSeries,Classic Sitcoms,jpg
 All in the Family,AllInTheFamily,Classic Sitcoms,jpg
@@ -196,6 +197,9 @@ Wkrp in Cincinnati,WkrpinCincinnati,Classic Sitcoms,jpg
 Woops!,Woops,Sitcoms,jpg
 You Wish,YouWish,Sitcoms,jpg
 "Zoe, Duncan, Jack and Jane",ZoeDuncanJackJane,Sitcoms,jpg
+California Dreams,CaliforniaDreams,Sitcoms,jpg
+That '70s Show,That70sShow,Sitcoms,jpg
+Will & Grace,WillAndGrace,Sitcoms,jpg
 The A-Team,ATeam,Drama & Adventure,jpg
 The Adventures of Brisco County Jr.,BriscoCountyJr,Drama & Adventure,jpg
 Animorphs,Animorphs,Drama & Adventure,jpg
@@ -250,6 +254,7 @@ Twin Peaks,TwinPeaks,Drama & Adventure,jpg
 V (1983),V1983,Drama & Adventure,jpg
 The Wonder Years,WonderYears,Drama & Adventure,png
 Xena: Warrior Princess,Xena,Drama & Adventure,jpg
+"Murder, She Wrote",MurderSheWrote,Drama & Adventure,jpg
 666 Park Avenue Series,666ParkAvenueSeries,Horror & Anthology,jpg
 Alfred Hitchcock Presents,AlfredHitchcockPresents,Horror & Anthology,jpg
 Amazing Stories,AmazingStories,Horror & Anthology,jpg
@@ -266,6 +271,9 @@ The New Alfred Hitchcock Presents,NewAlfredHitchcockPresents,Horror & Anthology,
 Sapphire and Steel,SapphireandSteel,Horror & Anthology,jpg
 Spooksville,Spooksville,Horror & Anthology,jpg
 The Twilight Zone (1959),TwilightZone1959,Horror & Anthology,jpg
+Buffy the Vampire Slayer,BuffyTheVampireSlayer,Horror & Anthology,jpg
+Goosebumps,Goosebumps,Horror & Anthology,jpg
+Night Gallery,NightGallery,Horror & Anthology,jpg
 ABC's Fridays,ABCsFridays,Sketch Comedy & Late Night,jpg
 The Ben Stiller Show,BenStillerShow,Sketch Comedy & Late Night,png
 Celebrity Deathmatch,CelebrityDeathmatch,Sketch Comedy & Late Night,png
@@ -300,6 +308,7 @@ Schoolhouse Rock,SchoolhouseRock,Kids & Educational,jpg
 Wishbone,Wishbone,Kids & Educational,png
 the Wonder Pets! Episodes (with Missing Episodes),WonderPetsEpisodeswithMissingEpisodes,Kids & Educational,png
 Zoboomafoo,Zoboomafoo,Kids & Educational,jpg
+Where in the World Is Carmen Sandiego?,WhereInTheWorldIsCarmenSandiego,Kids & Educational,jpg
 Beyond Scared Straight 2,BeyondScaredStraight2,Reality TV,jpg
 Jury Duty Series,JuryDutySeries,Reality TV,png
 Live PD Series (Not Done Yet),LivePDSeriesNotDoneYet,Reality TV,jpg
