@@ -136,6 +136,7 @@ Everybody Loves Raymond,EverybodyLovesRaymond,Sitcoms,png
 The Facts of Life,FactsofLife,Classic Sitcoms,jpg
 Family Matters,FamilyMatters,Classic Sitcoms,jpg
 Get Smart,GetSmart,Classic Sitcoms,gif
+Gilligan's Island,GilligansIsland,Classic Sitcoms,jpg
 Green Acres,GreenAcres,Classic Sitcoms,jpg
 Growing Pains,GrowingPains,Classic Sitcoms,jpg
 Harry and the Hendersons,HarryandtheHendersons,Sitcoms,jpg

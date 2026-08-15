@@ -37,8 +37,8 @@ Runtimes are tight across the whole run — 1464s to 1575s against a 1518s
 median — so nothing looks truncated and there is no `incompleteEpisodes` entry.
 Nothing was excluded on editorial grounds.
 
-The item also carries a colorized pilot, which is not listed; the black-and-
-white cut is the one used.
+The item also carries a colorized cut of the pilot, which was deliberately
+skipped in favour of the black-and-white one.
 
 ## Episode order
 
