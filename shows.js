@@ -318,6 +318,14 @@ Tornado! (1996),Tornado1996,Action & Adventure,jpg
 Volcano: Fire on the Mountain (1997),VolcanoFireOnTheMountain,Action & Adventure,jpg
 Without Warning (1994),WithoutWarning1994,Sci-Fi & Fantasy,jpg
 Y2K: The Movie (1999),Y2KTheMovie,Action & Adventure,jpg
+Road Rules,RoadRules,Reality TV,jpg
+The Real World,RealWorld,Reality TV,jpg
+The Challenge,Challenge,Reality TV,jpg
+The Osbournes,Osbournes,Reality TV,jpeg
+Viva La Bam,VivaLaBam,Reality TV,jpg
+Pimp My Ride,PimpMyRide,Reality TV,jpg
+MTV True Life,MtvTrueLife,Reality TV,jpg
+MTV Unplugged,MTVUnplugged,Music,jpg
 Fox Kids Saturday Morning,FoxKids,Broadcast Blocks,png
 MonsterVision,MonsterVision,Broadcast Blocks,jpg
 Nick at Nite,NickAtNite,Broadcast Blocks,png
@@ -711,4 +719,5 @@ Trancers 5: Sudden Deth,Trancers5,Sci-Fi & Fantasy,jpg
 Trancers 6,Trancers6,Sci-Fi & Fantasy,jpg
 Wild Wild West,WildWildWest,Action & Adventure,jpg
 American Pie,AmericanPie,Comedy,jpg
-American Pie: The Wedding,AmericanPie3,Comedy,jpg`;
+American Pie: The Wedding,AmericanPie3,Comedy,jpg
+MTV TRL,MtvTrl,Broadcast Blocks,jpg`;
