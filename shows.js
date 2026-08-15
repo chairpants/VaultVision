@@ -10,7 +10,6 @@ Batman: The Animated Series,BatmanTAS,Animation,png
 Beast Wars: Transformers,BeastWarsTransformers,Animation,jpg
 Beavis and Butt-Head,BeavisButthead,Animation,png
 Beetlejuice,Beetlejuice,Animation,jpg
-Berserk (1997),Berserk1997,Anime,jpg
 Big Mouth,BigMouth,Animation,jpg
 Biker Mice from Mars,BikerMiceFromMars,Animation,jpg
 Bob and Margaret,BobandMargaret,Animation,jpg
@@ -130,7 +129,6 @@ Cavemen,CavemenSeriesSlightlyBetterQuality,Sitcoms,jpg
 Bosom Buddies,BosomBuddies,Classic Sitcoms,jpg
 Coach,Coach,Classic Sitcoms,jpg
 The Cosby Show,CosbyShow,Classic Sitcoms,jpg
-Designing Women,DesigningWomen,Classic Sitcoms,jpg
 Dharma & Greg,DharmaAndGreg,Sitcoms,jpg
 The Dick Van Dyke Show,DickVanDyke,Classic Sitcoms,jpg
 The Drew Carey Show,DrewCareyShow,Sitcoms,jpg
@@ -311,7 +309,6 @@ Zoboomafoo,Zoboomafoo,Kids & Educational,jpg
 Where in the World Is Carmen Sandiego?,WhereInTheWorldIsCarmenSandiego,Kids & Educational,jpg
 Beyond Scared Straight 2,BeyondScaredStraight2,Reality TV,jpg
 Jury Duty Series,JuryDutySeries,Reality TV,png
-Live PD Series (Not Done Yet),LivePDSeriesNotDoneYet,Reality TV,jpg
 Most Extreme Elimination Challenge,MostExtremeEliminationChallenge,Reality TV,jpg
 World's Wildest Police Videos,WorldsWildestPoliceVideos,Reality TV,jpg
 Asteroid (1997),Asteroid1997,Action & Adventure,jpg
@@ -319,7 +316,6 @@ Meteorites! (1998),Meteorites1998,Action & Adventure,jpg
 Sometimes They Come Back (1991),SometimesTheyComeBack,Horror,jpg
 Stephen King's IT (1990),It1990,Horror,jpg
 Stephen King's Storm of the Century (1999),StormOfTheCentury,Horror,jpg
-Stephen King's The Langoliers (1995),Langoliers,Horror,jpg
 Stephen King's The Shining (1997),TheShining1997,Horror,jpg
 Stephen King's The Stand (1994),TheStand1994,Horror,jpg
 Stephen King's The Tommyknockers (1993),Tommyknockers,Horror,jpg
