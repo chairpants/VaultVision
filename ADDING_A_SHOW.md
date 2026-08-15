@@ -740,11 +740,24 @@ Notes:
   fail, if they differ — it's just a nudge to confirm the difference is
   intentional.
 * **ShowId** must match the folder name exactly.
-* **Genre** must be one of the existing genres (case-sensitive, exact text) —
-  `Animation` · `Anime` · `Sitcoms` · `Classic Sitcoms` · `Drama & Adventure` ·
-  `Horror & Anthology` · `Sketch Comedy & Late Night` · `Kids & Educational` ·
-  `Reality TV` · `TV Movies` · `Broadcast Blocks` — or a new one, which the guide will render
-  as a new section automatically (it doesn't need registering anywhere else).
+* **Genre** must be one of the existing genres (case-sensitive, exact text).
+  TV shelves: `Animation` · `Anime` · `Sitcoms` · `Classic Sitcoms` ·
+  `Drama & Adventure` · `Horror & Anthology` · `Sketch Comedy & Late Night` ·
+  `Kids & Educational` · `Reality TV` · `Broadcast Blocks`. Movie shelves,
+  under the **Movies** section banner: `Action & Adventure` · `Comedy` ·
+  `Drama` · `Family & Kids` · `Holiday` · `Horror` · `Sci-Fi & Fantasy`.
+
+  > A **new** genre is *not* picked up automatically — this doc used to claim
+  > it was, and that was wrong. The guide renders by iterating the hard-coded
+  > `GENRES` array in `index.html`; a row whose genre isn't in that array is
+  > skipped silently and the show vanishes from the guide with no error. To
+  > add a genre, add it to `GENRES` too (third element is an optional section
+  > banner, e.g. `['Comedy', null, 'Movies']`).
+
+  There is no separate "TV Movies" shelf any more. Made-for-TV movies, TV
+  miniseries and Disney Channel Original Movies all sort by what the film
+  *is* (a King miniseries is `Horror`, a DCOM is usually `Family & Kids`),
+  the same as theatrical features.
 * **Extension** is just the file extension of `art/<ShowId>.<ext>`, no dot
   (`jpg`, `png`, `svg`, `webp`, `gif`).
 
