@@ -353,7 +353,7 @@ Batman and Robin,BatmanAndRobin,TV Movies,jpg
 Rumble In The Bronx,RumbleInTheBronx,TV Movies,jpg
 Ernest Saves Christmas,ErnestSavesChristmas,TV Movies,jpg
 Disney Geppetto,DisneyGeppetto,TV Movies,jpg
-Bill Teds Excellent Adventure,BillTedsExcellentAdventure,TV Movies,jpg
+Bill & Ted's Excellent Adventure,BillTedsExcellentAdventure,TV Movies,jpg
 Muppet Family Christmas,MuppetFamilyChristmas,TV Movies,jpg
 The Wizard of Oz,TheWizardOfOz,TV Movies,jpg
 Mickey Christmas Carol,MickeyChristmasCarol,TV Movies,jpg
@@ -378,4 +378,337 @@ The Exorcist,TheExorcist,TV Movies,jpg
 "O Brother, Where Art Thou?",OBrotherWhereArtThou,TV Movies,jpg
 Judge Dredd,JudgeDredd,TV Movies,jpg
 Speed 2,Speed2,TV Movies,jpg
-Single White Female,SingleWhiteFemale,TV Movies,jpg`;
+Single White Female,SingleWhiteFemale,TV Movies,jpg
+Don't Tell Mom the Babysitter's Dead,DontTellMomTheBabysittersDead,TV Movies,jpg
+Half Baked,HalfBaked,TV Movies,jpg
+Reservoir Dogs,ReservoirDogs,TV Movies,jpg
+Dazed and Confused,DazedAndConfused,TV Movies,jpg
+The Rocky Horror Picture Show,RockyHorrorPictureShow,TV Movies,jpg
+Police Academy,PoliceAcademy,TV Movies,jpg
+The Village,TheVillage,TV Movies,jpg
+Signs,Signs,TV Movies,jpg
+The Sixth Sense,TheSixthSense,TV Movies,jpg
+Unbreakable,Unbreakable,TV Movies,jpg
+Lady in the Water,LadyInTheWater,TV Movies,jpg
+Wide Awake,WideAwake,TV Movies,jpg
+Ferris Bueller's Day Off,FerrisBuellersDayOff,TV Movies,jpg
+Office Space,OfficeSpace,TV Movies,jpg
+E.T. the Extra-Terrestrial,ETTheExtraTerrestrial,TV Movies,jpg
+Wish Upon a Star,WishUponAStar,TV Movies,jpg
+Joe Versus the Volcano,JoeVersusTheVolcano,TV Movies,jpg
+Snatch,Snatch,TV Movies,jpg
+Young Guns,YoungGuns,TV Movies,jpg
+Young Guns II,YoungGuns2,TV Movies,jpg
+The Lost Boys,TheLostBoys,TV Movies,jpg
+Detroit Rock City,DetroitRockCity,TV Movies,jpg
+Romy and Michele's High School Reunion,RomyAndMichelesHighSchoolReunion,TV Movies,jpg
+The Fifth Element,TheFifthElement,TV Movies,jpg
+Airborne,Airborne,TV Movies,jpg
+Buffy the Vampire Slayer (1992),BuffyTheVampireSlayer1992,TV Movies,jpg
+The Big Green,TheBigGreen,TV Movies,jpg
+Heavyweights,Heavyweights,TV Movies,jpg
+Masterminds (1997),Masterminds1997,TV Movies,jpg
+Man of the House,ManOfTheHouse,TV Movies,jpg
+Needful Things,NeedfulThings,TV Movies,jpg
+Jaws,Jaws,TV Movies,jpg
+Falling Down,FallingDown,TV Movies,jpg
+10 Things I Hate About You,TenThingsIHateAboutYou,TV Movies,jpg
+Over the Edge,OverTheEdge,TV Movies,jpg
+Trainspotting,Trainspotting,TV Movies,jpg
+The Basketball Diaries,TheBasketballDiaries,TV Movies,jpg
+Hackers,Hackers,TV Movies,jpg
+Encino Man,EncinoMan,TV Movies,jpg
+Escape from New York,EscapeFromNewYork,TV Movies,jpg
+Bring It On,BringItOn,TV Movies,jpg
+Tombstone,Tombstone,TV Movies,jpg
+Matilda,Matilda,TV Movies,jpg
+Bio-Dome,BioDome,TV Movies,jpg
+Sister Act 2: Back in the Habit,SisterAct2,TV Movies,jpg
+The Fog,TheFog,TV Movies,jpg
+SLC Punk!,SLCPunk,TV Movies,jpg
+Adventures in Babysitting,AdventuresInBabysitting,TV Movies,jpg
+Back to the Future,BackToTheFuture,TV Movies,jpg
+Clue,Clue,TV Movies,jpg
+A Fish Called Wanda,AFishCalledWanda,TV Movies,jpg
+Flashdance,Flashdance,TV Movies,jpg
+F/X,FX,TV Movies,jpg
+Labyrinth,Labyrinth,TV Movies,jpg
+Indiana Jones and the Last Crusade,IndianaJonesAndTheLastCrusade,TV Movies,jpg
+License to Drive,LicenseToDrive,TV Movies,jpg
+Mannequin,Mannequin,TV Movies,jpg
+National Lampoon's Vacation,NationalLampoonsVacation,TV Movies,jpg
+Parenthood,Parenthood,TV Movies,jpg
+Rocky III,Rocky3,TV Movies,jpg
+Rocky IV,Rocky4,TV Movies,jpg
+Pee-wee's Big Adventure,PeeWeesBigAdventure,TV Movies,jpg
+Stand by Me,StandByMe,TV Movies,jpg
+Starman,Starman,TV Movies,jpg
+Stripes,Stripes,TV Movies,jpg
+The Breakfast Club,TheBreakfastClub,TV Movies,jpg
+The Day After,TheDayAfter,TV Movies,jpg
+The Money Pit,TheMoneyPit,TV Movies,jpg
+The Secret of My Success,TheSecretOfMySuccess,TV Movies,jpg
+The Terminator,TheTerminator,TV Movies,jpg
+The Toy,TheToy,TV Movies,jpg
+Three Amigos!,ThreeAmigos,TV Movies,jpg
+Three Men and a Baby,ThreeMenAndABaby,TV Movies,jpg
+Turner & Hooch,TurnerAndHooch,TV Movies,jpg
+Uncle Buck,UncleBuck,TV Movies,jpg
+Valley Girl,ValleyGirl,TV Movies,jpg
+WarGames,WarGames,TV Movies,jpg
+Twins,Twins,TV Movies,jpg
+Weekend at Bernie's,WeekendAtBernies,TV Movies,jpg
+A Little Princess,ALittlePrincess,TV Movies,jpg
+Awakenings,Awakenings,TV Movies,jpg
+Bed of Lies,BedOfLies,TV Movies,jpg
+Bird on a Wire,BirdOnAWire,TV Movies,jpg
+Curly Sue,CurlySue,TV Movies,jpg
+Dance with Me,DanceWithMe,TV Movies,jpg
+Dave,Dave,TV Movies,jpg
+Doc Hollywood,DocHollywood,TV Movies,jpg
+Dolores Claiborne,DoloresClaiborne,TV Movies,jpg
+Don't Tell Her It's Me,DontTellHerItsMe,TV Movies,jpg
+Drop Dead Fred,DropDeadFred,TV Movies,jpg
+Dying Young,DyingYoung,TV Movies,jpg
+Evita,Evita,TV Movies,jpg
+Forever Young,ForeverYoung,TV Movies,jpg
+Free Willy,FreeWilly,TV Movies,jpg
+Guarding Tess,GuardingTess,TV Movies,jpg
+Happy Gilmore,HappyGilmore,TV Movies,jpg
+"Hold Me, Thrill Me, Kiss Me",HoldMeThrillMeKissMe,TV Movies,jpg
+Hook,Hook,TV Movies,jpg
+If the Shoe Fits,IfTheShoeFits,TV Movies,jpg
+Kindergarten Cop,KindergartenCop,TV Movies,jpg
+Les Miserables,LesMiserables,TV Movies,jpg
+Misery,Misery,TV Movies,jpg
+My Best Friend's Wedding,MyBestFriendsWedding,TV Movies,jpg
+My Favorite Martian,MyFavoriteMartian1999,TV Movies,jpg
+Now and Then,NowAndThen,TV Movies,jpg
+Pacific Heights,PacificHeights,TV Movies,jpg
+Patch Adams,PatchAdams,TV Movies,jpg
+Postcards from the Edge,PostcardsFromTheEdge,TV Movies,jpg
+Powder,Powder,TV Movies,jpg
+Queens Logic,QueensLogic,TV Movies,jpg
+Radio Flyer,RadioFlyer,TV Movies,jpg
+Robin Hood: Men in Tights,RobinHoodMenInTights,TV Movies,jpg
+Scent of a Woman,ScentOfAWoman,TV Movies,jpg
+Sense and Sensibility,SenseAndSensibility,TV Movies,jpg
+Shooting Elizabeth,ShootingElizabeth,TV Movies,jpg
+The Associate,TheAssociate,TV Movies,jpg
+The Full Monty,TheFullMonty,TV Movies,jpg
+The Marrying Man,TheMarryingMan,TV Movies,jpg
+The Mighty Ducks,TheMightyDucks,TV Movies,jpg
+The Nutty Professor,TheNuttyProfessor,TV Movies,jpg
+The Real McCoy,TheRealMcCoy,TV Movies,jpg
+The River Wild,TheRiverWild,TV Movies,jpg
+The Sandlot,TheSandlot,TV Movies,jpg
+Three Men and a Little Lady,ThreeMenAndALittleLady,TV Movies,jpg
+Wag the Dog,WagTheDog,TV Movies,jpg
+What Dreams May Come,WhatDreamsMayCome,TV Movies,jpg
+16 Wishes,SixteenWishes,TV Movies,jpg
+A Cinderella Story,ACinderellaStory,TV Movies,jpg
+A Walk to Remember,AWalkToRemember,TV Movies,jpg
+Another Cinderella Story,AnotherCinderellaStory,TV Movies,jpg
+Aquamarine,Aquamarine,TV Movies,jpg
+Bratz,Bratz,TV Movies,jpg
+Camp Rock,CampRock,TV Movies,jpg
+Crossroads,Crossroads,TV Movies,jpg
+Freaky Friday,FreakyFriday,TV Movies,jpg
+High School Musical,HighSchoolMusical,TV Movies,jpg
+Honey,Honey,TV Movies,jpg
+Mean Girls,MeanGirls,TV Movies,jpg
+She's the Man,ShesTheMan,TV Movies,jpg
+Step Up 2: The Streets,StepUp2TheStreets,TV Movies,jpg
+The Cheetah Girls,TheCheetahGirls,TV Movies,jpg
+The Even Stevens Movie,TheEvenStevensMovie,TV Movies,jpg
+The Lizzie McGuire Movie,TheLizzieMcGuireMovie,TV Movies,jpg
+The Perfect Man,ThePerfectMan,TV Movies,jpg
+The Princess Diaries,ThePrincessDiaries,TV Movies,jpg
+What a Girl Wants,WhatAGirlWants,TV Movies,jpg
+Alley Cats Strike,AlleyCatsStrike,TV Movies,jpg
+Brink!,Brink,TV Movies,jpg
+Can of Worms,CanOfWorms,TV Movies,jpg
+Don't Look Under the Bed,DontLookUnderTheBed,TV Movies,jpg
+Double Teamed,DoubleTeamed,TV Movies,jpg
+Genius,Genius1999,TV Movies,jpg
+Halloweentown High,HalloweentownHigh,TV Movies,jpg
+Halloweentown II: Kalabar's Revenge,Halloweentown2,TV Movies,jpg
+Halloweentown,Halloweentown,TV Movies,jpg
+Horse Sense,HorseSense,TV Movies,jpg
+Hounded,Hounded,TV Movies,jpg
+Jett Jackson: The Movie,JettJacksonTheMovie,TV Movies,jpg
+Johnny Tsunami,JohnnyTsunami,TV Movies,jpg
+Jumping Ship,JumpingShip,TV Movies,jpg
+Miracle in Lane 2,MiracleInLane2,TV Movies,jpg
+Mom's Got a Date with a Vampire,MomsGotADateWithAVampire,TV Movies,jpg
+Northern Lights,NorthernLights,TV Movies,jpg
+Phantom of the Megaplex,PhantomOfTheMegaplex,TV Movies,jpg
+Quints,Quints,TV Movies,jpg
+Ready to Run,ReadyToRun,TV Movies,jpg
+Return to Halloweentown,ReturnToHalloweentown,TV Movies,jpg
+Rip Girls,RipGirls,TV Movies,jpg
+Smart House,SmartHouse,TV Movies,jpg
+Stepsister from Planet Weird,StepsisterFromPlanetWeird,TV Movies,jpg
+The Color of Friendship,TheColorOfFriendship,TV Movies,jpg
+The Luck of the Irish,TheLuckOfTheIrish,TV Movies,jpg
+The Other Me,TheOtherMe,TV Movies,jpg
+The Thirteenth Year,TheThirteenthYear,TV Movies,jpg
+The Ultimate Christmas Present,TheUltimateChristmasPresent,TV Movies,jpg
+Under Wraps,UnderWraps,TV Movies,jpg
+"Up, Up and Away",UpUpAndAway,TV Movies,jpg
+You Lucky Dog,YouLuckyDog,TV Movies,jpg
+Zenon: Girl of the 21st Century,Zenon,TV Movies,jpg
+Zenon: The Zequel,Zenon2,TV Movies,jpg
+Zenon: Z3,Zenon3,TV Movies,jpg
+8 Mile,EightMile,TV Movies,jpg
+Are We There Yet? (2005),AreWeThereYet2005,TV Movies,jpg
+Big Daddy,BigDaddy,TV Movies,jpg
+Billy Madison,BillyMadison,TV Movies,jpg
+Boyz n the Hood,BoyzNTheHood,TV Movies,jpg
+Click,Click,TV Movies,jpg
+Dead Poets Society,DeadPoetsSociety,TV Movies,jpg
+Dumb and Dumber,DumbAndDumber,TV Movies,jpg
+Elf,Elf,TV Movies,jpg
+Fight Club,FightClub,TV Movies,jpg
+Forrest Gump,ForrestGump,TV Movies,jpg
+Freddy Got Fingered,FreddyGotFingered,TV Movies,jpg
+Friday,Friday,TV Movies,jpg
+Good Burger,GoodBurger,TV Movies,jpg
+"Good Morning, Vietnam",GoodMorningVietnam,TV Movies,jpg
+The Goonies,TheGoonies,TV Movies,jpg
+Home Alone,HomeAlone,TV Movies,jpg
+Home Alone 2: Lost in New York,HomeAlone2,TV Movies,jpg
+House of 1000 Corpses,HouseOf1000Corpses,TV Movies,jpg
+House of D,HouseOfD,TV Movies,jpg
+How the Grinch Stole Christmas (2000),HowTheGrinchStoleChristmas2000,TV Movies,jpg
+Jackass: The Movie,JackassTheMovie,TV Movies,jpg
+Jersey Girl,JerseyGirl,TV Movies,jpg
+Jumanji,Jumanji,TV Movies,jpg
+Jurassic Park,JurassicPark,TV Movies,jpg
+Ladder 49,Ladder49,TV Movies,jpg
+Little Nicky,LittleNicky,TV Movies,jpg
+Of Mice and Men,OfMiceAndMen,TV Movies,jpg
+Pulp Fiction,PulpFiction,TV Movies,jpg
+RV,RV,TV Movies,jpg
+Saving Private Ryan,SavingPrivateRyan,TV Movies,jpg
+Scream,Scream,TV Movies,jpg
+Step Brothers,StepBrothers,TV Movies,jpg
+Superbad,Superbad,TV Movies,jpg
+Tenacious D in The Pick of Destiny,TenaciousDInThePickOfDestiny,TV Movies,jpg
+The Outsiders,TheOutsiders,TV Movies,jpg
+School of Rock,SchoolOfRock,TV Movies,jpg
+The Truman Show,TheTrumanShow,TV Movies,jpg
+Transformers (2007),Transformers2007,TV Movies,jpg
+United 93,United93,TV Movies,jpg
+Zoolander,Zoolander,TV Movies,jpg
+Thir13en Ghosts,ThirteenGhosts2001,TV Movies,jpg
+1408,Fourteen08,TV Movies,jpg
+28 Weeks Later,TwentyEightWeeksLater,TV Movies,jpg
+28 Days Later,TwentyEightDaysLater,TV Movies,jpg
+3 Ninjas Kick Back,ThreeNinjasKickBack,TV Movies,jpg
+Ace Ventura: Pet Detective,AceVenturaPetDetective,TV Movies,jpg
+Ace Ventura: When Nature Calls,AceVenturaWhenNatureCalls,TV Movies,jpg
+Alexander,Alexander,TV Movies,jpg
+Alien Nation,AlienNation,TV Movies,jpg
+Alien Resurrection,AlienResurrection,TV Movies,jpg
+American History X,AmericanHistoryX,TV Movies,jpg
+Apocalypse Now,ApocalypseNow,TV Movies,jpg
+*batteries not included,BatteriesNotIncluded,TV Movies,jpg
+Beethoven,Beethoven,TV Movies,jpg
+Beetlejuice (1988),Beetlejuice1988,TV Movies,jpg
+BloodRayne,BloodRayne,TV Movies,jpg
+BloodRayne II: Deliverance,BloodRayne2,TV Movies,jpg
+Cast Away,CastAway,TV Movies,jpg
+Children of the Corn,ChildrenOfTheCorn,TV Movies,jpg
+Chopping Mall,ChoppingMall,TV Movies,jpg
+Clockstoppers,Clockstoppers,TV Movies,jpg
+Creepshow,Creepshow,TV Movies,jpg
+Creepshow 2,Creepshow2,TV Movies,jpg
+Creepshow 3,Creepshow3,TV Movies,jpg
+Doom,Doom,TV Movies,jpg
+Excalibur,Excalibur,TV Movies,jpg
+Final Destination,FinalDestination,TV Movies,jpg
+Fire & Ice: The Dragon Chronicles,FireAndIceTheDragonChronicles,TV Movies,jpg
+Flesh Gordon Meets the Cosmic Cheerleaders,FleshGordon2,TV Movies,jpg
+Flight of the Navigator,FlightOfTheNavigator,TV Movies,jpg
+Footloose,Footloose,TV Movies,jpg
+Gremlins,Gremlins,TV Movies,jpg
+Gremlins 2: The New Batch,Gremlins2,TV Movies,jpg
+Ghost Rider,GhostRider,TV Movies,jpg
+GiAnts,GiAnts,TV Movies,jpg
+Rescue from Gilligan's Island,RescueFromGilligansIsland,TV Movies,jpg
+The Harlem Globetrotters on Gilligan's Island,TheHarlemGlobetrottersOnGilligansIsland,TV Movies,jpg
+Gorillas in the Mist,GorillasInTheMist,TV Movies,jpg
+Grease,Grease,TV Movies,jpg
+Great Balls of Fire!,GreatBallsOfFire,TV Movies,jpg
+H-E Double Hockey Sticks,HEDoubleHockeySticks,TV Movies,jpg
+Hellraiser,Hellraiser,TV Movies,jpg
+Hellbound: Hellraiser II,Hellraiser2,TV Movies,jpg
+Highlander II: The Quickening (Renegade Cut),Highlander2,TV Movies,jpg
+Knowing,Knowing,TV Movies,jpg
+Mac and Me,MacAndMe,TV Movies,jpg
+Mandroid,Mandroid,TV Movies,jpg
+Maniac Cop,ManiacCop,TV Movies,jpg
+Maniac Cop 2,ManiacCop2,TV Movies,jpg
+Maniac Cop 3: Badge of Silence,ManiacCop3,TV Movies,jpg
+Midnight Warrior,MidnightWarrior,TV Movies,jpg
+Mindkiller,Mindkiller,TV Movies,jpg
+Monkey Trouble,MonkeyTrouble,TV Movies,jpg
+Mortal Kombat,MortalKombat,TV Movies,jpg
+Mortal Kombat: Annihilation,MortalKombat2,TV Movies,jpg
+Muppets from Space,MuppetsFromSpace,TV Movies,jpg
+My Girl,MyGirl,TV Movies,jpg
+Night of the Dribbler,NightOfTheDribbler,TV Movies,jpg
+Nukie,Nukie,TV Movies,jpg
+Private School,PrivateSchool,TV Movies,jpg
+Phantasm,Phantasm,TV Movies,jpg
+Pink Floyd: The Wall,PinkFloydTheWall,TV Movies,jpg
+Porky's,Porkys,TV Movies,jpg
+Private Resort,PrivateResort,TV Movies,jpg
+Problem Child,ProblemChild,TV Movies,jpg
+Problem Child 2,ProblemChild2,TV Movies,jpg
+First Blood,FirstBlood,TV Movies,jpg
+Rambo: First Blood Part II,RamboFirstBloodPart2,TV Movies,jpg
+Rambo III,Rambo3,TV Movies,jpg
+Rambo (2008),Rambo4,TV Movies,jpg
+Reign of Fire,ReignOfFire,TV Movies,jpg
+Rocky,Rocky,TV Movies,jpg
+Rocky II,Rocky2,TV Movies,jpg
+Scooby-Doo,ScoobyDoo2002,TV Movies,jpg
+Scooby-Doo 2: Monsters Unleashed,ScoobyDoo2MonstersUnleashed,TV Movies,jpg
+Shaun of the Dead,ShaunOfTheDead,TV Movies,jpg
+Slumber Party Massacre II,SlumberPartyMassacre2,TV Movies,jpg
+Space Jam,SpaceJam,TV Movies,jpg
+Spaceballs,Spaceballs,TV Movies,jpg
+Spawn,Spawn,TV Movies,jpg
+Susie Q,SusieQ,TV Movies,jpg
+The Stupids,TheStupids,TV Movies,jpg
+Taxi Driver,TaxiDriver,TV Movies,jpg
+The Blair Witch Project,TheBlairWitchProject,TV Movies,jpg
+The Cat in the Hat,TheCatInTheHat,TV Movies,jpg
+The Count of Monte Cristo,TheCountOfMonteCristo,TV Movies,jpg
+The Dream Team,TheDreamTeam,TV Movies,jpg
+The Evil That Men Do,TheEvilThatMenDo,TV Movies,jpg
+The Great Santini,TheGreatSantini,TV Movies,jpg
+The Green Mile,TheGreenMile,TV Movies,jpg
+The Hunt for Red October,TheHuntForRedOctober,TV Movies,jpg
+The Lake House,TheLakeHouse,TV Movies,jpg
+The NeverEnding Story,TheNeverEndingStory,TV Movies,jpg
+The NeverEnding Story II: The Next Chapter,TheNeverEndingStory2,TV Movies,jpg
+The NeverEnding Story III,TheNeverEndingStory3,TV Movies,jpg
+The One,TheOne,TV Movies,jpg
+The Rocketeer,TheRocketeer,TV Movies,jpg
+The Slumber Party Massacre,TheSlumberPartyMassacre,TV Movies,jpg
+The Bourne Identity,TheBourneIdentity,TV Movies,jpg
+The Bourne Supremacy,TheBourneSupremacy,TV Movies,jpg
+The Bourne Ultimatum,TheBourneUltimatum,TV Movies,jpg
+The Cable Guy,TheCableGuy,TV Movies,jpg
+Trancers,Trancers,TV Movies,jpg
+Trancers II,Trancers2,TV Movies,jpg
+Trancers III,Trancers3,TV Movies,jpg
+Trancers 4: Jack of Swords,Trancers4,TV Movies,jpg
+Trancers 5: Sudden Deth,Trancers5,TV Movies,jpg
+Trancers 6,Trancers6,TV Movies,jpg
+Wild Wild West,WildWildWest,TV Movies,jpg
+American Pie,AmericanPie,TV Movies,jpg
+American Pie: The Wedding,AmericanPie3,TV Movies,jpg`;

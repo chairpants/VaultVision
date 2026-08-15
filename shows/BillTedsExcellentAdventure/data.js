@@ -1,17 +1,17 @@
 window.SHOW = {
   id: "BillTedsExcellentAdventure",
-  title: "Bill Teds Excellent Adventure",
-  art: "",
+  title: "Bill & Ted's Excellent Adventure",
+  art: "BillTedsExcellentAdventure.jpg",
   storageProgressKey: "billtedsexcellentadventure-progress",
   storageSettingsKey: "billtedsexcellentadventure-settings",
   nestedPaths: false,
   grouping: "flat",
   segments: "none",
   episodes: [
-  ["Bill_Teds_Excellent_Adventure_WB39_WOC_2000-08", "BILL TEDS EXCELLENT ADVENTURE - Movie",
-    "Bill_Teds_Excellent_Adventure_WB39_WOC_2000-08.mp4"],
+  ["bill-teds-excellent-adventure_202404", "BILL & TED'S EXCELLENT ADVENTURE - Movie",
+    "Bill & Ted's - Excellent Adventure.mp4"],
 ],
   durations: {
-  "Bill_Teds_Excellent_Adventure_WB39_WOC_2000-08::Bill_Teds_Excellent_Adventure_WB39_WOC_2000-08.mp4": 7129,
+  "bill-teds-excellent-adventure_202404::Bill & Ted's - Excellent Adventure.mp4": 5392,
 },
 };
