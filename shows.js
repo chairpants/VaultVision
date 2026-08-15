@@ -311,6 +311,7 @@ The Challenge,Challenge,Reality TV,jpg
 The Osbournes,Osbournes,Reality TV,jpeg
 Viva La Bam,VivaLaBam,Reality TV,jpg
 Pimp My Ride,PimpMyRide,Reality TV,jpg
+MTV True Life,MtvTrueLife,Reality TV,jpg
 MTV Unplugged,MTVUnplugged,Music,jpg
 Asteroid (1997),Asteroid1997,TV Movies,jpg
 Meteorites! (1998),Meteorites1998,TV Movies,jpg
