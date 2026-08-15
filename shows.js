@@ -305,6 +305,13 @@ Jury Duty Series,JuryDutySeries,Reality TV,png
 Live PD Series (Not Done Yet),LivePDSeriesNotDoneYet,Reality TV,jpg
 Most Extreme Elimination Challenge,MostExtremeEliminationChallenge,Reality TV,jpg
 World's Wildest Police Videos,WorldsWildestPoliceVideos,Reality TV,jpg
+Road Rules,RoadRules,Reality TV,jpg
+The Real World,RealWorld,Reality TV,jpg
+The Challenge,Challenge,Reality TV,jpg
+The Osbournes,Osbournes,Reality TV,jpeg
+Viva La Bam,VivaLaBam,Reality TV,jpg
+Pimp My Ride,PimpMyRide,Reality TV,jpg
+MTV Unplugged,MTVUnplugged,Music,jpg
 Asteroid (1997),Asteroid1997,TV Movies,jpg
 Meteorites! (1998),Meteorites1998,TV Movies,jpg
 Sometimes They Come Back (1991),SometimesTheyComeBack,TV Movies,jpg
@@ -326,6 +333,7 @@ Sci-Fi Saturday Anime,SciFiAnime,Broadcast Blocks,png
 SNICK,SNICK,Broadcast Blocks,png
 TGIF,TGIF,Broadcast Blocks,png
 USA Up All Night,USAUpAllNight,Broadcast Blocks,jpg
+MTV TRL,MtvTrl,Broadcast Blocks,jpg
 Good Will Hunting,GoodWillHunting,TV Movies,jpg
 Brave New World,BraveNewWorld,TV Movies,jpg
 Arabian Nights,ArabianNights,TV Movies,jpg
