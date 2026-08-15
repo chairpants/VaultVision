@@ -40,6 +40,12 @@
   h2 { margin: 0 0 20px; padding-left: 4px;
     font-size: 1.3em; letter-spacing: 2px; color: #ff6fc7;
     border-bottom: 1px solid #b23bff40; padding-bottom: 8px; }
+  /* Section banner (currently just "Movies") — louder than a genre header so
+     the eye reads it as a divider between halves of the guide, not as one
+     more shelf. */
+  h2.section { margin-top: 56px; font-size: 2.1em; letter-spacing: 8px;
+    color: #b23bff; border-bottom-width: 3px; border-bottom-color: #ff6fc766;
+    text-transform: uppercase; }
   /* .no-snap: while an arrow button is held, mandatory snap fights the tiny
      per-frame scrollLeft writes (it keeps trying to snap back to the nearest
      card), which made the hold-to-scroll silently do nothing */
@@ -210,6 +216,7 @@
     #favorites-section, #resume-section, #guide { margin-top: 24px; }
     .row-arrow { display: none; }
     h2 { font-size: 1.3em; margin-bottom: 10px; padding-bottom: 6px; }
+    h2.section { font-size: 1.6em; letter-spacing: 5px; margin-top: 34px; }
     .row-wrap { margin-bottom: 26px; }
     a.card { flex-basis: 33vw; padding: 12px 10px; }
     a.card .art { height: auto; aspect-ratio: 2 / 3; margin: -12px -10px 8px; }
@@ -341,8 +348,18 @@
   // top-level await.
 
   // Fixed structural chrome, not per-show data — same order as the old
-  // hand-written <h2> headers. The Broadcast Blocks note explains why those
-  // shows aren't sorted into a "real" genre above instead.
+  // hand-written <h2> headers. A genre missing from this list renders
+  // nowhere, however many shows.js rows carry it, so adding a genre means
+  // adding it here too. The Broadcast Blocks note explains why those shows
+  // aren't sorted into a "real" genre above instead.
+  //
+  // Third element is an optional section banner: the first genre carrying a
+  // given label prints it above itself, which is what splits the movies off
+  // from the TV shelves. Films used to share one flat "TV Movies" shelf;
+  // they're sorted by what the film actually is now, so the movie genre
+  // names deliberately don't repeat the TV ones ("Horror" vs "Horror &
+  // Anthology", "Drama" vs "Drama & Adventure") — the banner is what tells
+  // you which half of the guide you're in.
   const GENRES = [
     ['Animation', null],
     ['Anime', null],
@@ -353,8 +370,14 @@
     ['Sketch Comedy & Late Night', null],
     ['Kids & Educational', null],
     ['Reality TV', null],
-    ['TV Movies', null],
     ['Broadcast Blocks', 'mixed-genre recordings, not sorted above'],
+    ['Action & Adventure', null, 'Movies'],
+    ['Comedy', null, 'Movies'],
+    ['Drama', null, 'Movies'],
+    ['Family & Kids', null, 'Movies'],
+    ['Holiday', null, 'Movies'],
+    ['Horror', null, 'Movies'],
+    ['Sci-Fi & Fantasy', null, 'Movies'],
   ];
 
   // Minimal RFC 4180 CSV parser: handles quoted fields, embedded commas, and
@@ -521,9 +544,17 @@
     for (const shows of byGenre.values()) shows.sort((a, b) => sortKey(a.title).localeCompare(sortKey(b.title)));
 
     const guide = document.getElementById('guide');
-    for (const [genre, note] of GENRES) {
+    let lastSection = null;
+    for (const [genre, note, section] of GENRES) {
       const shows = byGenre.get(genre);
       if (!shows || !shows.length) continue;
+      if (section && section !== lastSection) {
+        const banner = document.createElement('h2');
+        banner.className = 'section';
+        banner.append(section);
+        guide.append(banner);
+        lastSection = section;
+      }
       const h2 = document.createElement('h2');
       h2.append(genre);
       if (note) {

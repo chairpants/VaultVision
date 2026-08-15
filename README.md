@@ -94,10 +94,13 @@ the custom HUD/3D canvas (see [Mobile](#mobile) below):
 ## Features
 
 ### Guide
-- 313 shows across 11 genre-grouped shelves (Animation, Anime, Sitcoms,
-  Classic Sitcoms, Drama & Adventure, Horror & Anthology, Sketch Comedy &
-  Late Night, Kids & Educational, Reality TV, TV Movies, Broadcast Blocks),
-  rendered at runtime from `shows.js`
+- 714 titles across 17 genre-grouped shelves, rendered at runtime from
+  `shows.js`, in two sections:
+  - **TV** — Animation, Anime, Sitcoms, Classic Sitcoms, Drama & Adventure,
+    Horror & Anthology, Sketch Comedy & Late Night, Kids & Educational,
+    Reality TV, Broadcast Blocks
+  - **Movies** — Action & Adventure, Comedy, Drama, Family & Kids, Holiday,
+    Horror, Sci-Fi & Fantasy
 - New shows land regularly in batches — see the commit history for the
   steady drip of additions
 - Pinned glass title bar with a hairline neon gradient edge
