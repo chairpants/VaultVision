@@ -863,7 +863,39 @@ v.onerror = () => retryOrAdvance();
 // first byte (a real backend cold-start, not a bug here) — surface that as
 // a visible cue instead of a silent black screen that looks broken
 v.addEventListener('waiting', () => { if (!bufferingSince) bufferingSince = performance.now(); });
-v.addEventListener('playing', () => { bufferingSince = 0; });
+v.addEventListener('playing', () => { bufferingSince = 0; stallReloads = 0; });
+// ...and a cold start that never finishes warming is the failure v.onerror
+// can't see. The datanode accepts the request, dribbles enough data for the
+// odd frame, then neither recovers nor errors — so playback sits in 'waiting'
+// showing stills with no sound, and the only cue is the spinner spinning
+// forever. Re-issuing the request is what "change channel and come back" did
+// by hand (a fresh /download/ request can land on a different, warmer node),
+// so do that automatically instead of making the viewer know the trick.
+//
+// Two thresholds, because the two states look identical to bufferingSince but
+// want opposite treatment: with no frame yet (readyState < HAVE_CURRENT_DATA)
+// we're in the documented 15-20s cold start and should wait it out, since
+// reloading only restarts that clock. With a frame already decoded, data was
+// flowing and stopped, which is the stall worth acting on.
+// Capped, so a genuinely dead file still falls through to onerror ->
+// retryOrAdvance() (which skips onward) rather than reloading forever.
+const STALL_RELOADS = 2, STALL_MS = 12000, COLD_START_MS = 25000;
+let stallReloads = 0;
+// pure so ../check_stall.mjs can exercise it; keep it that way
+function stallReloadDue(now, s) {
+  if (!s.bufferingSince || s.paused || s.ended || !s.tvOn) return false;
+  if (s.stallReloads >= STALL_RELOADS) return false;
+  return now - s.bufferingSince >= (s.readyState >= 2 ? STALL_MS : COLD_START_MS);
+}
+setInterval(() => {
+  if (!stallReloadDue(performance.now(), {
+    bufferingSince, stallReloads, paused: v.paused, ended: v.ended,
+    tvOn, readyState: v.readyState,
+  })) return;
+  stallReloads++;
+  resumeT = vCur();  // load() maps a virtual time back to its part + local offset
+  load();
+}, 2000);
 // keep the ambilight twin in lockstep with the main video
 v.addEventListener('play', () => amb.play().catch(() => {}));
 v.addEventListener('pause', () => amb.pause());
