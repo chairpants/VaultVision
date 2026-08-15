@@ -316,6 +316,7 @@ Meteorites! (1998),Meteorites1998,Action & Adventure,jpg
 Sometimes They Come Back (1991),SometimesTheyComeBack,Horror,jpg
 Stephen King's IT (1990),It1990,Horror,jpg
 Stephen King's Storm of the Century (1999),StormOfTheCentury,Horror,jpg
+Stephen King's The Langoliers (1995),Langoliers,Horror,jpg
 Stephen King's The Shining (1997),TheShining1997,Horror,jpg
 Stephen King's The Stand (1994),TheStand1994,Horror,jpg
 Stephen King's The Tommyknockers (1993),Tommyknockers,Horror,jpg
