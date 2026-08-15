@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "Rapture",
   title: "Rapture",
-  art: "",
+  art: "Rapture.jpg",
   storageProgressKey: "rapture-progress",
   storageSettingsKey: "rapture-settings",
   nestedPaths: false,

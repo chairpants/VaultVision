@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "HowTheGrinchStoleChristmas",
   title: "How The Grinch Stole Christmas!",
-  art: "",
+  art: "HowTheGrinchStoleChristmas.jpg",
   storageProgressKey: "howthegrinchstolechristmas-progress",
   storageSettingsKey: "howthegrinchstolechristmas-settings",
   nestedPaths: false,

@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "CurseOfTheBlairWitch",
   title: "Curse of the Blair Witch",
-  art: "",
+  art: "CurseOfTheBlairWitch.jpg",
   storageProgressKey: "curseoftheblairwitch-progress",
   storageSettingsKey: "curseoftheblairwitch-settings",
   nestedPaths: false,

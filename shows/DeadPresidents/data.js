@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "DeadPresidents",
   title: "Dead Presidents",
-  art: "",
+  art: "DeadPresidents.jpg",
   storageProgressKey: "deadpresidents-progress",
   storageSettingsKey: "deadpresidents-settings",
   nestedPaths: false,

@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "ShallowGrave",
   title: "Shallow Grave",
-  art: "",
+  art: "ShallowGrave.jpg",
   storageProgressKey: "shallowgrave-progress",
   storageSettingsKey: "shallowgrave-settings",
   nestedPaths: false,

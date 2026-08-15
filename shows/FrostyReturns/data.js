@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "FrostyReturns",
   title: "Frosty Returns",
-  art: "",
+  art: "FrostyReturns.jpg",
   storageProgressKey: "frostyreturns-progress",
   storageSettingsKey: "frostyreturns-settings",
   nestedPaths: false,

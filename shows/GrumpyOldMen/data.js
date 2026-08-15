@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "GrumpyOldMen",
   title: "Grumpy Old Men",
-  art: "",
+  art: "GrumpyOldMen.jpg",
   storageProgressKey: "grumpyoldmen-progress",
   storageSettingsKey: "grumpyoldmen-settings",
   nestedPaths: false,

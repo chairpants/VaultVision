@@ -24,8 +24,9 @@ streams a publicly hosted recording and hosts no video content itself.
 
 ## Poster art
 
-`art/TheOne.jpg` is a frame grabbed from the source file itself (the
-Archive's own generated thumbnail), not official key art.
+`art/TheOne.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/movie/10796). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
 
 ## Captions
 

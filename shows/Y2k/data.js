@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "Y2k",
   title: "Y2K",
-  art: "",
+  art: "Y2k.jpg",
   storageProgressKey: "y2k-progress",
   storageSettingsKey: "y2k-settings",
   nestedPaths: false,

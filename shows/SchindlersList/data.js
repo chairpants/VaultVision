@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "SchindlersList",
   title: "Schindlers List",
-  art: "",
+  art: "SchindlersList.jpg",
   storageProgressKey: "schindlerslist-progress",
   storageSettingsKey: "schindlerslist-settings",
   nestedPaths: false,

@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "ArabianNights",
   title: "Arabian Nights",
-  art: "",
+  art: "ArabianNights.jpg",
   storageProgressKey: "arabiannights-progress",
   storageSettingsKey: "arabiannights-settings",
   nestedPaths: false,

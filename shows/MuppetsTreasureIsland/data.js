@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "MuppetsTreasureIsland",
   title: "Muppets Treasure Island",
-  art: "",
+  art: "MuppetsTreasureIsland.jpg",
   storageProgressKey: "muppetstreasureisland-progress",
   storageSettingsKey: "muppetstreasureisland-settings",
   nestedPaths: false,

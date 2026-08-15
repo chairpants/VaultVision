@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "BabyDayOut",
   title: "Baby Day Out",
-  art: "",
+  art: "BabyDayOut.jpg",
   storageProgressKey: "babydayout-progress",
   storageSettingsKey: "babydayout-settings",
   nestedPaths: false,

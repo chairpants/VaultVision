@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "MedicineMan",
   title: "Medicine Man",
-  art: "",
+  art: "MedicineMan.jpg",
   storageProgressKey: "medicineman-progress",
   storageSettingsKey: "medicineman-settings",
   nestedPaths: false,

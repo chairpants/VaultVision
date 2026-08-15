@@ -24,6 +24,17 @@ Archive: https://archive.org/donate
 *Rapture* is the property of its respective rights holders; this project
 streams a publicly hosted recording and hosts no video content itself.
 
+## Poster art
+
+`art/Rapture.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/movie/1411). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
+
+The archive item is labelled a 1993 TV movie, but no 1993 *Rapture* exists
+on TMDB and this recording's 120-minute runtime fits the 1991 film plus ad
+breaks, so the 1991 poster is used. Unverified.
+
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

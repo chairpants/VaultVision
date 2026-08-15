@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "Armageddon",
   title: "Armageddon",
-  art: "",
+  art: "Armageddon.jpg",
   storageProgressKey: "armageddon-progress",
   storageSettingsKey: "armageddon-settings",
   nestedPaths: false,

@@ -24,6 +24,12 @@ Archive: https://archive.org/donate
 *Noah Ark* is the property of its respective rights holders; this project
 streams a publicly hosted recording and hosts no video content itself.
 
+## Poster art
+
+`art/NoahArk.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/tv/75658). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "TheWizardOfOz",
   title: "The Wizard of Oz",
-  art: "",
+  art: "TheWizardOfOz.jpg",
   storageProgressKey: "thewizardofoz-progress",
   storageSettingsKey: "thewizardofoz-settings",
   nestedPaths: false,

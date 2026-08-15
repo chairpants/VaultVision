@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "AChristmasStory",
   title: "A Christmas Story",
-  art: "",
+  art: "AChristmasStory.jpg",
   storageProgressKey: "achristmasstory-progress",
   storageSettingsKey: "achristmasstory-settings",
   nestedPaths: false,

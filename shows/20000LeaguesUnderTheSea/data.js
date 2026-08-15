@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "20000LeaguesUnderTheSea",
   title: "20000 Leagues Under The Sea",
-  art: "",
+  art: "20000LeaguesUnderTheSea.jpg",
   storageProgressKey: "20000leaguesunderthesea-progress",
   storageSettingsKey: "20000leaguesunderthesea-settings",
   nestedPaths: false,

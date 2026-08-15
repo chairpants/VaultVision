@@ -28,6 +28,12 @@ streams a publicly hosted recording and hosts no video content itself.
 
 This upload is tagged incomplete on archive.org — it runs 368 minutes, short of the film's full theatrical runtime. Included anyway since it's still watchable start-to-(near-)end; flagged here so a future pass knows to look for a complete copy.
 
+## Poster art
+
+`art/PrideAndPrejudice.jpg` is the film's poster, via
+[TMDB](https://www.themoviedb.org/tv/1457). Already a 2:3 portrait,
+which is the shape the guide's card art box wants.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.

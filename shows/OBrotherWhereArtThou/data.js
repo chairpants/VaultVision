@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "OBrotherWhereArtThou",
   title: "O Brother, Where Art Thou?",
-  art: "",
+  art: "OBrotherWhereArtThou.jpg",
   storageProgressKey: "obrotherwhereartthou-progress",
   storageSettingsKey: "obrotherwhereartthou-settings",
   nestedPaths: false,

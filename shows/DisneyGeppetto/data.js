@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "DisneyGeppetto",
   title: "Disney Geppetto",
-  art: "",
+  art: "DisneyGeppetto.jpg",
   storageProgressKey: "disneygeppetto-progress",
   storageSettingsKey: "disneygeppetto-settings",
   nestedPaths: false,

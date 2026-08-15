@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "SleepingBeauty",
   title: "Sleeping Beauty",
-  art: "",
+  art: "SleepingBeauty.jpg",
   storageProgressKey: "sleepingbeauty-progress",
   storageSettingsKey: "sleepingbeauty-settings",
   nestedPaths: false,

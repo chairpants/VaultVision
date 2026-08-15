@@ -1,7 +1,7 @@
 window.SHOW = {
   id: "DeepImpact",
   title: "Deep Impact",
-  art: "",
+  art: "DeepImpact.jpg",
   storageProgressKey: "deepimpact-progress",
   storageSettingsKey: "deepimpact-settings",
   nestedPaths: false,
