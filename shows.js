@@ -223,7 +223,7 @@ the Handmaid's Tale Series,HandmaidsTaleSeries,Drama & Adventure,png
 Highway to Heaven,HighwayToHeaven,Drama & Adventure,jpg
 The Hitchhiker's Guide to the Galaxy,HitchhikersGuidetotheGalaxy,Drama & Adventure,jpg
 Into the Badlands,IntotheBadlands,Drama & Adventure,jpg
-Jack of All Trades (TV series),JackofAllTradesTVseries,Drama & Adventure,jpg
+Jack of All Trades,JackofAllTradesTVseries,Drama & Adventure,jpg
 Jericho,Jericho,Drama & Adventure,jpg
 Knight Rider,KnightRider,Drama & Adventure,jpg
 Life As We Know It,LifeAsWeKnowIt,Drama & Adventure,jpg
