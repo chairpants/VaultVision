@@ -205,6 +205,7 @@ Animorphs,Animorphs,Drama & Adventure,jpg
 Automan,Automan,Drama & Adventure,jpg
 Barbary Coast,BarbaryCoast,Drama & Adventure,jpg
 Battlestar Galactica,BattlestarGalactica,Drama & Adventure,jpg
+Battlestar Galactica (2004),BattlestarGalactica2004,Drama & Adventure,jpg
 Baywatch,Baywatch,Drama & Adventure,jpg
 Blue Thunder,BlueThunder,Drama & Adventure,jpg
 Brooklyn South,BrooklynSouth,Drama & Adventure,jpg
