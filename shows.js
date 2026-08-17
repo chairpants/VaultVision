@@ -404,6 +404,7 @@ The Rocky Horror Picture Show,RockyHorrorPictureShow,Comedy,jpg
 Police Academy,PoliceAcademy,Comedy,jpg
 The Village,TheVillage,Horror,jpg
 Signs,Signs,Sci-Fi & Fantasy,jpg
+Hell Comes to Frogtown,HellComesToFrogtown,Sci-Fi & Fantasy,jpg
 The Sixth Sense,TheSixthSense,Horror,jpg
 Unbreakable,Unbreakable,Sci-Fi & Fantasy,jpg
 Lady in the Water,LadyInTheWater,Sci-Fi & Fantasy,jpg
