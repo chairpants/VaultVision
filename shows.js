@@ -227,6 +227,7 @@ Into the Badlands,IntotheBadlands,Drama & Adventure,jpg
 Jack of All Trades,JackofAllTradesTVseries,Drama & Adventure,jpg
 Jericho,Jericho,Drama & Adventure,jpg
 Knight Rider,KnightRider,Drama & Adventure,jpg
+"Law & Order: SVU",LawOrderSVU,Drama & Adventure,jpg
 Life As We Know It,LifeAsWeKnowIt,Drama & Adventure,jpg
 Logan's Run,LogansRun,Drama & Adventure,jpg
 The Lone Gunmen,LoneGunmen,Drama & Adventure,jpg
