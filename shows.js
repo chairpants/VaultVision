@@ -244,6 +244,7 @@ Power Rangers,PowerRangers,Drama & Adventure,jpg
 Quantum Leap,QuantumLeap,Drama & Adventure,jpg
 RoboCop (live-action TV series),RoboCopliveactionTVseries,Drama & Adventure,jpg
 The Rookies,Rookies,Drama & Adventure,jpg
+Sliders,Sliders,Drama & Adventure,jpg
 Space: 1999,Space1999,Drama & Adventure,jpg
 Star Trek: Deep Space Nine,StarTrekDS9,Drama & Adventure,jpg
 Star Trek: The Next Generation,StarTrekTNG,Drama & Adventure,jpg
