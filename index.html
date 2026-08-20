@@ -577,6 +577,10 @@
         const img = document.createElement('img');
         img.src = `art/${s.id}.${s.ext}`;
         img.alt = '';
+        // ponytail: native lazy loading — the guide is 700+ cards, and eagerly
+        // firing every art request at once was enough of a burst to trip
+        // GitHub Pages' rate limiter. Off-screen rows now load as you scroll.
+        img.loading = 'lazy';
         art.append(img);
         const name = document.createElement('span');
         name.className = 'name';
@@ -789,7 +793,11 @@
   // whatever `src` it happened to inherit. data-orig-src (a real attribute,
   // unlike `src` once swapped) is what makes that math re-derivable from a
   // clone that may already be showing a -tall path, not the original base one.
-  const TALL_EXTS = ['jpg', 'png', 'webp', 'gif', 'svg'];
+  // ponytail: every -tall variant in art/ is a .jpg, so guessing the other
+  // four extensions only ever produced guaranteed 404s — one wasted request
+  // per card per extension. If a non-jpg tall variant is ever added, put its
+  // extension back in this list.
+  const TALL_EXTS = ['jpg'];
   function applyTallArt(img) {
     if (!img.dataset.origSrc) img.dataset.origSrc = img.getAttribute('src');
     const original = img.dataset.origSrc;
