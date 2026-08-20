@@ -537,13 +537,27 @@ if (SHOW.mergeParts) {
   EPPARTS = SHOW.episodes.map(([id, , file]) => [{ id, file, dur: partDur(id, file) }]);
 }
 
-// captions.js is per-show now, so it's loaded dynamically instead of a static <script src>
-await new Promise(res => {
-  const s = document.createElement('script');
-  s.src = `../shows/${showId}/captions.js`;
-  s.onload = s.onerror = res;
-  document.head.append(s);
-});
+// captions.js is per-show, and for a few shows it is genuinely big -- SNICK's
+// is 10MB. It used to load right here, unconditionally, blocking startup on a
+// download the viewer never asked for whenever CAPTIONS was switched off.
+// ponytail: fetched on first real need instead, memoized so the CC toggle and
+// every episode share the one request.
+let capsPromise = null;
+function loadCaptionsJs() {
+  return capsPromise ||= new Promise(res => {
+    const s = document.createElement('script');
+    s.src = `../shows/${showId}/captions.js`;
+    s.onload = s.onerror = res;
+    document.head.append(s);
+  });
+}
+// hoisted out of load() so a mid-episode CC toggle can re-cue cues the same
+// way: size:82 wraps lines inside the visible glass (at the default 100% they
+// wrap at the video edge, which the bulge pushes past the bezel); line:-2 sits
+// them one line height above the bottom edge
+const layoutCues = vtt => vtt.replace(/-->[^\r\n]*/g,
+  line => line.includes('size:') ? line : line + ' size:82% line:-2');
+let curPartKey = null; // which part's cues a late captions.js should apply to
 
 // identity key for bookkeeping (DURATIONS/watched/segments) — id+filename when
 // a filename is given (item bundles multiple recordings), else just the id
@@ -649,6 +663,7 @@ async function load() {
   const part = EPPARTS[epIndex][partIndex];
   const id = part.id, fileHint = part.file;
   const partKey = durKey(id, fileHint); // captions/thumbs are per-part; watched/progress stay logical
+  curPartKey = partKey;
   setLabel(EPISODES[epIndex][1]);
   sourceLink.href = 'https://archive.org/details/' + id; // globe icon: this episode's archive.org item, opens in a new tab
   applyCrop(); // per-episode: seasons may crop differently (or not at all)
@@ -692,11 +707,7 @@ async function load() {
     const tr = document.createElement('track');
     tr.kind = 'captions';
     tr.label = 'English';
-    // size:82 wraps cue lines inside the visible glass (at the default 100%
-    // they wrap at the video edge, which the bulge pushes past the bezel);
-    // line:-2 sits them one line height above the bottom edge
-    const layoutCues = vtt => vtt.replace(/-->[^\r\n]*/g,
-      line => line.includes('size:') ? line : line + ' size:82% line:-2');
+    if (ccOn) await loadCaptionsJs(); // off: skip the pack, use the live lookup below
     let liveVtt = null;
     if (!window.CAPTIONS?.[partKey]) {
       const capFile = findCaptionFile(meta.files, file.name);
@@ -911,6 +922,21 @@ function setCC(on) { // shared by the corner CC badge and the SETTINGS menu
   const t = v.querySelector('track');
   if (t) t.track.mode = on ? 'showing' : 'hidden';
   window.onCCChange?.(on); // keep the persisted setting in sync
+  // captions.js was skipped if CC started off, so the first turn-on goes and
+  // gets it, then re-points the live track at the packed cues
+  if (on) loadCaptionsJs().then(applyPackedCaptions);
+}
+
+// swap the current track over to packed cues once a late captions.js lands.
+// no-ops when this part has no packed cues (or nothing is playing yet), leaving
+// whatever the live/loose-file path already found in place.
+function applyPackedCaptions() {
+  const packed = window.CAPTIONS?.[curPartKey];
+  const t = v.querySelector('track');
+  if (!packed || !t) return;
+  t.src = URL.createObjectURL(new Blob([layoutCues(packed)], { type: 'text/vtt' }));
+  cc.style.display = 'block';
+  t.track.mode = ccOn ? 'showing' : 'hidden';
 }
 cc.onclick = () => setCC(!ccOn);
 
