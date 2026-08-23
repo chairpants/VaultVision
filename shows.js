@@ -733,4 +733,5 @@ MTV TRL,MtvTrl,Broadcast Blocks,jpg
 Saturday Night Live,SaturdayNightLive,Sketch Comedy & Late Night,jpg
 Split Second,SplitSecond,Sci-Fi & Fantasy,jpg
 Kin-Dza-Dza,KinDzaDza,Sci-Fi & Fantasy,jpg
-Lily C.A.T.,LilyCat,Anime,jpg`;
+Lily C.A.T.,LilyCat,Anime,jpg
+Blade Runner,BladeRunner,Sci-Fi & Fantasy,jpg`;
