@@ -290,6 +290,7 @@ The Whitest Kids U'Know,WhitestKidsUKnow,Sketch Comedy & Late Night,jpg
 Adventures in Wonderland,AdventuresinWonderland,Kids & Educational,jpg
 Adventures of the Gummi Bears,GummiBears,Kids & Educational,jpg
 Allegra's Window,AllegrasWindow,Kids & Educational,jpg
+Beakman's World,BeakmansWorld,Kids & Educational,jpg
 the Berenstain Bears,BerenstainBears,Kids & Educational,jpg
 Bert and Ernie's Great Adventures,BertandErniesGreatAdventures,Kids & Educational,jpg
 Bill Nye the Science Guy,BillNye,Kids & Educational,jpg
