@@ -203,6 +203,7 @@ The A-Team,ATeam,Drama & Adventure,jpg
 The Adventures of Brisco County Jr.,BriscoCountyJr,Drama & Adventure,jpg
 Animorphs,Animorphs,Drama & Adventure,jpg
 Automan,Automan,Drama & Adventure,jpg
+Babylon 5,Babylon5,Drama & Adventure,jpg
 Barbary Coast,BarbaryCoast,Drama & Adventure,jpg
 Battlestar Galactica,BattlestarGalactica,Drama & Adventure,jpg
 Battlestar Galactica (2004),BattlestarGalactica2004,Drama & Adventure,jpg
@@ -213,6 +214,7 @@ Buck Rogers in the 25th Century,BuckRogers,Drama & Adventure,jpg
 Charmed the Series,CharmedtheSeries,Drama & Adventure,jpg
 Chase,Chase,Drama & Adventure,jpg
 Cop Rock,CopRock,Drama & Adventure,jpg
+Crusade,Crusade,Drama & Adventure,jpg
 Dallas (the Series),DallastheSeries,Drama & Adventure,jpg
 Doctor Who,DoctorWho,Drama & Adventure,jpg
 "Doogie Howser, M.D.",DoogieHowserMD,Drama & Adventure,jpg
