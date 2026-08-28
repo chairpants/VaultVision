@@ -92,6 +92,14 @@ Those are a different series, even where a season is titled
 "Road Rules: All Stars" — that one is included here because MTV counted it as
 a Road Rules season and the item is titled accordingly.
 
+This list replaces an earlier **AutoArchive**-generated one (86 rows) that
+filed the All Stars, Semester at Sea and South Pacific items into season 1 by
+file number and concluded seasons 1, 3, 4, 5, 8, 12 and 13 were "not
+represented at all". Those six seasons do exist on archive.org; they were
+just being read by the wrong key. The rebuild works from each item's title
+and its own episode codes instead, which is why coverage roughly doubled.
+The original poster art from that entry is kept.
+
 ## Captions
 
 No captions yet for this player — `captions.js` is an empty placeholder.
