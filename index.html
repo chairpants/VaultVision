@@ -535,10 +535,22 @@
         s.onerror = () => reject(new Error('kids-safe.js failed to load'));
         document.head.append(s);
       }),
+      // library-dead.js: what the scheduled library check (check_library.mjs)
+      // found unplayable on archive.org. Optional by design — resolves either
+      // way, so a missing or stale file just means nothing is hidden.
+      new Promise(resolve => {
+        const s = document.createElement('script');
+        s.src = 'library-dead.js';
+        s.onload = s.onerror = resolve;
+        document.head.append(s);
+      }),
     ]);
+    // shows with nothing left to play (every item they point at is gone)
+    const deadShows = new Set(window.VAULT_DEAD?.shows || []);
     const byGenre = new Map();
     for (const [title, id, genre, ext] of parseCSV(window.SHOWS_CSV)) {
       if (kidsMode && !window.KIDS_SAFE_SHOWS.has(id)) continue;
+      if (deadShows.has(id)) continue;
       if (!byGenre.has(genre)) byGenre.set(genre, []);
       byGenre.get(genre).push({ title, id, ext });
     }

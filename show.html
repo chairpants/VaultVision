@@ -55,6 +55,10 @@
   .ep .title { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis;
     white-space: nowrap; }
   .ep.watched .title::after { content: ' \2713'; opacity: .5; }
+  /* unplayable on archive.org right now (library-dead.js); still a link, in
+     case the list is behind the times */
+  .ep.dead { opacity: .4; }
+  .ep.dead .title::after { content: ' \2014  unavailable'; opacity: .8; }
 
   /* Mobile: back button grows to a real touch target (~finger-tip sized).
      Header stays a compact row (bigger poster than desktop, but not
@@ -91,6 +95,9 @@
 </div>
 <div id="tabs"></div>
 <div id="listWrap"><div id="list"></div></div>
+<!-- what the scheduled library check found unplayable; optional (a missing
+     file just means nothing is marked) -->
+<script src="library-dead.js"></script>
 <script>
 (function () {
   "use strict";
@@ -120,6 +127,10 @@
   // must match the player's epKey exactly — it's the id the watched-set is
   // stored under, and a bare filename never matches an "item::file" entry
   function epKey(ep) { return ep[2] ? ep[0] + '::' + ep[2] : ep[0]; }
+  // dead per the library check: its whole archive.org item, or just its file
+  const deadItems = new Set(window.VAULT_DEAD?.items || []);
+  const deadEps = new Set(window.VAULT_DEAD?.episodes || []);
+  function isDead(ep) { return deadItems.has(ep[0]) || deadEps.has(epKey(ep)); }
 
   // mergeParts: fold split entries (S03E01a + S03E01b -> one S03E01) the same
   // way the player does. Not cosmetic — the player's ?ep= is an index into its
@@ -222,7 +233,7 @@
       for (const idx of seasons[curSeason].indices) {
         const [, title] = episodes[idx];
         const row = document.createElement('a');
-        row.className = 'ep' + (watched.has(epKey(episodes[idx])) ? ' watched' : '');
+        row.className = 'ep' + (watched.has(epKey(episodes[idx])) ? ' watched' : '') + (isDead(episodes[idx]) ? ' dead' : '');
         row.href = `engine/viewer.html?show=${showId}&ep=${idx}&v=${bust}`;
         const codeSpan = document.createElement('span');
         codeSpan.className = 'code';

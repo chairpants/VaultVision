@@ -1,0 +1,187 @@
+{
+ "version": 1,
+ "changedAt": "2026-11-12T23:15:52Z",
+ "summary": {
+  "items": 1147,
+  "episodes": 28543,
+  "deadItems": 18,
+  "deadEpisodes": 3,
+  "pendingItems": 0,
+  "pendingEpisodes": 0,
+  "deadShows": 14
+ },
+ "deadShows": [
+  "CommonSideEffects",
+  "DrewCareyShow",
+  "Everwood",
+  "EverybodyLovesRaymond",
+  "FactsofLife",
+  "GilligansIsland",
+  "LippytheLionandHardyHarHar",
+  "LodossWarSeriesEnglishDub",
+  "MartyStouffersWildAmerica",
+  "MaryTylerMooreShow",
+  "OBrotherWhereArtThou",
+  "ReservoirDogs",
+  "WallyGator",
+  "WhatILikeAboutYou"
+ ],
+ "deadItems": {
+  "dragon-ball-HD-remastered-2022": {
+   "status": "GATED",
+   "shows": [
+    "DragonBall"
+   ],
+   "since": "2026-11-12"
+  },
+  "everwood-the-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "Everwood"
+   ],
+   "since": "2026-11-12"
+  },
+  "everybody-loves-raymond-complete-series_202601": {
+   "status": "DARK",
+   "shows": [
+    "EverybodyLovesRaymond"
+   ],
+   "since": "2026-11-12"
+  },
+  "gilligans-island-complete-tv-series": {
+   "status": "GATED",
+   "shows": [
+    "GilligansIsland"
+   ],
+   "since": "2026-11-12"
+  },
+  "l-1-t-5-v-1-o-brother-where-art-thou-april-2004-tbs-incomplete": {
+   "status": "DARK",
+   "shows": [
+    "OBrotherWhereArtThou"
+   ],
+   "since": "2026-11-12"
+  },
+  "lippy-the-lion-hardy-har-har-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "LippytheLionandHardyHarHar"
+   ],
+   "since": "2026-11-12"
+  },
+  "live-pd-complete-series_202311": {
+   "status": "GATED",
+   "shows": [
+    "LivePD"
+   ],
+   "since": "2026-11-12"
+  },
+  "lodoss-war-complete-series-english-dub-mp4s-ost": {
+   "status": "DARK",
+   "shows": [
+    "LodossWarSeriesEnglishDub"
+   ],
+   "since": "2026-11-12"
+  },
+  "marty-stouffers-wild-america-s1-s12": {
+   "status": "DARK",
+   "shows": [
+    "MartyStouffersWildAmerica"
+   ],
+   "since": "2026-11-12"
+  },
+  "reservoir-dogs-1992_202608": {
+   "status": "GATED",
+   "shows": [
+    "ReservoirDogs"
+   ],
+   "since": "2026-11-12"
+  },
+  "s-1-e-1_202608": {
+   "status": "DARK",
+   "shows": [
+    "CommonSideEffects"
+   ],
+   "since": "2026-11-12"
+  },
+  "the-drew-carey-show-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "DrewCareyShow"
+   ],
+   "since": "2026-11-12"
+  },
+  "the-facts-of-life-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "FactsofLife"
+   ],
+   "since": "2026-11-12"
+  },
+  "the-king-of-queens-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "KingofQueens"
+   ],
+   "since": "2026-11-12"
+  },
+  "the-mary-tyler-moore-show-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "MaryTylerMooreShow"
+   ],
+   "since": "2026-11-12"
+  },
+  "tmnt2003ai_202409": {
+   "status": "DARK",
+   "shows": [
+    "TeenageMutantNinjaTurtles"
+   ],
+   "since": "2026-11-12"
+  },
+  "wally-gator-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "WallyGator"
+   ],
+   "since": "2026-11-12"
+  },
+  "what-i-like-about-you-the-complete-series": {
+   "status": "DARK",
+   "shows": [
+    "WhatILikeAboutYou"
+   ],
+   "since": "2026-11-12"
+  }
+ },
+ "deadEpisodes": {
+  "show-1_20260614:: S02BEP01 - Metal Munching Mice.mp4": {
+   "status": "NOFILE",
+   "shows": [
+    "RockyandBullwinkleShow"
+   ],
+   "title": "THE ROCKY AND BULLWINKLE SHOW - S01E08 - Bullwinkle's Corner - Little Miss Muffett",
+   "since": "2026-11-12"
+  },
+  "show-1_20260614::S02GEP01 - Wailing Whale.mp4": {
+   "status": "NOFILE",
+   "shows": [
+    "RockyandBullwinkleShow"
+   ],
+   "title": "THE ROCKY AND BULLWINKLE SHOW - S01E67 - Fractured Fairy Tales - Dick Whittington",
+   "since": "2026-11-12"
+  },
+  "show-1_20260614::S04E-EP05 - Banana Formula.mp4": {
+   "status": "NOFILE",
+   "shows": [
+    "RockyandBullwinkleShow"
+   ],
+   "title": "THE ROCKY AND BULLWINKLE SHOW - S01E05 - Rocky & Bullwinkle - Jet Fuel (2) - Bullwinkle's Ride or Goodbye, Dollink",
+   "since": "2026-11-12"
+  }
+ },
+ "pending": {
+  "items": {},
+  "episodes": {}
+ }
+}

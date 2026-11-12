@@ -1,0 +1,70 @@
+# Twice a day, asks archive.org about every item the library points at and
+# records what can no longer be played (see check_library.mjs for the rules
+# and the guards). A scan that finds nothing new commits nothing.
+#
+# This repo is the hub: library-health.json is what every other Vault product
+# builds its catalog against (their own library-sync workflows run half an
+# hour after this one).
+name: Library check
+
+on:
+  schedule:
+    - cron: "17 5,17 * * *"   # 05:17 and 17:17 UTC
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Accept an unusually large batch of newly dead items (only after looking at why)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write   # commit the updated record
+  actions: write    # start the Pages deploy, keep the schedule alive
+
+concurrency:
+  group: library-check
+  cancel-in-progress: false
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Scan archive.org
+        run: node check_library.mjs ${{ inputs.force && '--force' || '' }}
+
+      - name: Commit the record if it changed
+        id: commit
+        run: |
+          git add library-health.json library-dead.js
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git -c user.name="github-actions[bot]" \
+              -c user.email="41898282+github-actions[bot]@users.noreply.github.com" \
+              commit -m "Library check: update the dead-links record"
+          git push
+          echo "changed=true" >> "$GITHUB_OUTPUT"
+
+      # A push made with the workflow's own token doesn't start other
+      # workflows, so the Pages deploy has to be asked for by name.
+      - name: Publish the site
+        if: steps.commit.outputs.changed == 'true'
+        run: gh workflow run pages.yml --ref "$GITHUB_REF_NAME"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      # GitHub switches a schedule off after 60 days with no repository
+      # activity; re-enabling the workflow resets that clock.
+      - name: Keep the schedule alive
+        if: always()
+        continue-on-error: true
+        run: gh api -X PUT "repos/$GITHUB_REPOSITORY/actions/workflows/library-check.yml/enable"
+        env:
+          GH_TOKEN: ${{ github.token }}

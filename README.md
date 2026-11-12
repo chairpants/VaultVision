@@ -237,6 +237,14 @@ See **[ADDING_A_SHOW.md](ADDING_A_SHOW.md)** for the full contribution
 workflow — sourcing and vetting an archive.org item, writing its `data.js`,
 poster art, captions, and registering it in `shows.js`.
 
+## Library check
+
+Sources rot: archive.org takes items down, gates them behind a login, or an uploader renames a file. Twice a day a scheduled workflow (`.github/workflows/library-check.yml`, running `check_library.mjs`) asks archive.org about every item the library points at and keeps the verdicts in `library-health.json`, with the same lists as a plain script in `library-dead.js`.
+
+Nothing edits a show. `shows/<Id>/data.js` stays as written, and the record is only a list: the guide hides a show with nothing left to play, the show page marks dead episodes as unavailable, and the other Vault projects leave them out when they rebuild their own catalogs from this repo. When an item comes back, the next run takes it off the list and it returns everywhere.
+
+It's careful about being wrong. A request archive.org doesn't answer is not a verdict; a newly dead item has to be found dead by two runs before it counts; and a run that finds far more dead than usual stops and fails without writing, so someone can look. To run it by hand: `node check_library.mjs --dry-run`.
+
 ## Caveats
 
 - **CDN dependencies.** three.js loads from a CDN, and video comes from
