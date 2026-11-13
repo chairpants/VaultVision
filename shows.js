@@ -737,4 +737,70 @@ Saturday Night Live,SaturdayNightLive,Sketch Comedy & Late Night,jpg
 Split Second,SplitSecond,Sci-Fi & Fantasy,jpg
 Kin-Dza-Dza,KinDzaDza,Sci-Fi & Fantasy,jpg
 Lily C.A.T.,LilyCat,Anime,jpg
-Blade Runner,BladeRunner,Sci-Fi & Fantasy,jpg`;
+Blade Runner,BladeRunner,Sci-Fi & Fantasy,jpg
+The Golden Girls,GoldenGirls,Classic Sitcoms,jpg
+MacGyver,MacGyver,Drama & Adventure,jpg
+Reaper,Reaper,Drama & Adventure,jpg
+The New Addams Family,NewAddamsFamily,Sitcoms,jpg
+"Yes, Dear",YesDear,Sitcoms,jpg
+My Wife and Kids,MyWifeAndKids,Sitcoms,jpg
+Have Gun – Will Travel,HaveGunWillTravel,Drama & Adventure,jpg
+The Fugitive,TheFugitive,Drama & Adventure,jpg
+Danger Man,DangerMan,Drama & Adventure,jpg
+One Step Beyond,OneStepBeyond,Horror & Anthology,jpg
+Judging Amy,JudgingAmy,Drama & Adventure,jpg
+The Invaders,TheInvaders,Drama & Adventure,jpg
+Wagon Train,WagonTrain,Drama & Adventure,jpg
+Alias Smith and Jones,AliasSmithAndJones,Drama & Adventure,jpg
+Annie Oakley,AnnieOakley,Drama & Adventure,jpg
+Sergeant Preston of the Yukon,SergeantPreston,Drama & Adventure,jpg
+It Takes a Thief,ItTakesAThief,Drama & Adventure,jpg
+The Champions,TheChampions,Drama & Adventure,jpg
+The Abbott and Costello Show,AbbottAndCostelloShow,Classic Sitcoms,jpg
+Our Miss Brooks,OurMissBrooks,Classic Sitcoms,jpg
+The Outer Limits,TheOuterLimits,Horror & Anthology,jpg
+Perversions of Science,PerversionsOfScience,Horror & Anthology,jpg
+The Flash (1990),TheFlash1990,Drama & Adventure,jpg
+John Doe,JohnDoe,Drama & Adventure,jpg
+Brimstone,Brimstone,Horror & Anthology,jpg
+Misfits of Science,MisfitsOfScience,Drama & Adventure,jpg
+The Powers of Matthew Star,PowersOfMatthewStar,Drama & Adventure,jpg
+Lexx,Lexx,Drama & Adventure,jpg
+Earth 2,Earth2,Drama & Adventure,jpg
+The Time Tunnel,TheTimeTunnel,Drama & Adventure,jpg
+Benson,Benson,Classic Sitcoms,jpg
+The Ropers,TheRopers,Classic Sitcoms,jpg
+Foster's Home for Imaginary Friends,FostersHome,Animation,jpg
+Megas XLR,MegasXLR,Animation,jpg
+Time Squad,TimeSquad,Animation,jpg
+Ozzy & Drix,OzzyAndDrix,Animation,jpg
+James Bond Jr.,JamesBondJr,Animation,jpg
+Exosquad,Exosquad,Animation,jpg
+Bonkers,Bonkers,Animation,jpg
+Jem and the Holograms,Jem,Animation,jpg
+The Pirates of Dark Water,PiratesOfDarkWater,Animation,jpg
+Static Shock,StaticShock,Animation,jpg
+Xiaolin Showdown,XiaolinShowdown,Animation,jpg
+American Dragon: Jake Long,AmericanDragon,Animation,jpg
+Bionic Six,BionicSix,Animation,jpg
+Werewolf,Werewolf,Horror & Anthology,jpg
+FreakyLinks,FreakyLinks,Horror & Anthology,jpg
+Mission Hill,MissionHill,Animation,jpg
+Code Monkeys,CodeMonkeys,Animation,jpg
+Reading Rainbow,ReadingRainbow,Kids & Educational,jpg
+Between the Lions,BetweenTheLions,Kids & Educational,jpg
+Liberty's Kids,LibertysKids,Animation,jpg
+Kratts' Creatures,KrattsCreatures,Kids & Educational,jpg
+Shining Time Station,ShiningTimeStation,Kids & Educational,jpg
+Blue's Clues,BluesClues,Kids & Educational,jpg
+As Told by Ginger,AsToldByGinger,Animation,jpg
+You Can't Do That on Television,YouCantDoThatOnTelevision,Sketch Comedy & Late Night,jpg
+Pee-wee's Playhouse,PeeWeesPlayhouse,Kids & Educational,jpg
+A Pup Named Scooby-Doo,PupNamedScoobyDoo,Animation,jpg
+Dungeons & Dragons,DungeonsAndDragons,Animation,jpg
+Top Cat,TopCat,Animation,jpg
+Batfink,Batfink,Animation,jpg
+Clutch Cargo,ClutchCargo,Animation,jpg
+Speed Racer,SpeedRacer,Anime,jpg
+Wildboyz,Wildboyz,Reality TV,jpg
+Upright Citizens Brigade,UprightCitizensBrigade,Sketch Comedy & Late Night,jpg`;
