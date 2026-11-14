@@ -1,12 +1,12 @@
 {
  "version": 1,
- "changedAt": "2026-11-13T13:07:04Z",
+ "changedAt": "2026-11-14T12:11:33Z",
  "summary": {
   "items": 1548,
   "episodes": 38053,
   "deadItems": 18,
   "deadEpisodes": 3,
-  "pendingItems": 0,
+  "pendingItems": 1,
   "pendingEpisodes": 0,
   "deadShows": 14
  },
@@ -181,7 +181,15 @@
   }
  },
  "pending": {
-  "items": {},
+  "items": {
+   "folder_20260207_0458": {
+    "status": "DARK",
+    "shows": [
+     "BubblegumCrisistheSeriesDualAudioHD"
+    ],
+    "firstSeen": "2026-11-14T12:11:33Z"
+   }
+  },
   "episodes": {}
  }
 }
