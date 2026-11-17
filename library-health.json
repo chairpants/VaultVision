@@ -1,16 +1,17 @@
 {
  "version": 1,
- "changedAt": "2026-11-16T13:39:03Z",
+ "changedAt": "2026-11-17T00:49:42Z",
  "summary": {
   "items": 1548,
   "episodes": 38053,
-  "deadItems": 19,
+  "deadItems": 21,
   "deadEpisodes": 3,
   "pendingItems": 2,
   "pendingEpisodes": 0,
-  "deadShows": 15
+  "deadShows": 17
  },
  "deadShows": [
+  "Animaniacs",
   "BubblegumCrisistheSeriesDualAudioHD",
   "CommonSideEffects",
   "DrewCareyShow",
@@ -24,10 +25,18 @@
   "MaryTylerMooreShow",
   "OBrotherWhereArtThou",
   "ReservoirDogs",
+  "TinyToonAdventures",
   "WallyGator",
   "WhatILikeAboutYou"
  ],
  "deadItems": {
+  "animaniacs-1993-1998-movie_202601": {
+   "status": "DARK",
+   "shows": [
+    "Animaniacs"
+   ],
+   "since": "2026-11-16"
+  },
   "dragon-ball-HD-remastered-2022": {
    "status": "GATED",
    "shows": [
@@ -140,6 +149,13 @@
    ],
    "since": "2026-11-12"
   },
+  "tiny-toon-adventures-1990-1995_202512": {
+   "status": "DARK",
+   "shows": [
+    "TinyToonAdventures"
+   ],
+   "since": "2026-11-16"
+  },
   "tmnt2003ai_202409": {
    "status": "DARK",
    "shows": [
@@ -190,19 +206,19 @@
  },
  "pending": {
   "items": {
-   "animaniacs-1993-1998-movie_202601": {
+   "MonsterRancherremaster": {
     "status": "DARK",
     "shows": [
-     "Animaniacs"
+     "MonsterRancher"
     ],
-    "firstSeen": "2026-11-16T13:39:03Z"
+    "firstSeen": "2026-11-17T00:49:42Z"
    },
-   "tiny-toon-adventures-1990-1995_202512": {
+   "monster-rancher-s-02-e-18-magic-stone-mayhem": {
     "status": "DARK",
     "shows": [
-     "TinyToonAdventures"
+     "MonsterRancher"
     ],
-    "firstSeen": "2026-11-16T13:39:03Z"
+    "firstSeen": "2026-11-17T00:49:42Z"
    }
   },
   "episodes": {}
