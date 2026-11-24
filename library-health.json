@@ -1,14 +1,14 @@
 {
  "version": 1,
- "changedAt": "2026-11-17T14:23:56Z",
+ "changedAt": "2026-11-24T15:53:51Z",
  "summary": {
   "items": 1548,
   "episodes": 38053,
-  "deadItems": 23,
+  "deadItems": 22,
   "deadEpisodes": 3,
   "pendingItems": 0,
   "pendingEpisodes": 0,
-  "deadShows": 18
+  "deadShows": 17
  },
  "deadShows": [
   "Animaniacs",
@@ -23,7 +23,6 @@
   "LodossWarSeriesEnglishDub",
   "MartyStouffersWildAmerica",
   "MaryTylerMooreShow",
-  "MonsterRancher",
   "OBrotherWhereArtThou",
   "ReservoirDogs",
   "TinyToonAdventures",
@@ -114,13 +113,6 @@
     "MartyStouffersWildAmerica"
    ],
    "since": "2026-11-12"
-  },
-  "monster-rancher-s-02-e-18-magic-stone-mayhem": {
-   "status": "DARK",
-   "shows": [
-    "MonsterRancher"
-   ],
-   "since": "2026-11-17"
   },
   "reservoir-dogs-1992_202608": {
    "status": "GATED",
