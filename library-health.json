@@ -1,17 +1,19 @@
 {
  "version": 1,
- "changedAt": "2026-11-26T15:11:22Z",
+ "changedAt": "2026-11-27T01:02:56Z",
  "summary": {
   "items": 1548,
   "episodes": 38053,
-  "deadItems": 22,
+  "deadItems": 50,
   "deadEpisodes": 3,
-  "pendingItems": 28,
+  "pendingItems": 0,
   "pendingEpisodes": 0,
-  "deadShows": 17
+  "deadShows": 22
  },
  "deadShows": [
   "Animaniacs",
+  "Batfink",
+  "BladeRunner",
   "BubblegumCrisistheSeriesDualAudioHD",
   "CommonSideEffects",
   "DrewCareyShow",
@@ -23,13 +25,23 @@
   "LodossWarSeriesEnglishDub",
   "MartyStouffersWildAmerica",
   "MaryTylerMooreShow",
+  "MobileSuitGundamSEED",
+  "MonsterRancher",
   "OBrotherWhereArtThou",
   "ReservoirDogs",
+  "SaluteYourShorts",
   "TinyToonAdventures",
   "WallyGator",
   "WhatILikeAboutYou"
  ],
  "deadItems": {
+  "KnightmareSeries7": {
+   "status": "GONE",
+   "shows": [
+    "Knightmare"
+   ],
+   "since": "2026-11-26"
+  },
   "MonsterRancherremaster": {
    "status": "DARK",
    "shows": [
@@ -43,6 +55,20 @@
     "Animaniacs"
    ],
    "since": "2026-11-16"
+  },
+  "batfink-the-complete-collection-1966-67": {
+   "status": "GONE",
+   "shows": [
+    "Batfink"
+   ],
+   "since": "2026-11-26"
+  },
+  "blade-runner_202411": {
+   "status": "GONE",
+   "shows": [
+    "BladeRunner"
+   ],
+   "since": "2026-11-26"
   },
   "dragon-ball-HD-remastered-2022": {
    "status": "GATED",
@@ -79,6 +105,13 @@
    ],
    "since": "2026-11-12"
   },
+  "hill.-street.-blues.-s-01": {
+   "status": "GONE",
+   "shows": [
+    "HillStreetBlues"
+   ],
+   "since": "2026-11-26"
+  },
   "l-1-t-5-v-1-o-brother-where-art-thou-april-2004-tbs-incomplete": {
    "status": "DARK",
    "shows": [
@@ -114,6 +147,48 @@
    ],
    "since": "2026-11-12"
   },
+  "mobile-suit-gundam-seed-ocean-dub": {
+   "status": "GONE",
+   "shows": [
+    "MobileSuitGundamSEED"
+   ],
+   "since": "2026-11-26"
+  },
+  "monster-rancher-s-02-e-18-magic-stone-mayhem": {
+   "status": "GONE",
+   "shows": [
+    "MonsterRancher"
+   ],
+   "since": "2026-11-26"
+  },
+  "monstervision-the-horror-at-37000-feet": {
+   "status": "GONE",
+   "shows": [
+    "MonsterVision"
+   ],
+   "since": "2026-11-26"
+  },
+  "murphy-brown-s01E18-funnies-girl": {
+   "status": "GONE",
+   "shows": [
+    "MurphyBrown"
+   ],
+   "since": "2026-11-26"
+  },
+  "murphy-brown-s07E22-fyi-of-the-hurricane": {
+   "status": "GONE",
+   "shows": [
+    "MurphyBrown"
+   ],
+   "since": "2026-11-26"
+  },
+  "murphy-brown-s10E11-from-the-terrace": {
+   "status": "GONE",
+   "shows": [
+    "MurphyBrown"
+   ],
+   "since": "2026-11-26"
+  },
   "reservoir-dogs-1992_202608": {
    "status": "GATED",
    "shows": [
@@ -121,12 +196,47 @@
    ],
    "since": "2026-11-12"
   },
+  "road-rules-south-pacific": {
+   "status": "GONE",
+   "shows": [
+    "RoadRules"
+   ],
+   "since": "2026-11-26"
+  },
   "s-1-e-1_202608": {
    "status": "DARK",
    "shows": [
     "CommonSideEffects"
    ],
    "since": "2026-11-12"
+  },
+  "s2whose": {
+   "status": "GONE",
+   "shows": [
+    "WhoseLineIsItAnyway"
+   ],
+   "since": "2026-11-26"
+  },
+  "salute-your-shorts-complete": {
+   "status": "GONE",
+   "shows": [
+    "SaluteYourShorts"
+   ],
+   "since": "2026-11-26"
+  },
+  "snick-12-03-94": {
+   "status": "GONE",
+   "shows": [
+    "SNICK"
+   ],
+   "since": "2026-11-26"
+  },
+  "snick-12-18-93": {
+   "status": "GONE",
+   "shows": [
+    "SNICK"
+   ],
+   "since": "2026-11-26"
   },
   "the-drew-carey-show-complete-series": {
    "status": "DARK",
@@ -156,6 +266,62 @@
    ],
    "since": "2026-11-12"
   },
+  "the-master-complete-series-1984": {
+   "status": "GONE",
+   "shows": [
+    "TheMaster"
+   ],
+   "since": "2026-11-26"
+  },
+  "the-mountain-2004-penn-badgley": {
+   "status": "GONE",
+   "shows": [
+    "TheMountain"
+   ],
+   "since": "2026-11-26"
+  },
+  "the-outer-limits-s-1e-1-1963-colorized": {
+   "status": "GONE",
+   "shows": [
+    "TheOuterLimits"
+   ],
+   "since": "2026-11-26"
+  },
+  "the.-tube.-1983.-s-02-e-05.uncut": {
+   "status": "GONE",
+   "shows": [
+    "TheTube"
+   ],
+   "since": "2026-11-26"
+  },
+  "the.-tube.-1985.-s-03-e-26.uncut": {
+   "status": "GONE",
+   "shows": [
+    "TheTube"
+   ],
+   "since": "2026-11-26"
+  },
+  "the.-tube.-1986.-s-04-e-26.uncut": {
+   "status": "GONE",
+   "shows": [
+    "TheTube"
+   ],
+   "since": "2026-11-26"
+  },
+  "the.-tube.-1986.-s-05-e-07.uncut": {
+   "status": "GONE",
+   "shows": [
+    "TheTube"
+   ],
+   "since": "2026-11-26"
+  },
+  "the.-tube.-1986.-s-05-e-08.uncut": {
+   "status": "GONE",
+   "shows": [
+    "TheTube"
+   ],
+   "since": "2026-11-26"
+  },
   "tiny-toon-adventures-1990-1995_202512": {
    "status": "DARK",
    "shows": [
@@ -183,6 +349,41 @@
     "WhatILikeAboutYou"
    ],
    "since": "2026-11-12"
+  },
+  "whose-line-is-it-anyway-s02e25": {
+   "status": "GONE",
+   "shows": [
+    "WhoseLineIsItAnyway"
+   ],
+   "since": "2026-11-26"
+  },
+  "whose-line-is-it-anyway-s02e32": {
+   "status": "GONE",
+   "shows": [
+    "WhoseLineIsItAnyway"
+   ],
+   "since": "2026-11-26"
+  },
+  "whose-line-is-it-anyway-s03e06": {
+   "status": "GONE",
+   "shows": [
+    "WhoseLineIsItAnyway"
+   ],
+   "since": "2026-11-26"
+  },
+  "wkrp-in-cincinnati-season-03-episodes-15-16-ask-jenniferi-am-woman": {
+   "status": "GONE",
+   "shows": [
+    "WkrpinCincinnati"
+   ],
+   "since": "2026-11-26"
+  },
+  "wkrp-in-cincinnati-season-04-episode-13-changes": {
+   "status": "GONE",
+   "shows": [
+    "WkrpinCincinnati"
+   ],
+   "since": "2026-11-26"
   }
  },
  "deadEpisodes": {
@@ -212,204 +413,7 @@
   }
  },
  "pending": {
-  "items": {
-   "KnightmareSeries7": {
-    "status": "GONE",
-    "shows": [
-     "Knightmare"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "batfink-the-complete-collection-1966-67": {
-    "status": "GONE",
-    "shows": [
-     "Batfink"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "blade-runner_202411": {
-    "status": "GONE",
-    "shows": [
-     "BladeRunner"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "hill.-street.-blues.-s-01": {
-    "status": "GONE",
-    "shows": [
-     "HillStreetBlues"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "mobile-suit-gundam-seed-ocean-dub": {
-    "status": "GONE",
-    "shows": [
-     "MobileSuitGundamSEED"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "monster-rancher-s-02-e-18-magic-stone-mayhem": {
-    "status": "GONE",
-    "shows": [
-     "MonsterRancher"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "monstervision-the-horror-at-37000-feet": {
-    "status": "GONE",
-    "shows": [
-     "MonsterVision"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "murphy-brown-s01E18-funnies-girl": {
-    "status": "GONE",
-    "shows": [
-     "MurphyBrown"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "murphy-brown-s07E22-fyi-of-the-hurricane": {
-    "status": "GONE",
-    "shows": [
-     "MurphyBrown"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "murphy-brown-s10E11-from-the-terrace": {
-    "status": "GONE",
-    "shows": [
-     "MurphyBrown"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "road-rules-south-pacific": {
-    "status": "GONE",
-    "shows": [
-     "RoadRules"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "s2whose": {
-    "status": "GONE",
-    "shows": [
-     "WhoseLineIsItAnyway"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "salute-your-shorts-complete": {
-    "status": "GONE",
-    "shows": [
-     "SaluteYourShorts"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "snick-12-03-94": {
-    "status": "GONE",
-    "shows": [
-     "SNICK"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "snick-12-18-93": {
-    "status": "GONE",
-    "shows": [
-     "SNICK"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the-master-complete-series-1984": {
-    "status": "GONE",
-    "shows": [
-     "TheMaster"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the-mountain-2004-penn-badgley": {
-    "status": "GONE",
-    "shows": [
-     "TheMountain"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the-outer-limits-s-1e-1-1963-colorized": {
-    "status": "GONE",
-    "shows": [
-     "TheOuterLimits"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the.-tube.-1983.-s-02-e-05.uncut": {
-    "status": "GONE",
-    "shows": [
-     "TheTube"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the.-tube.-1985.-s-03-e-26.uncut": {
-    "status": "GONE",
-    "shows": [
-     "TheTube"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the.-tube.-1986.-s-04-e-26.uncut": {
-    "status": "GONE",
-    "shows": [
-     "TheTube"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the.-tube.-1986.-s-05-e-07.uncut": {
-    "status": "GONE",
-    "shows": [
-     "TheTube"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "the.-tube.-1986.-s-05-e-08.uncut": {
-    "status": "GONE",
-    "shows": [
-     "TheTube"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "whose-line-is-it-anyway-s02e25": {
-    "status": "GONE",
-    "shows": [
-     "WhoseLineIsItAnyway"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "whose-line-is-it-anyway-s02e32": {
-    "status": "GONE",
-    "shows": [
-     "WhoseLineIsItAnyway"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "whose-line-is-it-anyway-s03e06": {
-    "status": "GONE",
-    "shows": [
-     "WhoseLineIsItAnyway"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "wkrp-in-cincinnati-season-03-episodes-15-16-ask-jenniferi-am-woman": {
-    "status": "GONE",
-    "shows": [
-     "WkrpinCincinnati"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   },
-   "wkrp-in-cincinnati-season-04-episode-13-changes": {
-    "status": "GONE",
-    "shows": [
-     "WkrpinCincinnati"
-    ],
-    "firstSeen": "2026-11-26T15:11:22Z"
-   }
-  },
+  "items": {},
   "episodes": {}
  }
 }
